@@ -1,0 +1,40 @@
+{
+  "showTags": false,
+  "showAttachments": false,
+  "hideUnresolved": false,
+  "showOrphans": true,
+  "colorGroups": [
+    {
+      "query": "path:Przedmioty",
+      "color": {
+        "a": 1,
+        "rgb": 13145830
+      }
+    },
+    {
+      "query": "[status:umiem]",
+      "color": {
+        "a": 1,
+        "rgb": 9226360
+      }
+    },
+    {
+      "query": "[status:\"uczę się\"]",
+      "color": {
+        "a": 1,
+        "rgb": 16756736
+      }
+    },
+    {
+      "query": "[status:nowe]",
+      "color": {
+        "a": 1,
+        "rgb": 13203770
+      }
+    }
+  ],
+  "nodeSizeMultiplier": 1.1,
+  "lineSizeMultiplier": 1,
+  "repelStrength": 12,
+  "linkDistance": 180
+}

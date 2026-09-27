@@ -1,0 +1,9 @@
+{
+  "theme": "obsidian",
+  "accentColor": "#ffb000",
+  "baseFontSize": 17,
+  "monospaceFontFamily": "IosevkaTerm NF",
+  "enabledCssSnippets": [
+    "amber"
+  ]
+}

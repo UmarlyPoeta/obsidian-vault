@@ -1,0 +1,12 @@
+{
+  "newFileLocation": "folder",
+  "newFileFolderPath": "Pojęcia",
+  "attachmentFolderPath": "Załączniki",
+  "alwaysUpdateLinks": true,
+  "newLinkFormat": "shortest",
+  "useMarkdownLinks": false,
+  "readableLineLength": true,
+  "showFrontmatter": false,
+  "propertiesInDocument": "visible",
+  "promptDelete": true
+}

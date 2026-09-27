@@ -1,0 +1,64 @@
+/* Wiedza — motyw amber (spójny z terminalem Amber CRT). Tylko ciemny tryb. */
+.theme-dark {
+  --color-base-00: #0d0905;
+  --color-base-05: #110c07;
+  --color-base-10: #150f09;
+  --color-base-20: #1b140c;
+  --color-base-25: #221910;
+  --color-base-30: #2e2215;
+  --color-base-35: #3a2b1a;
+  --color-base-40: #4d3a22;
+  --color-base-50: #7a6040;
+  --color-base-60: #a88a5e;
+  --color-base-70: #cdb285;
+  --color-base-100: #f3e3c2;
+  --color-accent: #ffb000;
+  --color-accent-1: #ffc233;
+  --color-accent-2: #ffd166;
+  --accent-h: 41; --accent-s: 100%; --accent-l: 50%;
+  --background-primary: #0d0905;
+  --background-primary-alt: #120d07;
+  --background-secondary: #150f09;
+  --background-secondary-alt: #1b140c;
+  --text-normal: #f0dcb4;
+  --text-muted: #b89a6c;
+  --text-faint: #7a6040;
+  --text-accent: #ffb000;
+  --text-accent-hover: #ffd166;
+  --interactive-accent: #ffb000;
+  --text-on-accent: #0d0905;
+  --h1-color: #ffb000;
+  --h2-color: #ffc233;
+  --h3-color: #ffd166;
+  --h4-color: #e8c98d;
+  --link-color: #ffb000;
+  --link-unresolved-color: #c9793a;
+  --link-unresolved-opacity: 0.85;
+  --text-selection: rgba(255, 176, 0, 0.22);
+  --code-background: #150f09;
+  --blockquote-border-color: #ffb000;
+  --hr-color: #3a2b1a;
+  --graph-node: #cdb285;
+  --graph-node-unresolved: #7a4a25;
+  --graph-node-focused: #ffb000;
+  --graph-line: #3a2b1a;
+}
+
+.theme-dark .markdown-rendered h1,
+.theme-dark .HyperMD-header-1 { text-shadow: 0 0 12px rgba(255, 176, 0, 0.35); }
+.theme-dark .markdown-rendered strong { color: #ffd98a; }
+.theme-dark .math { color: #ffe3a3; }
+.markdown-rendered table { font-size: 0.93em; }
+.markdown-rendered .dataview.table-view-table th { color: var(--h3-color); }
+
+/* Własne callouty do notatek-lekcji */
+.callout[data-callout="intuicja"] { --callout-color: 255, 176, 0;   --callout-icon: lucide-lightbulb; }
+.callout[data-callout="definicja"] { --callout-color: 230, 200, 140; --callout-icon: lucide-book-open; }
+.callout[data-callout="wzor"]      { --callout-color: 255, 209, 102; --callout-icon: lucide-sigma; }
+.callout[data-callout="przyklad"]  { --callout-color: 140, 200, 120; --callout-icon: lucide-pencil; }
+.callout[data-callout="blad"]      { --callout-color: 230, 90, 60;   --callout-icon: lucide-alert-triangle; }
+.callout[data-callout="zadanie"]   { --callout-color: 110, 170, 230; --callout-icon: lucide-dumbbell; }
+.callout[data-callout="odpowiedz"] { --callout-color: 140, 200, 120; --callout-icon: lucide-check-circle; }
+.callout[data-callout="przyda"]    { --callout-color: 200, 150, 230; --callout-icon: lucide-map; }
+.callout[data-callout="zalazek"]   { --callout-color: 150, 130, 100; --callout-icon: lucide-sprout; }
+.callout[data-callout="ja"]        { --callout-color: 255, 140, 60;  --callout-icon: lucide-user; }
