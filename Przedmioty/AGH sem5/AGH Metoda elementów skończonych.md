@@ -16,6 +16,7 @@ tags: [przedmiot, agh]
 > Opiera się na Metodach numerycznych (sem. 3) i SMOC I/II.
 
 ## Tematy
+- [[Kurs — Metody numeryczne]] (powtórka podstaw: m00–m08)
 - [[Funkcje kształtu]]
 - [[Macierz sztywności]]
 - [[Przekształcenie izoparametryczne]]
