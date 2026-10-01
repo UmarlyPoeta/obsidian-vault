@@ -16,6 +16,8 @@ tags: [przedmiot, agh]
 > Opiera się na Systemach operacyjnych (sem. 2).
 
 ## Tematy
+- [[Kompilacja i pomiar czasu wykonania]]
+- [[Proces i wątek]]
 - [[Wyścig danych]]
 - [[Zakleszczenie]]
 - [[Mutex i zmienna warunkowa]]

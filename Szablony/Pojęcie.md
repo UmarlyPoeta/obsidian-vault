@@ -10,29 +10,34 @@ utworzono: {{data}}
 ---
 # {{tytul}}
 
-> [!intuicja] Po ludzku
-> Jedno–dwa zdania: co to jest i po co istnieje.
+> [!skrot] W 30 sekund
+> - **Co to:** jedno zdanie.
+> - **Klucz:** najważniejszy wzór / reguła / komenda.
+> - **Kiedy:** do czego tego używasz.
 
-## Definicja
+> [!intuicja] Po ludzku
+> 2–4 zdania i jedna analogia z życia.
+
+## Definicja i wzory
 > [!definicja]
 > …
 
-## Jak to działa
-…
-
-## Jak liczyć — krok po kroku
+## Jak to zrobić — krok po kroku
 1. …
 
-## Przykłady
-> [!przyklad]- Przykład 1
+## Przykład
+Jeden przykład rozwiązany do końca, z każdym krokiem. Kolejne zwinięte:
+> [!przyklad]- Przykład 2
 > …
 
 ## Typowe błędy
 > [!blad] …
 
-## Gdzie ci się przyda
-> [!przyda]
-> - …
+## Na zajęcia i egzamin
+> [!zajecia]
+> - **Ćwiczenia/laby:** co konkretnie musisz umieć zrobić.
+> - **Egzamin/kolokwium:** typowe pytanie.
+> - Łączy się z: [[…]]
 
 ## Zadania
 > [!zadanie] Zadanie 1
@@ -40,7 +45,7 @@ utworzono: {{data}}
 > > [!odpowiedz]- Odpowiedź
 > > …
 
-## Fiszki #fiszki
+## Fiszki #fiszki/temat
 Pytanie::Odpowiedź
 
 ## Moje notatki

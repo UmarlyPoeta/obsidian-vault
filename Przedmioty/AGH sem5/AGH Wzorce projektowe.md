@@ -16,6 +16,7 @@ tags: [przedmiot, agh]
 > Laby to jeden projekt zespołowy: UML (przypadki użycia, klasy, sekwencje) → wzorce kreacyjne → strukturalne → czynnościowe → refaktoryzacja pod antywzorce, SOLID, GRASP. Przed labami kolokwium pisemne z przygotowania. Opiera się na Programowaniu obiektowym (sem. 2) i Inżynierii oprogramowania (sem. 4). Literatura: GoF, „Rusz głową! Wzorce projektowe”.
 
 ## Tematy
+- [[Diagram przypadków użycia UML]]
 - [[Diagram klas UML]]
 - [[Diagram sekwencji UML]]
 - [[SOLID]]

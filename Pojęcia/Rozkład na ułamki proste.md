@@ -10,103 +10,121 @@ utworzono: 2026-09-27
 ---
 # Rozkład na ułamki proste
 
+> [!skrot] W 30 sekund
+> - **Co to:** zapis funkcji wymiernej $\frac{P(s)}{Q(s)}$ jako sumy prostych ułamków typu $\frac{A}{s-a}$ i $\frac{Bs+C}{s^2+ps+q}$.
+> - **Klucz:** rozłóż mianownik na czynniki, napisz szablon z niewiadomymi, wyznacz je (zakrywanie albo porównanie współczynników).
+> - **Kiedy:** odwrotna [[Transformata Laplace'a|transformata Laplace'a]] i całkowanie funkcji wymiernych.
+
 > [!intuicja] Po ludzku
-> Sztuczka: rozbić ładny ułamek $\\frac{s+3}{(s+1)(s+2}$ na sumę **prostych** ułamków $\\frac{A}{s+1} + \\frac{B}{s+2}$, gdzie $A,B$ to liczby. Po co? Bo w odwrotnej [[Transformata Laplace'a|transformacie Laplace'a]] **każdy pojedynczy ułamek $\\frac{A}{s-a}$ to jedna pozycja w tablicy** ($\\mathcal{L}^{-1}\\{\\frac{1}{s-a}\\} = e^{at}$\). To jak rozbicie tortu na kawałki przed zjedzeniem — każdego zjadasz osobnoto
+> Tablica transformat zna tylko proste kawałki: $\frac{1}{s+a} \to e^{-at}$, $\frac{\omega}{(s+a)^2+\omega^2} \to e^{-at}\sin\omega t$ itd. Skomplikowany ułamek trzeba więc pociąć na takie kawałki. To jak rozmienianie banknotu na monety, które automat (tablica) przyjmuje.
 
+Pierwiastki zespolone zapisujemy z $j$ (konwencja automatyki; w matematyce $i$).
 
+## Definicja i wzory
+> [!definicja] Szablon rozkładu
+> Warunek: ułamek **właściwy**, tzn. $\deg P < \deg Q$ (jeśli nie — najpierw podziel wielomiany). Każdy czynnik mianownika daje swoje składniki:
+> - $(s - a)$ $\to$ $\frac{A}{s-a}$
+> - $(s - a)^k$ $\to$ $\frac{A_1}{s-a} + \frac{A_2}{(s-a)^2} + \dots + \frac{A_k}{(s-a)^k}$
+> - $s^2 + ps + q$ z $\Delta < 0$ $\to$ $\frac{Bs + C}{s^2 + ps + q}$
 
-> [!metafora] Jak dla idioty	
-> Masz ułamek $\\frac{s+3}{(s+1)(s+2)}$. Mianownik to "iloczyn dwóch mianowników": $(s+1)$ i $(s+2)$. Chcesz go napisać jako **sumę dwóch ułamków, każdy z jednym z tych mianowników**, z nieznanymi licznikami $A,B$apdokładnie jak rozkład wektorów na składowej. Potem wyznaczasz $A,B$ metodą "zakrywania": podstawiasz miejsce, gdzie dany mianownik się zeruje — i reszta "sama się liczy".
+> [!wzor] Zakrywanie (pierwiastek jednokrotny)
+> $$A = \left.\frac{P(s)}{Q(s)}\,(s - a)\right|_{s = a}$$
+> Czyli: „zakryj” czynnik $(s-a)$ w mianowniku i podstaw $s = a$ do reszty. Przy $(s-a)^k$ działa tylko dla najwyższej potęgi $A_k$.
 
+> [!wzor] Tablica do odwrotnej transformaty
+> $\frac{1}{s} \to 1$, $\quad \frac{1}{s+a} \to e^{-at}$, $\quad \frac{1}{(s+a)^2} \to te^{-at}$, $\quad \frac{s+a}{(s+a)^2+\omega^2} \to e^{-at}\cos\omega t$, $\quad \frac{\omega}{(s+a)^2+\omega^2} \to e^{-at}\sin\omega t$.
 
+## Jak to zrobić — krok po kroku
+1. Sprawdź stopnie; jeśli $\deg P \ge \deg Q$, podziel: wielomian + ułamek właściwy.
+2. Rozłóż mianownik na czynniki (patrz [[Wielomiany]]).
+3. Napisz szablon z niewiadomymi $A, B, C, \dots$
+4. Wyznacz stałe: jednokrotne — zakrywaniem; resztę — mnożąc przez $Q(s)$ i porównując współczynniki przy potęgach $s$ (albo podstawiając wygodne $s$).
+5. Sprawdź: sprowadź z powrotem do wspólnego mianownika albo podstaw jedną liczbę, np. $s = 1$.
+6. Dla Laplace'a: trójmian z $\Delta < 0$ zapisz jako $(s+a)^2 + \omega^2$ i dopasuj licznik do $s+a$ oraz $\omega$.
 
-## Definicja
-> [!definicja] Cel rozkładu
-> Dany iloraz wielomianów $\\frac{P(s)}{Q(s)}$ (ułamek wymierny, stopnia $\\deg P < \\deg Q$) rozkładamy na sumę **ułamków prostych**, to jest ułamków postaci:
-> - $\\dfrac{A}{(s-a)^k}$ (biegun rzeczywisty; $k = 1,2,\\ldots$)
-> - $\\dfrac{As+B}{(s^2+ps+q)^k}$ (biegun zespolony sprzężony; $p^2<4q$.
->
-> "Prosty" bo każdy ma **tylko jedną pozycję w tablicy Laplace'a**. To fundament transformaty odwrotnej.
+## Przykład
+Znajdź $f(t) = \mathcal{L}^{-1}\left\{\frac{s+3}{(s+1)(s+2)}\right\}$.
 
+1. Ułamek właściwy (stopień 1 < 2), mianownik już rozłożony.
+2. Szablon: $\frac{s+3}{(s+1)(s+2)} = \frac{A}{s+1} + \frac{B}{s+2}$.
+3. Zakrywanie: $A = \left.\frac{s+3}{s+2}\right|_{s=-1} = \frac{2}{1} = 2$, $\quad B = \left.\frac{s+3}{s+1}\right|_{s=-2} = \frac{1}{-1} = -1$.
+4. Sprawdzenie: $2(s+2) - (s+1) = s + 3$. Zgadza się.
+5. Z tablicy: $f(t) = 2e^{-t} - e^{-2t}$.
 
+> [!przyklad]- Przykład 2 — pierwiastek podwójny
+> $\frac{1}{s(s+1)^2} = \frac{A}{s} + \frac{B}{s+1} + \frac{C}{(s+1)^2}$.
+> Zakrywanie: $A = \left.\frac{1}{(s+1)^2}\right|_{s=0} = 1$, $C = \left.\frac{1}{s}\right|_{s=-1} = -1$.
+> Z równania $1 = A(s+1)^2 + Bs(s+1) + Cs$ współczynnik przy $s^2$: $A + B = 0$, więc $B = -1$.
+> Sprawdzenie: $(s+1)^2 - s(s+1) - s = 1$. Wynik: $\frac{1}{s} - \frac{1}{s+1} - \frac{1}{(s+1)^2}$, czyli $f(t) = 1 - e^{-t} - te^{-t}$.
 
-## Jak to działa — metody wyznaczania $A,B$
-> [!wzor] Metoda 1 — "zakrywanie" (najszybsza, dla pojedyńczych pierwiastków)
-
-> Dla $\\dfrac{P(s)}{(s-r_1)(s-r_2)\\ldots}$, współczynnik przy $\\frac{1}{s-r_i}$ to:
-> $$A_i = \\left.\\frac{P(s)}{\\prod_{k\\neq i}(s-r_k)}\\right|_{s=r_i} = \\frac{P(r_i)}{\\prod_{k\\neq i}(r_i-r_k)}$$
-> Czyli **podstaw $s=r_i$ do wszystkiego oprócz czynnika, przy którym jesteś** (i "zakryj" ten czynnik dłonią. 
-
-> [!wzor] Metoda 2 — porównanie wielomianów (niezawodna, na wszelki wypadek)
-> Pomnóż obie strony przez wspólny mianownik, rozwiń i porównaj współczynniki przy kolejnych potęgach $s$. Dostaniesz liniowy układ równań na $A,B$.
-
-## Jak liczyć— krok po kroku
-1. **Sprawdź stopień**: licznik niższy niż mianownik(np. $s+3$ vs $(s+1)(s+2)$). Jeśli wyższy — najpierw podziel (dzielenie wielomianów.
-
-2. **Rozłóż mianownik** na czynniki  (pierwiastki<!--- to są bieguny--->.
-3. **Zapisz ogólną postać** $\\frac{A}{s-r_1} + \\frac{B}{s-r_2} + \\ldots$.
-4. **Wyznacz $A,B$** "zakrywaniem"( lub porównaniem.
-5. **Odczytaj $e^{rt}$ z tablicy** dla każdego ułamka — sumujesz i masz $y(t)$.
-
-
-
-## Przykłady
-> [!przyklad]- Przykład 1— najprostszy (podstawa)
-> $$\\frac{s+3}{(s+1)(s+2)} = \\frac{A}{s+1} + \\frac{B}{s+2}$$
-> $A$ (zakryj $(s+1)$, podstaw $s=-1$):$A = \\frac{-1+3}{-1+2} = \\frac{2}{1} =2$
-> $B$ (zakryj $(s+2)$, podstaw $s=-2$):$B = \\frac{-2+3}{-2+1} = \\frac{1}{-1} = -1$
-> Czyli $$\\frac{s+3}{(s+1)(s+2)} = \\frac{2}{s+1} - \\frac{1}{s+2}$$
-> Odwrotnie: $$y(t) = 2e^{-t} - e^{-2t}$$ — dokładnie wynik z [[Transformata Laplace'a|notatki Laplace'a]].
-
-> [!przyklad]- Przykład 2 — powtórzony pierwiastek
-
-> $$\\frac{1}{(s+1)^2} \\Rightarrow \\frac{A}{(s+1)} + \\frac{B}{(s+1)^2}$$ (nie dwa ułamki z tym samym mianownikiem. Zakrywanie wartość: przy $\\frac{B}{(s+1)^2}$: $B =  ​​1$; dla $A$ najłatwiej porównaniem albo różniczkowaniem; wynik:$\\frac{A}{s+1} + \\frac{1}{(s+1)^2}$ z $A =-1$ → $y(t)=(-1+t)e^{-t}$(bo $\\mathcal{L}^{-1}\\{\\frac{1}{(s+a)^2}\\}= t\\,e^{-at}$.
-
-
+> [!przyklad]- Przykład 3 — bieguny zespolone (drgania)
+> $\frac{5}{s(s^2+2s+5)} = \frac{A}{s} + \frac{Bs + C}{s^2+2s+5}$, $\Delta = -16$, bieguny $-1 \pm 2j$.
+> $A = \frac{5}{5} = 1$. Z $5 = (s^2+2s+5) + (Bs + C)s$: przy $s^2$: $1 + B = 0 \Rightarrow B = -1$; przy $s$: $2 + C = 0 \Rightarrow C = -2$.
+> $\frac{s+2}{s^2+2s+5} = \frac{(s+1) + \frac12\cdot 2}{(s+1)^2 + 2^2}$, więc
+> $f(t) = 1 - e^{-t}\cos 2t - \frac12 e^{-t}\sin 2t$ — skok do 1 z gasnącym drganiem.
 
 ## Typowe błędy
-> [!blad] Licznik ma wyższy stopień niż mianownik
-> $\\frac{s^3}{s+1}$ — najpierw podziel, zanim rozkładasz (wynik: wielomian + właściwy ułamek).
+> [!blad] Rozkład ułamka niewłaściwego
+> $\frac{s^2+1}{s(s+1)}$ ma równe stopnie — najpierw dzielenie: $1 + \frac{1-s}{s(s+1)}$.
 
-> [!blad] Pomijasz powtórzone pierwiastki
-> Mianownik $(s+1)^2$ wymaga **dwóch** ułamków: $\\frac{A}{s+1}+\\frac{B}{(s+1)^2}$. Sam jeden nie odda kształtu.
+> [!blad] Jeden ułamek na pierwiastek podwójny
+> $(s+1)^2$ wymaga dwóch składników: $\frac{B}{s+1} + \frac{C}{(s+1)^2}$.
 
+> [!blad] Zakrywanie przy pierwiastku wielokrotnym
+> Zakrywanie daje tylko współczynnik przy najwyższej potędze. Pozostałe licz z porównania współczynników.
 
+> [!blad] Stała w liczniku nad trójmianem
+> Nad $s^2+ps+q$ z $\Delta < 0$ licznik to $Bs + C$, nie samo $C$.
 
-> [!blad] Stosujesz "zakrywanie" do pierwiastków powtórzonych
-> Dla $\\frac{1}{(s+1)^2}$ zakrywanie podstawia $s=-1$ i nie daje prostej odpowiedzi. Do powtórzonych użyj porównania albo rozbij $\\frac{(s+a)}{(s+a)^2}$ najpierw.
-
-
-
-## Gdzie ci się przyda
-> [!przyda]
-> - **Odwrotna [[Transformata Laplace'a]]** — bez rozkładu nie odczytasz wyniku z tablicy. To krok 3 w algorytmie rozwiązania.
-
-
+## Na zajęcia i egzamin
+> [!zajecia]
+> - **Ćwiczenia:** rozkład z pierwiastkami pojedynczymi, podwójnymi i zespolonymi; całki z funkcji wymiernych.
+> - **Egzamin:** rozwiązanie równania różniczkowego transformatą Laplace'a — rozkład na ułamki proste to krok przed odczytaniem $f(t)$ z tablicy.
+> - Łączy się z: [[Transformata Laplace'a]] (krok odwrotnej transformaty; bieguny zespolone dają drgania $e^{-at}\sin\omega t$), [[Wielomiany]], [[Równanie różniczkowe zwyczajne]], [[Transmitancja]].
 
 ## Zadania
 > [!zadanie] Zadanie 1
-> Rozłóż $\\frac{s}{(s+1)(s-2)}$.
+> Rozłóż $\frac{s}{(s+1)(s-2)}$ i podaj $\mathcal{L}^{-1}$.
 > > [!odpowiedz]- Odpowiedź
-> > $A=\\frac{-1}{-3} =\\frac13$, $B=\\frac{2}{3}$ → $\\frac{1}{3(s+1)} + \\frac{2}{3(s-2)}$ → $y(t)=\\frac13 e^{-t} + \\frac23 e^{2t}$.
+> > $A = \frac{-1}{-3} = \frac13$, $B = \frac{2}{3}$: $\frac{1}{3(s+1)} + \frac{2}{3(s-2)}$, $f(t) = \frac13 e^{-t} + \frac23 e^{2t}$.
 
 > [!zadanie] Zadanie 2
-> Rozłóż $\\frac{2s+3}{s^2+3s+2}$.
+> Rozłóż $\frac{2s+3}{s^2+3s+2}$.
 > > [!odpowiedz]- Odpowiedź
-> > $s^2+3s+2=(s+1)(s+2)$; $A=\\frac{-2+3}{1}=1$, $B=\\frac{-4+3}{-1}=1$ → $\\frac{1}{s+1}+\\frac{1}{s+2}$ → $e^{-t}+e^{-2t}$.
+> > $s^2+3s+2 = (s+1)(s+2)$; $A = \frac{1}{1} = 1$, $B = \frac{-1}{-1} = 1$: $\frac{1}{s+1} + \frac{1}{s+2}$, $f(t) = e^{-t} + e^{-2t}$.
 
-> [!zadanie] Zadanie 3 — na start transformaty odwrotnej
-
-> Znajdź $\\mathcal{L}^{-1}\\{\\frac{4}{s(s+2)}\\}$.(Wskazówka: rozłóż najpierw.
+> [!zadanie] Zadanie 3
+> Znajdź $\mathcal{L}^{-1}\left\{\frac{4}{s(s+2)}\right\}$.
 > > [!odpowiedz]- Odpowiedź
-> > $\\frac{4}{(s)(s+2)} = \\frac{A}{s}+\\frac{B}{s+2}$: $A = \\frac{4}{2}=2$, $B = \\frac{4}{-2}=-2$ → $y(t)=2-2e^{-2t}$.("skok do wartości ustalonej 2","człon inercyjny".}
+> > $A = \frac42 = 2$, $B = \frac{4}{-2} = -2$: $f(t) = 2 - 2e^{-2t}$ (odpowiedź skokowa członu inercyjnego).
 
+> [!zadanie] Zadanie 4
+> Rozłóż $\frac{s^2+1}{s(s+1)}$.
+> > [!odpowiedz]- Odpowiedź
+> > Dzielenie: $1 + \frac{1-s}{s(s+1)}$; $A = 1$, $B = \frac{2}{-1} = -2$. Wynik: $1 + \frac1s - \frac{2}{s+1}$.
 
+> [!zadanie] Zadanie 5
+> Znajdź $\mathcal{L}^{-1}\left\{\frac{s+5}{s^2+4s+13}\right\}$.
+> > [!odpowiedz]- Odpowiedź
+> > $s^2+4s+13 = (s+2)^2 + 9$, licznik $(s+2) + 3$: $f(t) = e^{-2t}\cos 3t + e^{-2t}\sin 3t$.
 
-##Fiszki #fiszki/matematyka
-Rozkład na ułamki proste — rozbijanie $\\frac{P(s)}{Q(s)}$ na sumę pojedyńczych ułamków $\\frac{A}{s-a}$,$\\frac{As+B}{s^2+ps+q}$
-Metoda "zakrywania" — współczynnik przy $\\frac1{s-r_i}$ = wartość $\\frac{P(s)}{\\prod_{k\\neq i}(s-r_k)}$ w $s=r_i$
-Powtórzony pierwiastek $(s+a)^2$ wymaga?::dwóch ułamków $\\frac{A}{(s+a)}+\\frac{B}{(s+a)^2}$
-Kiedy najpierw dzielimy wielomiany?::gdy licznik ma stopień ≥ mianownika
+## Fiszki #fiszki/matematyka
+Kiedy można od razu rozkładać na ułamki proste?::Gdy ułamek jest właściwy: $\deg P < \deg Q$
+Co zrobić, gdy $\deg P \ge \deg Q$?::Podzielić wielomiany: wielomian + ułamek właściwy
+Składnik dla czynnika $(s-a)$?::$\frac{A}{s-a}$
+Składniki dla $(s-a)^2$?::$\frac{A_1}{s-a} + \frac{A_2}{(s-a)^2}$
+Składnik dla $s^2+ps+q$ z $\Delta<0$?::$\frac{Bs+C}{s^2+ps+q}$
+Metoda zakrywania?::Zakryj $(s-a)$ w mianowniku i podstaw $s=a$ do reszty ułamka
+Kiedy zakrywanie nie wystarcza?::Przy pierwiastku wielokrotnym (poza najwyższą potęgą) i przy trójmianach
+$\mathcal{L}^{-1}\left\{\frac{1}{s+a}\right\}$?::$e^{-at}$
+$\mathcal{L}^{-1}\left\{\frac{1}{(s+a)^2}\right\}$?::$te^{-at}$
+$\mathcal{L}^{-1}\left\{\frac{\omega}{(s+a)^2+\omega^2}\right\}$?::$e^{-at}\sin\omega t$
+Rozkład $\frac{s+3}{(s+1)(s+2)}$?::$\frac{2}{s+1} - \frac{1}{s+2}$
+Co dają bieguny zespolone po odwrotnej transformacie?::Drgania: $e^{-at}\cos\omega t$ i $e^{-at}\sin\omega t$
+
+## Moje notatki
+> [!ja] Tu piszesz ty — Albert tej sekcji nie rusza.
+
 ## Źródła
-- A. Milian, *Zbiór zadań z matematyki* cz. 2 (PK) — rozdział o funkcjach wymiernych i ułamkach prostych
+- A. Milian, *Zbiór zadań z matematyki z rozwiązaniami*, cz. 1–2 (Wyd. PK) — funkcje wymierne, transformata Laplace'a.
+- M. Gewert, Z. Skoczylas, *Analiza matematyczna 1* — całkowanie funkcji wymiernych (rozkład na ułamki proste).

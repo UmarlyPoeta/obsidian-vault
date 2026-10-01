@@ -6,9 +6,14 @@ wymaga: ["[[Całka niewłaściwa]]", "[[Liczby zespolone]]", "[[Równanie różn
 powiązane: ["[[Transformata Fouriera]]", "[[Transmitancja]]", "[[Stany nieustalone w obwodach]]", "[[Drgania mechaniczne]]", "[[Laplace — drzewo nauki]]"]
 tags: [pojęcie, matematyka, sterowanie]
 utworzono: 2026-09-27
-źródła: ["Milian — Zbiór zadań z matematyki cz. 2 (Wyd. PK)", "Krysicki, Włodarski — Analiza matematyczna w zadaniach cz. II", "Słota — Sterowanie procesami ciągłymi (PWN 2022)"]
+źródła: ["Milian — Zbiór zadań z matematyki cz. 2 (Wyd. PK)", "Krysicki, Włodarski — Analiza matematyczna w zadaniach cz. II", "Ogata — Modern Control Engineering (Pearson)"]
 ---
 # Transformata Laplace'a
+
+> [!skrot] W 30 sekund
+> - **Co to:** zamiana funkcji czasu $f(t)$ na funkcję $F(s)$ — $\mathcal{L}\{f\}=\int_0^\infty f(t)e^{-st}dt$.
+> - **Klucz:** $\mathcal{L}\{f'\} = sF(s) - f(0)$ — pochodna staje się mnożeniem przez $s$, równanie różniczkowe staje się algebrą.
+> - **Kiedy:** równania różniczkowe z warunkami początkowymi, obwody RC/RLC, transmitancja w automatyce.
 
 > [!intuicja] Po ludzku
 > Laplace to **tłumacz**. Bierze funkcję czasu $f(t)$ i przekłada ją na funkcję $F(s)$ zmiennej zespolonej $s$. Po co? Bo w tym „języku” **różniczkowanie staje się mnożeniem przez $s$**, a równanie różniczkowe zamienia się w zwykłe równanie algebraiczne. Rozwiązujesz je algebrą z liceum, a na koniec tłumaczysz wynik z powrotem na czas (tablica transformat).
@@ -182,5 +187,5 @@ Związek Laplace–Fourier::Fourier to Laplace dla $s=j\omega$
 ## Źródła
 - A. Milian, *Zbiór zadań z matematyki z rozwiązaniami* cz. 2 (Wyd. PK) — literatura obowiązkowa PK Matematyka.
 - W. Krysicki, L. Włodarski, *Analiza matematyczna w zadaniach* cz. II (PWN) — rozdział o przekształceniu Laplace'a.
-- A. Słota, *Sterowanie procesami ciągłymi* (PWN 2022) — Laplace w praktyce automatyka, książka prowadzącego z PK.
+- K. Ogata, *Modern Control Engineering*, Pearson — Laplace i transmitancja w automatyce (rozdz. o modelowaniu układów).
 - W twoich materiałach (`materialy`) nie ma jeszcze nic o Laplasie — po pierwszych wykładach z Matematyki 2 wrzuć PDF-y do `~/studia/pk/`, Albert dopisze odnośniki.

@@ -6,70 +6,117 @@ wymaga: ["[[Granica (lim)]]"]
 powiązane: ["[[Całka oznaczona]]", "[[Równanie różniczkowe zwyczajne]]"]
 tags: [pojęcie, matematyka]
 utworzono: 2026-09-27
-źródła: []
+źródła: ["Gewert, Skoczylas — Analiza matematyczna 1", "Krysicki, Włodarski — Analiza matematyczna w zadaniach cz. I", "Milian — Zbiór zadań z matematyki cz. 1 (Wyd. PK)"]
 ---
 # Pochodna
 
+> [!skrot] W 30 sekund
+> - **Co to:** chwilowe tempo zmiany funkcji = nachylenie stycznej do wykresu.
+> - **Klucz:** $f'(x)=\lim_{h\to0}\frac{f(x+h)-f(x)}{h}$ + tabela pochodnych + reguły: iloczyn, iloraz, łańcuchowa.
+> - **Kiedy:** styczne, ekstrema, de l'Hospital, [[Równanie różniczkowe zwyczajne|równania różniczkowe]], własność $\mathcal{L}\{f'\}=sF(s)-f(0)$.
+
 > [!intuicja] Po ludzku
-> Pochodna odpowiada na pytanie: **jak szybko coś się zmienia w danym punkcie?** To nachylenie stycznej do wykresu — "tempo" funkcji. $f'(x)$ z jednej liczby $f(x)$ robi inną liczbę: ile $f$ "rośnie na jednostkę" przy $x$. Bez tego ani rusz w [[Całka oznaczona|całkach]] (całka to odwrotność) ani w [[Równanie różniczkowe zwyczajne|równaniach różniczkowych]] (to równania o pochodnych).
+> Pochodna mówi, o ile zmieni się $f$, gdy $x$ ruszy się o odrobinę: $\Delta f\approx f'(x)\,\Delta x$. Analogia: drogomierz pokazuje przejechane kilometry ($f$), a prędkościomierz — pochodną, czyli jak szybko te kilometry przybywają w tej chwili.
 
-> [!metafora] Jak dla idioty
-> Prędkościomierz w aucie to pochodna przebiegu (położenia po czasie). Spojrzysz na wskazówkę — i wiesz, jak szybko zmienia się pozycja w tej chwili, mimo że sam przebieg to sinusoida podróży. Pochodna to "prędkościomierz funkcji".
+## Definicja i wzory
+> [!definicja]
+> $$f'(x_0)=\lim_{h\to0}\frac{f(x_0+h)-f(x_0)}{h}$$
+> Jeśli ta [[Granica (lim)|granica]] istnieje i jest skończona, $f$ jest różniczkowalna w $x_0$. Styczna: $y=f(x_0)+f'(x_0)(x-x_0)$.
 
-## Definicja
-> [!definicja] Nachylenie stycznej
-> $$f'(x) = \\lim_{h\\to 0}\\frac{f(x+h)-f(x)}{h}$$
-> Nachylenie siecznej między $(x, f(x))$ i $(x+h, f(x+h))$, gdy punkty zlewają się ($h\\to0$).
-
-## Jak to działa — reguły, których naprawdę używasz
-> [!wzor] Najczęstsze pochodne i reguły
-> | funkcja | pochodna |
+> [!wzor] Tabela pochodnych
+> | $f(x)$ | $f'(x)$ |
 > |---|---|
+> | $c$ | $0$ |
 > | $x^n$ | $n x^{n-1}$ |
-> | $e^x$ | $e^x$ |
-> | $\\sin x,\\ \\cos x$ | $\\cos x,\\ -\\sin x$ |
-> | $af+bg$ (liniowość) | $af' + bg'$ |
-> | $f\\cdot g$ (iloczyn) | $f'g + fg'$ |
-> | $f(g(x))$ (łańcuchowa) | $f'(g(x))\\cdot g'(x)$ |
+> | $e^{ax}$ | $a e^{ax}$ |
+> | $\ln x$ | $\frac1x$ |
+> | $\sin(\omega x)$ | $\omega\cos(\omega x)$ |
+> | $\cos(\omega x)$ | $-\omega\sin(\omega x)$ |
 
-Kluczowe dla dalej: pochodna $e^{at}$ to $a e^{at}$ — bo $e^{at} = e^{(at)}$, a łańcuchowa daje czynnik $a$. To dlatego w [[Równanie różniczkowe zwyczajne|RRZ]] $y'=\\lambda y$ "zgadujemy" $Ce^{\\lambda t}$.
+> [!wzor] Reguły
+> $$(f\pm g)'=f'\pm g',\qquad (fg)'=f'g+fg',\qquad \left(\frac fg\right)'=\frac{f'g-fg'}{g^2},\qquad \big(f(g(x))\big)'=f'(g(x))\cdot g'(x)$$
 
-## Jak to robić — przykład
-> [!przyklad] $f(t) = t^3 - 2t + e^{4t}$
-> $f'(t) = 3t^2 - 2 + 4e^{4t}$ (liniowość + reguły $t^n$ i $e^{at}$).
+## Jak to zrobić — krok po kroku
+1. Rozpoznaj „ostatnie działanie” w wyrażeniu: suma, iloczyn, iloraz czy złożenie.
+2. Zastosuj odpowiednią regułę; przy złożeniu różniczkuj od zewnątrz i mnóż przez pochodną środka.
+3. Pochodne elementarnych kawałków bierz z tabeli.
+4. Uprość: wyciągnij wspólny czynnik (zwłaszcza $e^{\dots}$).
+
+## Przykład
+Oblicz $f'(x)$ dla $f(x)=x^2e^{-3x}$.
+
+1. To iloczyn: $u=x^2$, $v=e^{-3x}$.
+2. $u'=2x$, $v'=-3e^{-3x}$ (reguła łańcuchowa: pochodna wykładnika to $-3$).
+3. $f'=u'v+uv'=2x\,e^{-3x}-3x^2e^{-3x}$.
+4. Wyciągamy wspólny czynnik: $f'(x)=x\,e^{-3x}(2-3x)$.
+
+Wniosek dodatkowy: $f'=0$ dla $x=0$ i $x=\frac23$ — kandydaci na ekstrema.
+
+> [!przyklad]- Przykład 2: iloraz $\frac{\sin 2x}{x}$
+> $\left(\frac{\sin2x}{x}\right)'=\frac{2\cos2x\cdot x-\sin2x\cdot1}{x^2}=\frac{2x\cos2x-\sin2x}{x^2}$.
+
+> [!przyklad]- Przykład 3 (automatyka): $y(t)=e^{-t}\cos2t$
+> $y'(t)=-e^{-t}\cos2t+e^{-t}(-2\sin2t)=-e^{-t}(\cos2t+2\sin2t)$. Tak wygląda pochodna typowej odpowiedzi tłumionej układu II rzędu.
 
 ## Typowe błędy
-> [!blad] Pochodna iloczynu ≠ iloczyn pochodnych
-> $(fg)' = f'g + fg'$, nie $f'g'$. Test: $(x\\cdot x)' = 2x$, a $1\\cdot 1 =1$ — sam byś nie wyszedł.
+> [!blad] Zapominanie o pochodnej wewnętrznej
+> $(e^{-3x})'=-3e^{-3x}$, a nie $e^{-3x}$. $(\sin2x)'=2\cos2x$, a nie $\cos2x$.
 
-> [!blad] Mylisz pochodną $x^n$ i $a^x$
-> $x^n \\to n x^{n-1}$ (zmienna w podstawie), ale $a^x \\to a^x\\ln a$ (zmienna w wykładniku).
+> [!blad] $(fg)'=f'g'$
+> Pochodna iloczynu to $f'g+fg'$. Analogicznie w ilorazie: kolejność w liczniku $f'g-fg'$ (minus!) i mianownik $g^2$.
 
-## Gdzie ci się przyda
-> [!przyda]
-> - Fundament [[Całka oznaczona|całek]] (całkowanie to odwrotność różniczkowania).
-> - [[Równanie różniczkowe zwyczajne]] — "równania o pochodnych".
-> - [[Transformata Laplace'a|Laplace]]: $\\mathcal{L}\\{f'\\} = sF(s)-f(0)$ — pochodna w czasie staje się mnożeniem przez $s$ w dziedzinie transformacji.
+> [!blad] Znak przy cosinusie
+> $(\cos x)'=-\sin x$, ale $(\sin x)'=+\cos x$.
+
+## Na zajęcia i egzamin
+> [!zajecia]
+> - **Ćwiczenia:** sprawnie liczyć pochodne złożonych wyrażeń, styczna w punkcie, ekstrema i monotoniczność, de l'Hospital.
+> - **Egzamin:** badanie przebiegu funkcji lub zadanie optymalizacyjne; w teorii — definicja pochodnej.
+> - Łączy się z: [[Transformata Laplace'a]] — $\mathcal{L}\{f'\}=sF(s)-f(0)$ zamienia równanie różniczkowe w algebraiczne; $\mathcal{L}\{t f(t)\}=-F'(s)$ wymaga liczenia pochodnej po $s$. Odwrotność pochodnej to [[Całka oznaczona|całka]].
 
 ## Zadania
 > [!zadanie] Zadanie 1
-> $f(x) = 5x^4$. Oblicz $f'(x)$.
+> $(3x^4-2x+7)'$
 > > [!odpowiedz]- Odpowiedź
-> > $20x^3$.
+> > $12x^3-2$.
 
 > [!zadanie] Zadanie 2
-> $g(t) = e^{-2t}$. Oblicz $g'(t)$.
+> $(x\ln x)'$
 > > [!odpowiedz]- Odpowiedź
-> > $-2e^{-2t}$.
+> > $1\cdot\ln x+x\cdot\frac1x=\ln x+1$.
 
 > [!zadanie] Zadanie 3
-> $h(x) = x\\sin x$. Oblicz $h'(x)$.
+> $\left(e^{-2t}\sin3t\right)'$
 > > [!odpowiedz]- Odpowiedź
-> > $\\sin x + x\\cos x$ (reguła iloczynu).
+> > $-2e^{-2t}\sin3t+3e^{-2t}\cos3t=e^{-2t}(3\cos3t-2\sin3t)$.
+
+> [!zadanie] Zadanie 4
+> Oblicz $\frac{d}{ds}\frac{1}{s+a}$ i wyciągnij wniosek o $\mathcal{L}\{t e^{-at}\}$, wiedząc, że $\mathcal{L}\{e^{-at}\}=\frac{1}{s+a}$ i $\mathcal{L}\{tf(t)\}=-F'(s)$.
+> > [!odpowiedz]- Odpowiedź
+> > $\frac{d}{ds}(s+a)^{-1}=-\frac{1}{(s+a)^2}$, więc $\mathcal{L}\{te^{-at}\}=\frac{1}{(s+a)^2}$.
+
+> [!zadanie] Zadanie 5
+> Równanie stycznej do $y=x^3$ w punkcie $x_0=1$.
+> > [!odpowiedz]- Odpowiedź
+> > $f(1)=1$, $f'(1)=3$: $y=1+3(x-1)=3x-2$.
 
 ## Fiszki #fiszki/matematyka
-Definicja pochodnej::$f'(x)=\\lim_{h\\to0}\\frac{f(x+h)-f(x)}{h}$ — nachylenie stycznej
-Pochodna $x^n$::$nx^{n-1}$
-Pochodna $e^{at}$::$a e^{at}$
-Reguła iloczynu::$(fg)'=f'g+fg'$
-Reguła łańcuchowa::$(f(g))'=f'(g)\\cdot g'$
+Definicja pochodnej $f'(x_0)$?::$\lim_{h\to0}\frac{f(x_0+h)-f(x_0)}{h}$
+Interpretacja geometryczna pochodnej?::Nachylenie (tangens kąta) stycznej do wykresu w danym punkcie.
+Równanie stycznej w $x_0$?::$y=f(x_0)+f'(x_0)(x-x_0)$
+Pochodna iloczynu $(fg)'$?::$f'g+fg'$
+Pochodna ilorazu $\left(\frac fg\right)'$?::$\frac{f'g-fg'}{g^2}$
+Reguła łańcuchowa?::$\big(f(g(x))\big)'=f'(g(x))\cdot g'(x)$
+$(e^{ax})'$?::$a e^{ax}$
+$(\cos\omega x)'$?::$-\omega\sin\omega x$
+$(\ln x)'$?::$\frac1x$
+Transformata Laplace'a pochodnej $\mathcal{L}\{f'\}$?::$sF(s)-f(0)$
+$\mathcal{L}\{t f(t)\}$ w języku pochodnej?::$-F'(s)$ — pochodna transformaty po $s$ ze znakiem minus.
+
+## Moje notatki
+> [!ja] Tu piszesz ty — Albert tej sekcji nie rusza.
+
+## Źródła
+- R. Gewert, Z. Skoczylas, *Analiza matematyczna 1. Definicje, twierdzenia, wzory* (GiS) — rozdział o rachunku różniczkowym.
+- W. Krysicki, L. Włodarski, *Analiza matematyczna w zadaniach*, cz. I (PWN).
+- A. Milian, *Zbiór zadań z matematyki z rozwiązaniami*, cz. 1 (Wyd. PK).

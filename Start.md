@@ -13,7 +13,20 @@ cssclasses: [start]
 >
 > **W Obsidianie:** `Ctrl+P → Spaced Repetition: Review flashcards` — powtórka fiszek. `Ctrl+G` — graf wiedzy (🟠 nowe, 🟡 uczę się, 🟢 umiem, 🟣 przedmioty, blade kropki = tematy bez notatki). Kliknięcie w niebieski link bez notatki tworzy ją od razu.
 >
-> **Terminal:** `wiedza status`, `wiedza luki pk`, `wiedza powtorka`, `wiedza otworz "<pojęcie>"`.
+> - *„przygotuj mnie na jutro”*: co będzie na ćwiczeniach i labach, minimum teorii, pytania na wejściówkę.
+> - *„pogadajmy po angielsku”*: rozmowa po angielsku z poprawkami. Słówka są w [[Słówka]], zasady w [[Angielski PK]].
+>
+> **Terminal:** `wiedza status`, `wiedza luki pk`, `wiedza powtorka`, `wiedza przygotuj jutro`, `wiedza sprawdz --wszystko`, `plan jutro`, `angielski on`.
+
+## Najbliższe zajęcia
+```dataview
+TABLE WITHOUT ID file.link AS "Przygotowanie", data AS "Dzień"
+FROM "Przygotowanie"
+WHERE date(data) >= date(today)
+SORT data ASC
+LIMIT 3
+```
+*„ej albert, przygotuj mnie na jutro”* robi taką notatkę z planu i sylabusa. Liczą się tylko ćwiczenia i laby.
 
 ## Przedmioty
 ```dataviewjs
