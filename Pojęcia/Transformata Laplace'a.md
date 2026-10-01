@@ -3,7 +3,7 @@ typ: pojęcie
 status: nowe
 przedmioty: ["[[PK Matematyka 2]]", "[[PK Elektrotechnika i miernictwo]]", "[[PK Mechanika ogólna]]"]
 wymaga: ["[[Całka niewłaściwa]]", "[[Liczby zespolone]]", "[[Równanie różniczkowe zwyczajne]]", "[[Rozkład na ułamki proste]]"]
-powiązane: ["[[Transformata Fouriera]]", "[[Transmitancja]]", "[[Stany nieustalone w obwodach]]", "[[Drgania mechaniczne]]"]
+powiązane: ["[[Transformata Fouriera]]", "[[Transmitancja]]", "[[Stany nieustalone w obwodach]]", "[[Drgania mechaniczne]]", "[[Laplace — drzewo nauki]]"]
 tags: [pojęcie, matematyka, sterowanie]
 utworzono: 2026-09-27
 źródła: ["Milian — Zbiór zadań z matematyki cz. 2 (Wyd. PK)", "Krysicki, Włodarski — Analiza matematyczna w zadaniach cz. II", "Słota — Sterowanie procesami ciągłymi (PWN 2022)"]

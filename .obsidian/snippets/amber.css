@@ -62,3 +62,8 @@
 .callout[data-callout="przyda"]    { --callout-color: 200, 150, 230; --callout-icon: lucide-map; }
 .callout[data-callout="zalazek"]   { --callout-color: 150, 130, 100; --callout-icon: lucide-sprout; }
 .callout[data-callout="ja"]        { --callout-color: 255, 140, 60;  --callout-icon: lucide-user; }
+.callout[data-callout="skrot"]     { --callout-color: 255, 176, 0;   --callout-icon: lucide-zap; }
+.callout[data-callout="metafora"]  { --callout-color: 220, 170, 90;  --callout-icon: lucide-sparkles; }
+.callout[data-callout="wazne"]     { --callout-color: 255, 120, 60;  --callout-icon: lucide-flame; }
+.callout[data-callout="zajecia"]   { --callout-color: 110, 200, 200; --callout-icon: lucide-calendar-check; }
+.callout[data-callout="kod"]       { --callout-color: 160, 160, 200; --callout-icon: lucide-terminal; }

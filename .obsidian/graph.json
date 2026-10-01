@@ -1,8 +1,11 @@
 {
+  "collapse-filter": true,
+  "search": "",
   "showTags": false,
   "showAttachments": false,
   "hideUnresolved": false,
   "showOrphans": true,
+  "collapse-color-groups": true,
   "colorGroups": [
     {
       "query": "path:Przedmioty",
@@ -33,8 +36,16 @@
       }
     }
   ],
+  "collapse-display": true,
+  "showArrow": false,
+  "textFadeMultiplier": 0,
   "nodeSizeMultiplier": 1.1,
   "lineSizeMultiplier": 1,
+  "collapse-forces": true,
+  "centerStrength": 0.518713248970312,
   "repelStrength": 12,
-  "linkDistance": 180
+  "linkStrength": 1,
+  "linkDistance": 180,
+  "scale": 0.5087618855792579,
+  "close": true
 }
