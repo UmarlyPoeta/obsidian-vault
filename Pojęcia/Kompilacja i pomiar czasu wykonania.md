@@ -268,15 +268,18 @@ CPU   : 0.246 s
 Co znaczą real, user i sys w `time`?::real — czas ścienny; user — czas CPU w trybie użytkownika (suma wątków); sys — czas CPU w jądrze
 Co znaczy `user > real`?::Kilka rdzeni pracowało naraz — program wielowątkowy; `user/real` ≈ liczba aktywnych wątków
 Czym mierzyć czas ścienny w C na Linuksie?::`clock_gettime(CLOCK_MONOTONIC, &ts)`, w OpenMP `omp_get_wtime()`
+<!--SR:!2026-10-05,3,250-->
 Pułapka `clock()` w programie wielowątkowym?::Zwraca czas CPU całego procesu (sumę wątków), więc rośnie z liczbą wątków zamiast maleć
 Wzór na przyspieszenie i efektywność::$S(p)=T_1/T_p$, $E(p)=S(p)/p$, z czasów ściennych
 Jaką optymalizacją kompilować do pomiarów?::`-O2` (ta sama dla wersji sekwencyjnej i równoległej); `-O0` tylko do debugowania
 Co się stanie bez `-fopenmp`?::Pragmy `#pragma omp` są ignorowane — program kompiluje się, ale działa na jednym wątku
+<!--SR:!2026-10-06,4,270-->
 Czym różnią się `strace` i `ltrace`?::strace śledzi wywołania systemowe (jądro), ltrace wywołania funkcji bibliotek dzielonych; `-f` śledzi też dzieci/wątki
 Komendy gdb do wątków::`info threads` — lista; `thread N` — przełącz; `bt` — stos bieżącego wątku
 Jak wykryć wyścig danych narzędziem?::`gcc -g -fsanitize=thread -pthread` (TSan) albo `valgrind --tool=helgrind`
 `nproc` = 12, `lscpu`: 6 rdzeni × 2 wątki — ile realnego przyspieszenia?::Zwykle do ok. 6× (rdzenie fizyczne); SMT dodaje niewiele przy obliczeniach
 Zasady rzetelnego pomiaru::-O2, mierz tylko obliczenia (bez printf), użyj wyniku, rozgrzewka, 3–5 powtórzeń, min lub mediana, czas rzędu sekund
+<!--SR:!2026-10-06,4,270-->
 
 ## Moje notatki
 > [!ja] Tu piszesz ty — Albert tej sekcji nie rusza.

@@ -289,12 +289,16 @@ po watkach:          licznik = 1463208 (oczekiwane 4000000)
 Proces a wątek — główna różnica::Proces ma własną przestrzeń adresową; wątki jednego procesu dzielą pamięć (sterta, globalne), mają własny stos i rejestry
 Co wątki współdzielą?::Kod, zmienne globalne i static, stertę, deskryptory plików, PID
 Co wątek ma prywatne?::Stos (zmienne lokalne), rejestry w tym licznik rozkazów, TID, errno
+<!--SR:!2026-10-05,3,250-->
 Co zwraca `fork()`?::0 w dziecku, PID dziecka w rodzicu, -1 przy błędzie
 Zmienna globalna zmieniona w dziecku po fork — czy rodzic widzi zmianę?::Nie — dziecko ma własną kopię przestrzeni adresowej
 Co to copy-on-write?::Po fork strony są wspólne tylko do odczytu; kopiowane dopiero przy pierwszym zapisie
 Do czego `execv` i kiedy wraca?::Zastępuje program procesu innym plikiem wykonywalnym; wraca tylko przy błędzie
+<!--SR:!2026-10-06,4,270-->
 Po co `wait`/`waitpid`?::Czekanie na zakończenie dziecka i odebranie kodu wyjścia (WEXITSTATUS); zapobiega zombie
+<!--SR:!2026-10-06,4,270-->
 Funkcje do tworzenia i czekania na wątek w Pthreads::`pthread_create(&t, NULL, f, arg)` i `pthread_join(t, &wynik)`; kompilacja z `-pthread`
+<!--SR:!2026-10-03,1,230-->
 Pułapka przy argumencie `pthread_create` w pętli::Przekazanie `&i` — wszystkie wątki widzą tę samą, zmieniającą się zmienną; daj każdemu osobną komórkę
 Jak Linux tworzy procesy i wątki?::Oba przez `clone()`; wątek dostaje flagi dzielenia pamięci i plików (CLONE_VM, CLONE_THREAD…)
 Czemu `licznik++` w wielu wątkach gubi wyniki?::To odczyt–dodaj–zapis; przeplecione wątki nadpisują sobie zapisy — wyścig danych

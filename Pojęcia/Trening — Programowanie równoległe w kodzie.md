@@ -189,6 +189,7 @@ Jak to czytać krok po kroku:
 Wzór na przyspieszenie S(p)::S(p) = T1 / Tp, oba czasy ścienne, T1 z najlepszej wersji sekwencyjnej
 Wzór na efektywność E(p)::E(p) = S(p) / p, idealnie 1
 Prawo Amdahla — wzór::S(p) = 1 / (f + (1 - f)/p), gdzie f to część sekwencyjna
+<!--SR:!2026-10-03,1,230-->
 Granica przyspieszenia z prawa Amdahla::1/f, np. f = 0,1 daje najwyżej 10
 Ile bitów ma kod wyjścia procesu odczytany przez WEXITSTATUS?::8 bitów, zakres 0–255
 Kiedy execv wraca do wywołującego?::Tylko przy błędzie; po sukcesie kod procesu zostaje zastąpiony

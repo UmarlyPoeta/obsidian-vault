@@ -127,6 +127,7 @@ print(s, math.fsum(xs))  # 1.0  1.0000000001  (każde 1e-16 ginie przy dodaniu d
 
 ## Fiszki #fiszki/numeryczne
 Ile wynosi epsilon maszynowy dla double?::2^−52 ≈ 2,22·10^−16 (odstęp między 1 a następną liczbą maszynową)
+<!--SR:!2026-10-03,1,230-->
 Ile bitów mantysy, wykładnika i znaku ma IEEE 754 double?::52 mantysy (plus ukryta jedynka), 11 wykładnika, 1 znaku
 Ile cyfr dziesiętnych daje double?::Około 15–16 cyfr znaczących
 Czym jest błąd względny?::|x − x̃| / |x|, czyli błąd bezwzględny odniesiony do wielkości dokładnej

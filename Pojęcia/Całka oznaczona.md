@@ -1,12 +1,22 @@
 ---
 typ: pojęcie
-status: uczę się
-przedmioty: ["[[PK Matematyka 1]]"]
-wymaga: ["[[Pochodna]]", "[[Granica (lim)]]"]
-powiązane: ["[[Całka niewłaściwa]]", "[[Rozkład na ułamki proste]]"]
-tags: [pojęcie, matematyka]
+status: umiem
+przedmioty:
+  - "[[PK Matematyka 1]]"
+wymaga:
+  - "[[Pochodna]]"
+  - "[[Granica (lim)]]"
+powiązane:
+  - "[[Całka niewłaściwa]]"
+  - "[[Rozkład na ułamki proste]]"
+tags:
+  - pojęcie
+  - matematyka
 utworzono: 2026-09-27
-źródła: ["Gewert, Skoczylas — Analiza matematyczna 1", "Krysicki, Włodarski — Analiza matematyczna w zadaniach cz. I", "Milian — Zbiór zadań z matematyki cz. 1 (Wyd. PK)"]
+źródła:
+  - Gewert, Skoczylas — Analiza matematyczna 1
+  - Krysicki, Włodarski — Analiza matematyczna w zadaniach cz. I
+  - Milian — Zbiór zadań z matematyki cz. 1 (Wyd. PK)
 ---
 # Całka oznaczona
 

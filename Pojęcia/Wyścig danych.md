@@ -157,10 +157,13 @@ Czy czytanie zmiennej, gdy inny wątek ją pisze, to już data race?::Tak — cz
 Data race vs race condition::Data race to niezsynchronizowany dostęp do pamięci (w C: UB); race condition to błąd logiki zależny od kolejności, może wystąpić bez data race
 Dlaczego `i++` nie jest atomowe?::Bo to 3 operacje maszynowe (czytaj, zwiększ rejestr, zapisz) — między nie może wpełznąć inny wątek
 Czy `volatile` zabezpiecza przed data race?::Nie — volatile to tylko „nie optymalizuj dostępu”; atomowość daje dopiero atomic_int z <stdatomic.h> albo synchronized w Javie
+<!--SR:!2026-10-05,3,250-->
 Najlepszy sposób na `count++` na jednej zmiennej::Operacja atomowa (atomic_int w C11, AtomicInteger w Javie), bo mutex na jednej zmiennej to nadmiar i koszt
+<!--SR:!2026-10-06,4,270-->
 Co robi `reduction(+:sum)` w OpenMP::Każdy wątek ma lokalną kopię sumy (zero wyścigu), na końcu wyniki się sumują — szybciej i bezpieczniej niż mutex
 Jak zadeklarować atomowy licznik w C11::atomic_long licznik = 0; potem atomic_fetch_add(&licznik, 1)
 Jak wykryć data race narzędziem::gcc -fsanitize=thread (ThreadSanitizer: WARNING: data race) albo valgrind --tool=helgrind
+<!--SR:!2026-10-03,1,230-->
 Kiedy atomik nie wystarczy i trzeba mutexu?::Gdy stan musi być spójny przez kilka kroków (np. kolejka, saldo z if) — na takim bloku atomik to za mało
 
 ## Moje notatki

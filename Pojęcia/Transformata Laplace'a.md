@@ -169,6 +169,7 @@ $$\mathcal{L}\{f'\} = \int_0^\infty f'(t)e^{-st}dt = \big[f(t)e^{-st}\big]_0^\in
 Definicja transformaty Laplace'a::$F(s)=\int_0^\infty f(t)e^{-st}\,dt$
 $\mathcal{L}\{1\}$::$\dfrac{1}{s}$
 $\mathcal{L}\{t^n\}$::$\dfrac{n!}{s^{n+1}}$
+<!--SR:!2026-10-03,1,230-->
 $\mathcal{L}\{e^{at}\}$::$\dfrac{1}{s-a}$
 $\mathcal{L}\{\sin\omega t\}$::$\dfrac{\omega}{s^2+\omega^2}$
 $\mathcal{L}\{\cos\omega t\}$::$\dfrac{s}{s^2+\omega^2}$
@@ -176,10 +177,12 @@ $\mathcal{L}\{f'(t)\}$::$sF(s)-f(0)$
 $\mathcal{L}\{f''(t)\}$::$s^2F(s)-sf(0)-f'(0)$
 $\mathcal{L}\{e^{at}f(t)\}$ (przesunięcie w $s$)::$F(s-a)$
 Transformata sygnału opóźnionego o $\tau$::$e^{-s\tau}F(s)$
+<!--SR:!2026-10-03,1,230-->
 Twierdzenie o wartości końcowej (i kiedy wolno)::$\lim_{t\to\infty}f(t)=\lim_{s\to0}sF(s)$, tylko gdy bieguny $sF(s)$ są w lewej półpłaszczyźnie
 Po co Laplace przy równaniach różniczkowych?::Zamienia różniczkowanie na mnożenie przez $s$ — równanie różniczkowe staje się algebraicznym, a warunki początkowe wchodzą same
 Co mówią bieguny $s=-1\pm2j$ o rozwiązaniu?::Drganie gasnące $e^{-t}(\ldots\cos 2t\ldots)$: część rzeczywista = tłumienie, urojona = częstość
 Związek Laplace–Fourier::Fourier to Laplace dla $s=j\omega$
+<!--SR:!2026-10-03,1,230-->
 
 ## Moje notatki
 > [!ja] Tu piszesz ty — Albert tej sekcji nie rusza.

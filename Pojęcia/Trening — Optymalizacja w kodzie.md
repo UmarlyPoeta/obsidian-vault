@@ -3,10 +3,10 @@ typ: pojęcie
 status: nowe
 przedmioty: ["[[AGH Optymalizacja]]"]
 wymaga: ["[[Funkcja celu i warunki optymalności]]", "[[Metoda złotego podziału]]"]
-powiązane: ["[[Metoda Fibonacciego]]", "[[Metoda Hooke'a-Jeevesa]]", "[[Metoda najszybszego spadku]]", "[[Metoda simpleksu Neldera-Meada]]", "[[Metoda funkcji kary]]", "[[Algorytm genetyczny]]"]
+powiązane: ["[[Framework optymalizacji (matrix, solution) w C++]]", "[[Metoda Fibonacciego]]", "[[Metoda Hooke'a-Jeevesa]]", "[[Metoda najszybszego spadku]]", "[[Metoda simpleksu Neldera-Meada]]", "[[Metoda funkcji kary]]", "[[Algorytm genetyczny]]"]
 tags: [pojęcie, optymalizacja, kod]
 utworzono: 2026-10-01
-źródła: ["Kusiak, Danielewska-Tułecka, Oprocha — Optymalizacja. Wybrane metody z przykładami zastosowań (PWN 2009)", "Stadnicki — Teoria i praktyka rozwiązywania zadań optymalizacji (WNT 2006)", "Arabas — Wykłady z algorytmów ewolucyjnych (WNT 2001)", "Dokumentacja SciPy — scipy.optimize"]
+źródła: ["Kusiak, Danielewska-Tułecka, Oprocha — Optymalizacja. Wybrane metody z przykładami zastosowań (PWN 2009)", "Stadnicki — Teoria i praktyka rozwiązywania zadań optymalizacji (WNT 2006)", "Arabas — Wykłady z algorytmów ewolucyjnych (WNT 2001)", "Dokumentacja SciPy — scipy.optimize", "Ł. Sztangret — kod źródłowy do ćwiczeń z metod optymalizacji, CC BY-SA 3.0 (KISiM AGH)"]
 ---
 # Trening — Optymalizacja w kodzie
 
@@ -14,6 +14,22 @@ utworzono: 2026-10-01
 > - **Co to:** zestaw 8 zadań z testami, w których sam piszesz metody optymalizacji: od złotego podziału po PSO, plus wzór tabeli i wykresu do sprawozdania.
 > - **Klucz:** każda metoda to pętla „punkt → nowy punkt, jeśli $f$ spadło”. Koszt mierzysz **liczbą wywołań $f$**, jakość błędem $\lVert x - x^* \rVert$.
 > - **Kiedy:** przed pierwszymi ćwiczeniami projektowymi i jako baza kodu do projektu. Zadania leżą w `~/studia/sem5/optymalizacja/trening`.
+
+> [!wazne] Laby są w C++, nie w Pythonie
+> Na laboratoriach piszesz metody w **C++ we frameworku dr. Sztangreta** (`matrix`, `solution`, `opt_alg.h`). Trening do labów: **`~/studia/sem5/optymalizacja/trening_cpp`** (`make test`, szkielet z pseudokodem, `rozwiazania/`). API i pułapki są w [[Framework optymalizacji (matrix, solution) w C++]].
+> Python (`trening/`) zostaje do **zrozumienia algorytmu** i **szybkiej weryfikacji**: `scipy.optimize` przy tym samym starcie powinno dać to samo $x^*$ co twój C++.
+
+| Lab | Metody (`opt_alg.h`) | Test w C++ | Odpowiednik w Pythonie |
+|---|---|---|---|
+| 0 | `MC` (gotowe) | `./testy MC` | — |
+| 1 | `expansion`, `fib`, `lag` (+ `golden`) | `./testy expansion fib lag golden` | z01, z02 |
+| 2 | `HJ_trial`, `HJ`, `Rosen` | `./testy HJ Rosen` | z03 |
+| 3 | `sym_NM`, `pen` | `./testy sym_NM pen` | z05, z06 |
+| 4 | `SD`, `CG`, `Newton`, `golden` | `./testy SD CG Newton` | z04 |
+| 5 | `Powell` | `./testy Powell` | — |
+| 6 | `EA` | `./testy EA` | z07 (inna metoda: PSO/GA) |
+
+Kod piszesz w `trening_cpp/opt_alg.cpp`, funkcje testowe są w `user_funs_test.cpp`.
 
 > [!intuicja] Po ludzku
 > Na projekcie nikt nie zapyta, czy umiesz wyrecytować algorytm. Zapyta, czy twój program znajduje minimum, ile go to kosztuje i dlaczego jedna metoda jest lepsza od drugiej na danej funkcji. Trening ćwiczy dokładnie to: piszesz metodę, test mówi „działa / nie działa”, a z08 składa wyniki w tabelę i wykres, które wklejasz do sprawozdania.
@@ -80,6 +96,46 @@ PSO (n cząstek)
 GA (kodowanie rzeczywiste)
   elita -> turniej -> krzyżowanie arytmetyczne a*p1 + (1-a)*p2
   -> mutacja gaussowska -> przycięcie do granic -> nowe pokolenie
+```
+
+```text
+── metody frameworka C++, których nie ma w treningu Pythona ──
+
+LAGRANGE / interpolacja kwadratowa (a, b, eps, gamma)    lag
+  c = (a+b)/2;  powtarzaj:
+    l = f(a)(b²-c²) + f(b)(c²-a²) + f(c)(a²-b²)
+    m = f(a)(b-c)   + f(b)(c-a)   + f(c)(a-b);   m <= 0 -> porażka (flag -1)
+    d = l / (2m)                                 # wierzchołek paraboli
+    a<d<c: f(d)<f(c) ? (b=c, c=d) : a=d
+    c<d<b: f(d)<f(c) ? (a=c, c=d) : b=d;   inaczej porażka
+  dopóki b-a >= eps i |d - d_poprz| >= gamma
+
+ROSENBROCK (x0, s0, alfa>1, beta<1, eps)                 Rosen
+  kierunki D = I;  dla każdego j: krok s_j wzdłuż d_j
+    sukces: x += s_j d_j, lambda_j += s_j, s_j *= alfa
+    porażka: s_j *= -beta, p_j++
+  gdy każdy kierunek miał sukces i porażkę -> OBRÓT BAZY:
+    Q = D * L (L dolnotrójkątna z lambda), Gram–Schmidt -> nowe D; reset lambda, p, s
+  stop: max |s_j| < eps
+
+GRADIENT SPRZĘŻONY (Fletcher–Reeves)                      CG
+  d = -g0;  x = x + h d;  beta = ||g_nowy||² / ||g_stary||²;  d = -g_nowy + beta d
+
+NEWTON                                                    Newton
+  d = -H(x)^-1 g(x);  x = x + h d          # h = 1: kwadratowa w 1 kroku
+  (w SD/CG/Newton: h0 > 0 krok stały, h0 <= 0 h = argmin f(x + h d) złotym podziałem)
+
+POWELL (bez gradientu)                                    Powell
+  D = I;  powtarzaj:  p0 = x
+    dla j: p = p + h_j d_j,  h_j = argmin f(p + h d_j)
+    stop gdy ||p - x|| < eps
+    wyrzuć d_1, przesuń resztę, d_n = p - p0;  x = p + h d_n (h = argmin)
+
+STRATEGIA EWOLUCYJNA (mi + lambda), samoadaptacja sigma   EA
+  mi osobników U(lb, ub), sigma = sigma0
+  selekcja ruletką (waga 1/f) -> lambda potomków
+  mutacja: sigma *= exp(b N + a N_wsp), x += sigma N;  krzyżowanie uśredniające
+  nowa populacja: mi najlepszych z rodziców + potomków;  stop f < eps albo Nmax
 ```
 
 ```mermaid
@@ -149,8 +205,9 @@ flowchart TD
 
 ## Na zajęcia i egzamin
 > [!zajecia]
-> - **Ćwiczenia projektowe (pt 8:00, dr Byrska-Wójcik):** projekt „własne programy albo Matlab”. Zapytaj na pierwszych zajęciach: indywidualnie czy w zespole, czy Python jest akceptowany na równi z MATLAB-em, jakie są terminy sprawozdania i prezentacji oraz warunki zaliczenia.
-> - **Na start projektu musisz umieć:** metodę 1D (z01), jedną bezgradientową wielowymiarową (z03 lub z05), zmierzyć liczbę wywołań i narysować zbieżność (z08).
+> - **Laby (pt 8:00):** w C++ na frameworku Sztangreta. Na każdy lab przychodzisz z metodami z tabeli u góry, zielonymi w `trening_cpp` (`make test`), i ze szkieletem `labN()` zapisującym CSV.
+> - **Przed lab 1 (pt 9.10):** `expansion`, `fib`, `lag`, `golden` w C++. W Pythonie z01 i z02 tylko po to, żeby zrozumieć metodę.
+> - **Projekt (dr Byrska-Wójcik):** „własne programy albo Matlab”. Zapytaj, czy indywidualnie czy w zespole, jakie są terminy sprawozdania i prezentacji oraz warunki zaliczenia.
 > - **Egzamin:** opisz i porównaj metody (bezgradientowe vs gradientowe), uzasadnij kryterium stopu, wyjaśnij karę zewnętrzną i wewnętrzną, kiedy metoda niedeterministyczna.
 > - Łączy się z: [[Funkcja celu i warunki optymalności]], [[Metoda złotego podziału]], [[Metoda Hooke'a-Jeevesa]], [[Metoda simpleksu Neldera-Meada]].
 
@@ -239,6 +296,10 @@ Jak raportować wynik metody losowej?::Średnia i odchylenie z kilku uruchomień
 Minimum funkcji Rosenbrocka::(1, 1), f = 0, klasyczny start (−1,2; 1)
 Odpowiednik fminsearch w scipy::minimize(f, x0, method='Nelder-Mead')
 Cztery części sprawozdania z projektu::Sformułowanie zadania, metody, wyniki (tabela i wykres zbieżności), wnioski
+W jakim języku i frameworku robisz laby z optymalizacji?::C++ we frameworku Sztangreta (matrix, solution, opt_alg.h); Python tylko do zrozumienia i weryfikacji
+Skąd metoda Lagrange'a (lag) bierze nowy punkt?::Z wierzchołka paraboli przez trzy punkty a < c < b; gdy m <= 0, parabola nie ma minimum i metoda zawodzi
+Kiedy metoda Rosenbrocka obraca bazę kierunków?::Gdy w każdym kierunku był co najmniej jeden sukces i jedna porażka; nowe kierunki z Grama–Schmidta
+Ile kroków potrzebuje metoda Newtona z h = 1 na funkcji kwadratowej?::Jeden, bo model kwadratowy jest wtedy dokładny
 
 ## Moje notatki
 > [!ja] Tu piszesz ty — Albert tej sekcji nie rusza.
@@ -249,3 +310,4 @@ Cztery części sprawozdania z projektu::Sformułowanie zadania, metody, wyniki 
 - J. Arabas, *Wykłady z algorytmów ewolucyjnych*, WNT 2001.
 - Dokumentacja SciPy, moduł `scipy.optimize` (`minimize`, `minimize_scalar`, `differential_evolution`): https://docs.scipy.org/doc/scipy/reference/optimize.html
 - Kod treningowy: `~/studia/sem5/optymalizacja/trening` (README, zadania, testy, rozwiązania).
+- Ł. Sztangret, kod źródłowy do ćwiczeń z metod optymalizacji, CC BY-SA 3.0 (`~/github/optimalization_labs/od_prof/`); trening C++: `~/studia/sem5/optymalizacja/trening_cpp`.

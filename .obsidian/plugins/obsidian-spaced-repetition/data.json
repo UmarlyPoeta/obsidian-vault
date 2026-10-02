@@ -46,8 +46,8 @@
     "initiallyExpandAllSubdecksInTree": true,
     "showContextInCards": true,
     "showIntervalInReviewButtons": true,
-    "flashcardHeightPercentage": 60,
-    "flashcardWidthPercentage": 59.9609375,
+    "flashcardHeightPercentage": 60.0387972841901,
+    "flashcardWidthPercentage": 59.937402190923315,
     "flashcardHeightPercentageMobile": 100,
     "flashcardWidthPercentageMobile": 100,
     "flashcardAgainText": "Again",
@@ -78,7 +78,7 @@
     "preferredDateFormatForNoteReviewQueue": "MMM DD YYYY",
     "preferredLocale": "-"
   },
-  "buryDate": "2026-10-01",
+  "buryDate": "2026-10-02",
   "buryList": [],
   "historyDeck": null,
   "scheduleData": {
