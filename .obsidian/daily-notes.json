@@ -1,0 +1,6 @@
+{
+  "folder": "Dziennik",
+  "format": "YYYY-MM-DD",
+  "template": "Szablony/Obsidian/Dzień",
+  "autorun": false
+}

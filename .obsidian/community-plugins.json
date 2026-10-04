@@ -1,5 +1,18 @@
 [
   "dataview",
   "obsidian-spaced-repetition",
-  "homepage"
+  "homepage",
+  "mermaid-popup",
+  "obsidian-plantuml",
+  "templater-obsidian",
+  "obsidian-latex-suite",
+  "omnisearch",
+  "pdf-plus",
+  "obsidian-git",
+  "table-editor-obsidian",
+  "cmdr",
+  "obsidian-outliner",
+  "recent-files-obsidian",
+  "pomodoro-timer",
+  "obsidian-excalidraw-plugin"
 ]

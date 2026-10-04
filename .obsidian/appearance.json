@@ -4,6 +4,10 @@
   "baseFontSize": 17,
   "monospaceFontFamily": "IosevkaTerm NF",
   "enabledCssSnippets": [
-    "amber"
-  ]
+    "amber",
+    "wiedza-ui"
+  ],
+  "showRibbon": true,
+  "nativeMenus": false,
+  "translucency": false
 }

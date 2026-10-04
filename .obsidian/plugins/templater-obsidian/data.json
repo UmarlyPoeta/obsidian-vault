@@ -1,0 +1,32 @@
+{
+  "command_timeout": 5,
+  "templates_folder": "Szablony/Obsidian",
+  "templates_pairs": [
+    [
+      "",
+      ""
+    ]
+  ],
+  "trigger_on_file_creation_mode": "folder",
+  "auto_jump_to_cursor": true,
+  "jump_to_cursor_after_file_name": false,
+  "folder_templates": [
+    {
+      "folder": "Pojęcia",
+      "template": "Szablony/Obsidian/Pojęcie.md"
+    },
+    {
+      "folder": "Przedmioty",
+      "template": "Szablony/Obsidian/Przedmiot.md"
+    }
+  ],
+  "file_templates": [],
+  "syntax_highlighting": true,
+  "enabled_templates_hotkeys": [],
+  "startup_templates": [],
+  "ignore_folders_on_creation": [
+    {
+      "folder": "Szablony"
+    }
+  ]
+}

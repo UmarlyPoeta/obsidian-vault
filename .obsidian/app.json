@@ -8,5 +8,19 @@
   "readableLineLength": true,
   "showFrontmatter": false,
   "propertiesInDocument": "visible",
-  "promptDelete": true
+  "promptDelete": true,
+  "showInlineTitle": false,
+  "foldHeading": true,
+  "foldIndent": true,
+  "autoPairMarkdown": true,
+  "autoPairBrackets": true,
+  "smartIndentList": true,
+  "showUnsupportedFiles": false,
+  "userIgnoreFilters": [
+    "Szablony/"
+  ],
+  "spellcheck": true,
+  "livePreview": true,
+  "defaultViewMode": "source",
+  "trashOption": "local"
 }

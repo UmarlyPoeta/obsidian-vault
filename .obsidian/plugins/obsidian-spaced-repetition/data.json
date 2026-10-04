@@ -5,7 +5,7 @@
     ],
     "flashcardTagsToIgnore": [],
     "convertFoldersToDecks": false,
-    "burySiblingCards": false,
+    "burySiblingCards": true,
     "flashcardCardOrder": "DueFirstRandom",
     "flashcardDeckOrder": "PrevDeckComplete_Sequential",
     "convertClozePatternsToInputs": false,
@@ -32,7 +32,8 @@
     ],
     "noteTagsToIgnore": [],
     "noteFoldersToIgnore": [
-      "**/*.excalidraw.md"
+      "**/*.excalidraw.md",
+      "Szablony/**"
     ],
     "openRandomNote": false,
     "autoNextNote": false,
@@ -57,7 +58,7 @@
     "reviewButtonDelay": 0,
     "showDeleteButtonInCardView": false,
     "showDeleteButtonInFileMenu": false,
-    "openViewInNewTab": false,
+    "openViewInNewTab": true,
     "openViewInNewTabMobile": false,
     "useCustomHotkeys": false,
     "useCalloutsForSchedulingComments": false,
@@ -78,7 +79,7 @@
     "preferredDateFormatForNoteReviewQueue": "MMM DD YYYY",
     "preferredLocale": "-"
   },
-  "buryDate": "2026-10-02",
+  "buryDate": "2026-10-04",
   "buryList": [],
   "historyDeck": null,
   "scheduleData": {

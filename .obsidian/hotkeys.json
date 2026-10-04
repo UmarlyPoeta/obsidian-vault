@@ -1,0 +1,90 @@
+{
+  "obsidian-spaced-repetition:srs-review-flashcards": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "R"
+    }
+  ],
+  "obsidian-spaced-repetition:srs-review-flashcards-in-note": [
+    {
+      "modifiers": [
+        "Mod",
+        "Alt"
+      ],
+      "key": "R"
+    }
+  ],
+  "omnisearch:show-modal": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "F"
+    }
+  ],
+  "global-search:open": [
+    {
+      "modifiers": [
+        "Mod",
+        "Alt"
+      ],
+      "key": "F"
+    }
+  ],
+  "homepage:open-homepage": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "H"
+    }
+  ],
+  "daily-notes": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "D"
+    }
+  ],
+  "pomodoro-timer:toggle-timer": [
+    {
+      "modifiers": [
+        "Mod",
+        "Alt"
+      ],
+      "key": "P"
+    }
+  ],
+  "templater-obsidian:create-new-note-from-template": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "N"
+    }
+  ],
+  "graph:open-local": [
+    {
+      "modifiers": [
+        "Mod",
+        "Alt"
+      ],
+      "key": "G"
+    }
+  ],
+  "recent-files-obsidian:recent-files-open": [
+    {
+      "modifiers": [
+        "Mod",
+        "Alt"
+      ],
+      "key": "E"
+    }
+  ]
+}

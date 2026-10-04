@@ -1,4 +1,5 @@
 {
-  "folder": "Szablony",
-  "dateFormat": "YYYY-MM-DD"
+  "folder": "Szablony/Obsidian",
+  "dateFormat": "YYYY-MM-DD",
+  "timeFormat": "HH:mm"
 }

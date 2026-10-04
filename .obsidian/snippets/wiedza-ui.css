@@ -1,0 +1,51 @@
+/* Wiedza — dopieszczenie UI pod naukę (uzupełnia amber.css). */
+
+/* Strona startowa: szerzej, bo są tabele */
+.markdown-preview-view.start,
+.markdown-source-view.start { --file-line-width: 1100px; }
+.start .markdown-rendered h2 { margin-top: 1.6em; }
+
+/* Nagłówki: wyraźny podział sekcji lekcji */
+.markdown-rendered h2 {
+  border-bottom: 1px solid var(--hr-color);
+  padding-bottom: 0.2em;
+}
+
+/* Tabele (Dataview i zwykłe) */
+.markdown-rendered table { border-collapse: collapse; width: 100%; }
+.markdown-rendered th { background: var(--background-secondary-alt); font-weight: 600; }
+.markdown-rendered tr:hover td { background: var(--background-modifier-hover); }
+.markdown-rendered td, .markdown-rendered th { padding: 0.35em 0.7em; }
+
+/* Tagi #fiszki/… w nagłówkach — dyskretnie */
+.tag[href^="#fiszki"], .cm-hashtag[class*="fiszki"] {
+  opacity: 0.55;
+  font-size: 0.75em;
+  vertical-align: middle;
+}
+
+/* Status w właściwościach jako kolorowy badge */
+.metadata-property[data-property-key="status"] .metadata-property-value {
+  font-weight: 600;
+  color: var(--text-accent);
+}
+
+/* Callouty: trochę oddechu */
+.callout { border-radius: 8px; }
+.callout-title { font-weight: 650; }
+.callout[data-callout="skrot"] { border-left: 3px solid rgb(var(--callout-color)); }
+
+/* Matematyka w trybie wyświetlania — wycentrowana i z miejscem */
+.markdown-rendered mjx-container[display="true"] { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; }
+
+/* Fiszki (Spaced Repetition): większy tekst */
+.sr-flashcard, .sr-tab-view-content, #sr-flashcard-view { font-size: 1.12em; line-height: 1.6; }
+
+/* Aktywna linia w edytorze */
+.theme-dark .cm-active.cm-line { background: rgba(255, 176, 0, 0.04); }
+
+/* Checkboxy: przekreślenie zrobionych */
+.markdown-rendered .task-list-item.is-checked { color: var(--text-faint); text-decoration: line-through; }
+
+/* Pasek boczny: aktywny plik w amberze */
+.nav-file-title.is-active { color: var(--text-accent); }

@@ -1,0 +1,59 @@
+{
+  "confirmDeletion": true,
+  "showAddCommand": false,
+  "debug": false,
+  "editorMenu": [],
+  "fileMenu": [],
+  "leftRibbon": [
+    {
+      "id": "homepage:open-homepage",
+      "icon": "home",
+      "name": "Start",
+      "mode": "any"
+    },
+    {
+      "id": "obsidian-spaced-repetition:srs-review-flashcards",
+      "icon": "layers",
+      "name": "Powtórka fiszek",
+      "mode": "any"
+    },
+    {
+      "id": "templater-obsidian:create-new-note-from-template",
+      "icon": "file-plus-2",
+      "name": "Nowa notatka z szablonu",
+      "mode": "any"
+    },
+    {
+      "id": "daily-notes",
+      "icon": "calendar-days",
+      "name": "Dziennik — dziś",
+      "mode": "any"
+    },
+    {
+      "id": "pomodoro-timer:toggle-timer",
+      "icon": "timer",
+      "name": "Pomodoro start/pauza",
+      "mode": "any"
+    },
+    {
+      "id": "omnisearch:show-modal",
+      "icon": "search",
+      "name": "Szukaj (Omnisearch)",
+      "mode": "any"
+    }
+  ],
+  "rightRibbon": [],
+  "titleBar": [],
+  "statusBar": [],
+  "pageHeader": [],
+  "macros": [],
+  "explorer": [],
+  "textToolbarCommands": [],
+  "hide": {
+    "statusbar": [],
+    "leftRibbon": [],
+    "editorMenuItems": [],
+    "fileMenuItems": []
+  },
+  "spacing": 0
+}
