@@ -15,16 +15,20 @@ tags: [przedmiot, agh]
 > Prowadzący: Andriy Milenin, Piotr Kustra. Pełny sylabus: `~/studia/sylabus/semestr5.md`.
 > Opiera się na Metodach numerycznych (sem. 3) i SMOC I/II.
 
+## Laboratorium (dr Kustra)
+- [[MES — kurs dr. Kustry (mapa labów)]]: plan 14 labów, zasady zaliczenia, materiały prowadzącego, siatki testowe i wyniki do porównania. Stamtąd jest też link do listy podręczników.
+
 ## Tematy
 - [[Kurs — Metody numeryczne]] (powtórka podstaw: m00–m08)
 - [[Funkcje kształtu]]
-- [[Macierz sztywności]]
-- [[Przekształcenie izoparametryczne]]
-- [[Jakobian]]
-- [[Kwadratury Gaussa]]
+- [[Siatka MES i wczytywanie danych]]
 - [[Metoda Galerkina]]
+- [[Całkowanie numeryczne i kwadratury Gaussa|Kwadratury Gaussa]]
+- [[Jakobian]] (przekształcenie izoparametryczne)
+- [[Macierz sztywności]] ($H$, $H_{bc}$, $P$, agregacja)
 - [[Nieustalony przepływ ciepła]]
 - [[Schematy całkowania w czasie]]
+- [[MES 1D — od różnic skończonych do macierzy sztywności]]
 
 ## Postęp
 ```dataviewjs
