@@ -100,6 +100,7 @@ Kiedy granica w punkcie istnieje?::Gdy obie granice jednostronne istnieją i są
 $\lim_{x\to0}\frac{\sin x}{x}$?::$1$
 $\lim_{x\to\infty}\left(1+\frac1x\right)^x$?::$e$
 $\lim_{x\to0}\frac{e^x-1}{x}$?::$1$
+<!--SR:!2026-10-06,1,230-->
 Wymień symbole nieoznaczone.::$\frac00$, $\frac\infty\infty$, $0\cdot\infty$, $\infty-\infty$, $1^\infty$, $0^0$, $\infty^0$
 Co mówi reguła de l'Hospitala?::Przy $\frac00$ lub $\frac\infty\infty$: $\lim\frac fg=\lim\frac{f'}{g'}$ (pochodne licznika i mianownika osobno).
 Jak liczyć granicę ilorazu wielomianów przy $x\to\infty$?::Podzielić licznik i mianownik przez najwyższą potęgę $x$ z mianownika.

@@ -68,3 +68,25 @@ FROM "Pojęcia"
 SORT file.mtime DESC
 LIMIT 8
 ```
+
+> [!skrot]- ⌨️ Skróty i narzędzia
+> | Skrót | Co robi |
+> |---|---|
+> | `Alt+N` | **Co teraz?** — otwiera następną notatkę do nauki (najpierw tematy na najbliższe zajęcia, potem „uczę się”) |
+> | `Alt+S` | **tryb sprawdzianu** — zakrywa skróty, definicje i wzory; przypomnij sobie, kliknij, żeby odkryć |
+> | `Alt+Q` | **sprawdź się** — quiz z zadań notatki (spacja = odpowiedź, 1/2 = umiałem/nie), na końcu proponuje status |
+> | `Ctrl+Alt+S` | status 🟠 → 🟡 → 🟢 (albo klik w status na dolnym pasku) |
+> | `Ctrl+Shift+R` | powtórka wszystkich fiszek · `Ctrl+Alt+R` — tylko z tej notatki |
+> | `Ctrl+Shift+F` | Omnisearch — szukanie rozmyte, bez polskich znaków (`Ctrl+Alt+F` — zwykłe szukanie) |
+> | `Ctrl+N` / klik w link bez notatki | nowe pojęcie w `Pojęcia/` z gotowym szablonem (pyta o przedmiot i talię fiszek) |
+> | `Ctrl+Shift+N` | nowa notatka z wybranego szablonu |
+> | `Alt+D` | dziennik dnia — plan, czego się nauczyłeś, sesje pomodoro |
+> | `Ctrl+Alt+P` | pomodoro 25/5 start/pauza (licznik na dolnym pasku, sesje lądują w dzienniku) |
+> | `Alt+H` | ta strona · `Ctrl+Alt+E` — ostatnie pliki · `Ctrl+Alt+G` — lokalny graf |
+> | `/` | menu wstawiania (callout, tabela, szablon…) |
+>
+> **Fiszki w trybie czytania** to karty z zakrytą odpowiedzią — klik odkrywa. Notatki otwierają się w trybie czytania (`Ctrl+E` = edycja).
+> **Matma (LaTeX Suite):** `mk` → `$…$`, `dm` → blok wzoru, w trybie math: `a/b` → `\frac{a}{b}`, `sr` → `^2`, `@a` → `\alpha`, `Tab` skacze dalej.
+> **Rysunki:** ikona Excalidraw w lewym pasku — szkic trafia do `Załączniki/Excalidraw`, wstawiasz `![[nazwa.excalidraw]]`.
+> **PDF-y z wykładów:** wrzuć do `Załączniki`, zaznacz fragment → kopiuj link (PDF++) → wklej w notatkę: link z podglądem i podświetleniem.
+> **Backup:** obsidian-git robi lokalny commit co 30 min (status w dolnym pasku).

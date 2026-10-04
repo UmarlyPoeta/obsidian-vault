@@ -112,6 +112,7 @@ Czy ∫ od 1 do ∞ z 1/x jest zbieżna?::Nie — wynik to lim ln b = ∞.
 Co mówi kryterium porównawcze?::Jeśli 0≤f≤g i ∫g zbieżna, to ∫f zbieżna; jeśli ∫f rozbieżna, to ∫g rozbieżna.
 Jaka całka niewłaściwa definiuje transformatę Laplace'a?::F(s) = ∫ od 0 do ∞ z f(t)·e^(−st) dt.
 Ile wynosi ∫ od 0 do ∞ z t·e^(−st) dla s>0?::1/s² (przez części).
+<!--SR:!2026-10-06,1,230-->
 Czy f(x)→0 wystarcza do zbieżności ∫ do ∞?::Nie — f musi maleć dość szybko (np. 1/x maleje, a całka jest rozbieżna).
 
 ## Moje notatki

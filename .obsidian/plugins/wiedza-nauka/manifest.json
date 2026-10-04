@@ -1,0 +1,9 @@
+{
+  "id": "wiedza-nauka",
+  "name": "Wiedza — nauka",
+  "version": "1.0.0",
+  "minAppVersion": "1.5.0",
+  "description": "Fiszki jako karty, tryb sprawdzianu, quiz z zadań, statusy pojęć i „Co teraz?”.",
+  "author": "Patryk",
+  "isDesktopOnly": false
+}

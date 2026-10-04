@@ -21,6 +21,6 @@
   ],
   "spellcheck": true,
   "livePreview": true,
-  "defaultViewMode": "source",
+  "defaultViewMode": "preview",
   "trashOption": "local"
 }

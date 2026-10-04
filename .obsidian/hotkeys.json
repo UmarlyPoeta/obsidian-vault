@@ -86,5 +86,38 @@
       ],
       "key": "E"
     }
+  ],
+  "wiedza-nauka:tryb-sprawdzianu": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "S"
+    }
+  ],
+  "wiedza-nauka:sprawdz-sie": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "Q"
+    }
+  ],
+  "wiedza-nauka:co-teraz": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "N"
+    }
+  ],
+  "wiedza-nauka:status-dalej": [
+    {
+      "modifiers": [
+        "Mod",
+        "Alt"
+      ],
+      "key": "S"
+    }
   ]
 }

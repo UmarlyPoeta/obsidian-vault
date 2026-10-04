@@ -12,6 +12,24 @@
       "mode": "any"
     },
     {
+      "id": "wiedza-nauka:co-teraz",
+      "icon": "compass",
+      "name": "Co teraz?",
+      "mode": "any"
+    },
+    {
+      "id": "wiedza-nauka:tryb-sprawdzianu",
+      "icon": "eye-off",
+      "name": "Tryb sprawdzianu",
+      "mode": "any"
+    },
+    {
+      "id": "wiedza-nauka:sprawdz-sie",
+      "icon": "check-circle",
+      "name": "Sprawdź się",
+      "mode": "any"
+    },
+    {
       "id": "obsidian-spaced-repetition:srs-review-flashcards",
       "icon": "layers",
       "name": "Powtórka fiszek",
@@ -55,5 +73,16 @@
     "editorMenuItems": [],
     "fileMenuItems": []
   },
-  "spacing": 0
+  "spacing": 0,
+  "advancedToolbar": {
+    "rowHeight": 48,
+    "rowCount": 1,
+    "spacing": 0,
+    "buttonWidth": 48,
+    "columnLayout": false,
+    "mappedIcons": [],
+    "tooltips": false,
+    "heightOffset": 0
+  },
+  "spacingReset": true
 }

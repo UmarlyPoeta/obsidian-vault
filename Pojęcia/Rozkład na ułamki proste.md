@@ -110,11 +110,13 @@ Znajdź $f(t) = \mathcal{L}^{-1}\left\{\frac{s+3}{(s+1)(s+2)}\right\}$.
 
 ## Fiszki #fiszki/matematyka
 Kiedy można od razu rozkładać na ułamki proste?::Gdy ułamek jest właściwy: $\deg P < \deg Q$
+<!--SR:!2026-10-06,1,230-->
 Co zrobić, gdy $\deg P \ge \deg Q$?::Podzielić wielomiany: wielomian + ułamek właściwy
 Składnik dla czynnika $(s-a)$?::$\frac{A}{s-a}$
 Składniki dla $(s-a)^2$?::$\frac{A_1}{s-a} + \frac{A_2}{(s-a)^2}$
 Składnik dla $s^2+ps+q$ z $\Delta<0$?::$\frac{Bs+C}{s^2+ps+q}$
 Metoda zakrywania?::Zakryj $(s-a)$ w mianowniku i podstaw $s=a$ do reszty ułamka
+<!--SR:!2026-10-06,1,230-->
 Kiedy zakrywanie nie wystarcza?::Przy pierwiastku wielokrotnym (poza najwyższą potęgą) i przy trójmianach
 $\mathcal{L}^{-1}\left\{\frac{1}{s+a}\right\}$?::$e^{-at}$
 $\mathcal{L}^{-1}\left\{\frac{1}{(s+a)^2}\right\}$?::$te^{-at}$

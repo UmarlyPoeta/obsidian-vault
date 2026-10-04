@@ -49,3 +49,45 @@
 
 /* Pasek boczny: aktywny plik w amberze */
 .nav-file-title.is-active { color: var(--text-accent); }
+
+/* ── Czytanie długich notatek ─────────────────────────────────────────────── */
+.markdown-rendered p,
+.markdown-rendered li { line-height: 1.72; }
+.markdown-rendered p { margin-block: 0.75em; }
+.markdown-rendered li + li { margin-top: 0.3em; }
+.markdown-rendered h2 { margin-top: 2.2em; font-size: 1.4em; }
+.markdown-rendered h2:first-of-type { margin-top: 1.2em; }
+
+/* Callouty jako wyraźne bloki, z oddechem między nimi */
+.markdown-rendered .callout { margin: 1.1em 0; padding: 0.75em 1em; }
+.markdown-rendered .callout-content > :first-child { margin-top: 0.35em; }
+.markdown-rendered .callout-content > :last-child { margin-bottom: 0.1em; }
+
+/* „W 30 sekund” — najważniejszy blok notatki, ma się rzucać w oczy */
+.markdown-rendered .callout[data-callout="skrot"] {
+  background: rgba(255, 176, 0, 0.08);
+  font-size: 1.04em;
+  padding: 0.9em 1.15em;
+}
+
+/* Zwinięte callouty (przykłady, odpowiedzi, kod) — wyglądają jak przyciski */
+.markdown-rendered .callout.is-collapsed { padding-block: 0.5em; }
+.markdown-rendered .callout.is-collapsed .callout-title::after {
+  content: "rozwiń";
+  margin-left: auto;
+  font-size: 0.75em;
+  font-weight: 400;
+  color: var(--text-faint);
+}
+.markdown-rendered .callout.is-collapsed:hover { filter: brightness(1.15); }
+
+/* Szerokie tabele i wzory w calloutach przewijają się zamiast rozpychać stronę */
+.markdown-rendered .callout-content table { display: block; overflow-x: auto; }
+.markdown-rendered .callout-content .math-block { overflow-x: auto; }
+
+/* Wzory: trochę większe niż tekst, żeby indeksy były czytelne */
+.markdown-rendered .math-block mjx-container { font-size: 112%; }
+
+/* Spis treści po prawej: aktualna sekcja w amberze */
+.workspace-leaf-content[data-type="outline"] .tree-item-self.is-active { color: var(--text-accent); }
+.workspace-leaf-content[data-type="outline"] .tree-item-self { font-size: 0.9em; }
