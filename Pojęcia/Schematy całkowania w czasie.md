@@ -69,6 +69,7 @@ def krok_theta(H, C, P, t0, dt, theta):
 
 ## Na zajęcia i egzamin
 > [!zajecia]
+> - **Ćwicz w C++:** `Kod/metody_numeryczne/zadania/m07.cpp`, funkcja `schemat_theta` (jedna funkcja na θ = 0, ½, 1).
 > - **Projekt:** kurs wymaga schematu niejawnego. Crank–Nicolson albo porównanie schematów to dobry dodatek do sprawozdania (ocena powyżej 3.0).
 > - **Egzamin:** „wyprowadź schemat jawny i niejawny z interpolacji liniowej w czasie”, „który jest stabilny i dlaczego”, „co oznacza warunek $\Delta\tau < \Delta\tau_{kr}$”.
 > - Łączy się z: [[Numeryczne rozwiązywanie RRZ]] (ten sam schemat θ dla RRZ), [[Nieustalony przepływ ciepła]].

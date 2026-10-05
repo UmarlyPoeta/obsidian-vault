@@ -95,6 +95,7 @@ print(Hbc.round(4), P)   # [[3.3333 1.6667] [1.6667 3.3333]] [6000. 6000.]
 
 ## Na zajęcia i egzamin
 > [!zajecia]
+> - **Ćwicz w C++:** `Kod/metody_numeryczne/zadania/m09.cpp`, funkcje `macierz_H` i `brzeg` (Hbc i P), testy na liczbach prowadzącego. Agregację i układ ćwiczysz w 1D w m08 (`pret_HP`).
 > - **Laby 4–8:** każdy etap porównujesz z plikami w `Załączniki/MES/Kustra — wyniki testowe/`: $H$ lokalne, $H$ globalne bez BC, z BC, wektor $P$. Najpierw Test1 (proste liczby), potem MixGrid (tu wychodzą błędy w jakobianie).
 > - **Stan ustalony dla Test1:** wszystkie temperatury $= 1200$ °C (brak źródeł, cały brzeg w otoczeniu 1200 °C). To dobry test układu równań.
 > - **Egzamin:** „wyprowadź $[H]$ elementu”, „jak działa agregacja”, „jak wprowadzić warunek konwekcji”, „własności macierzy globalnej: symetryczna, pasmowa, rzadka, dodatnio określona po dodaniu $H_{bc}$”.

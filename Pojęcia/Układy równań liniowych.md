@@ -6,7 +6,7 @@ wymaga: ["[[Arytmetyka zmiennoprzecinkowa i błędy numeryczne]]"]
 powiązane: ["[[Rozwiązywanie równań nieliniowych]]", "[[MES 1D — od różnic skończonych do macierzy sztywności]]", "[[Numeryczne rozwiązywanie RRZ]]", "[[Aproksymacja średniokwadratowa]]", "[[Interpolacja]]", "[[Trening — Programowanie równoległe w kodzie]]"]
 tags: [pojęcie, metody-numeryczne]
 utworzono: 2026-10-02
-źródła: ["Fortuna, Macukow, Wąsowski — Metody numeryczne (WNT)", "Kincaid, Cheney — Analiza numeryczna (WNT)", "Burden, Faires — Numerical Analysis (Brooks/Cole), rozdz. 6 i 7", "Dokumentacja NumPy: numpy.linalg.solve, numpy.linalg.cond", "Dokumentacja SciPy: scipy.linalg.lu_factor, scipy.sparse.diags, scipy.sparse.linalg.spsolve"]
+źródła: ["Fortuna, Macukow, Wąsowski — Metody numeryczne (WNT)", "Kincaid, Cheney — Analiza numeryczna (WNT)", "Burden, Faires — Numerical Analysis (Brooks/Cole), rozdz. 6 i 7", "Dokumentacja NumPy: numpy.linalg.solve, numpy.linalg.cond", "Dokumentacja SciPy: scipy.linalg.lu_factor, scipy.sparse.diags, scipy.sparse.linalg.spsolve", "Kurs MN w C++: Kod/metody_numeryczne (moduły, testy, rozwiązania wzorcowe)"]
 ---
 # Układy równań liniowych
 
@@ -63,19 +63,56 @@ utworzono: 2026-10-02
 >
 > To jest od razu rozkład LU: $U$ to macierz końcowa, $L$ ma pod przekątną $\frac23, -\frac23, \frac15$ (w kolejności wierszy po zamianach), a permutacja to $p = (2, 3, 1)$.
 
-```python
-import numpy as np, scipy.sparse as sp
-from scipy.sparse.linalg import spsolve
-n = 5; h = 1 / (n + 1)                       # -u'' = 1, u(0) = u(1) = 0
-K = sp.diags([-1.0, 2.0, -1.0], [-1, 0, 1], shape=(n, n), format="csc") / h**2
-print(spsolve(K, np.ones(n)))                # = x(1-x)/2 w węzłach (schemat dokładny dla paraboli)
+```cpp
+#include "m02.h"   // Kod/metody_numeryczne
+int n = 9;                                    // węzły wewnętrzne pręta -T'' = 1, T(0) = T(1) = 0
+double h = 1.0 / (n + 1);
+Vec a(n, -1), d(n, 2), c(n, -1), b(n, h * h);
+Vec T = thomas(a, d, c, b);                   // T[4] = 0.125 = x(1-x)/2 w x = 0.5, O(n)
+Vec x = gauss({{2, 1, -1}, {-3, -1, 2}, {-2, 1, 2}}, {8, -11, -3});   // (2, 3, -1)
 ```
+
+> [!kod]- To samo w Pythonie (do szybkiego sprawdzenia)
+> ```python
+> import numpy as np, scipy.sparse as sp
+> from scipy.sparse.linalg import spsolve
+> n = 5; h = 1 / (n + 1)                       # -u'' = 1, u(0) = u(1) = 0
+> K = sp.diags([-1.0, 2.0, -1.0], [-1, 0, 1], shape=(n, n), format="csc") / h**2
+> print(spsolve(K, np.ones(n)))                # = x(1-x)/2 w węzłach (schemat dokładny dla paraboli)
+> ```
 
 > [!przyklad]- Thomas ręcznie: przekątna $2$, pozostałe $-1$, $\mathbf d = (1, 0, 1)$
 > - $c'_1 = -\frac12$, $d'_1 = \frac12$.
 > - $m_2 = 2 - (-1)(-\frac12) = \frac32$, $c'_2 = -\frac23$, $d'_2 = \frac{0 + \frac12}{3/2} = \frac13$.
 > - $m_3 = 2 - (-1)(-\frac23) = \frac43$, $d'_3 = \frac{1 + \frac13}{4/3} = 1$.
 > - Wstecz: $x_3 = 1$, $x_2 = \frac13 + \frac23 \cdot 1 = 1$, $x_1 = \frac12 + \frac12 \cdot 1 = 1$.
+
+## W C++ — szkielet eliminacji Gaussa
+> [!kod] Najważniejsze pętle (pełna wersja: `rozwiazania/m02.cpp`)
+> ```cpp
+> Vec gauss(Mat A, Vec b) {                       // kopie: możesz je niszczyć
+>     int n = b.size();
+>     for (int k = 0; k < n; ++k) {
+>         int p = k;                              // 1. wybór elementu głównego w kolumnie k
+>         for (int i = k + 1; i < n; ++i) if (fabs(A[i][k]) > fabs(A[p][k])) p = i;
+>         swap(A[k], A[p]); swap(b[k], b[p]);
+>         for (int i = k + 1; i < n; ++i) {       // 2. zerowanie pod przekątną
+>             double m = A[i][k] / A[k][k];
+>             for (int j = k; j < n; ++j) A[i][j] -= m * A[k][j];
+>             b[i] -= m * b[k];
+>         }
+>     }
+>     Vec x(n);                                   // 3. podstawianie wstecz
+>     for (int i = n - 1; i >= 0; --i) {
+>         double s = b[i];
+>         for (int j = i + 1; j < n; ++j) s -= A[i][j] * x[j];
+>         x[i] = s / A[i][i];
+>     }
+>     return x;
+> }
+> ```
+> - `Mat` to `std::vector<std::vector<double>>`, dostęp `A[i][j]`. Dla dużych siatek MES (Test3: 961 węzłów, macierz 961×961 ≈ 7 MB) to jeszcze działa. Przy 100×100 elementach (10 201 węzłów, ok. 830 MB) potrzebna jest macierz pasmowa albo rzadka.
+> - Gauss bez wyboru elementu głównego wywraca się na zerze na przekątnej. Macierz MES z $H_{bc}$ jest symetryczna i dodatnio określona, więc tam działa i bez wyboru, ale wybór niczego nie psuje.
 
 ## Typowe błędy
 > [!blad] Gauss bez wyboru elementu głównego
@@ -96,7 +133,7 @@ print(spsolve(K, np.ones(n)))                # = x(1-x)/2 w węzłach (schemat d
 > - **Programowanie równoległe:** Jacobi to klasyczny przykład problemu „embarrassingly parallel” w obrębie iteracji (każdy wątek liczy swoje składowe), a Gauss–Seidel wymaga kolorowania (red-black), żeby go zrównoleglić.
 > - **Optymalizacja:** krok Newtona $H\Delta = -\nabla f$ to układ liniowy.
 > - **Egzamin:** „po co wybór elementu głównego”, „koszt Gaussa i Thomasa”, „warunek zbieżności Jacobiego”, „co mówi wskaźnik uwarunkowania”.
-> - **Ćwicz:** `kurs/m02_uklady_liniowe.py` (7 funkcji: Gauss, LU, rozwiązanie z LU, Thomas, Jacobi, Gauss–Seidel, cond), test `tests/test_m02.py`.
+> - **Ćwicz w C++:** `Kod/metody_numeryczne/zadania/m02.cpp` (Gauss z wyborem elementu głównego, LU, Thomas, Gauss–Seidel, residuum), specyfikacja w `m02.h`, sprawdzasz `./sprawdz.sh 02`. Wzorzec: `rozwiazania/m02.cpp`, dopiero po własnej próbie. Ten moduł jest potrzebny w m04, m07, m08 i m10, więc zrób go wcześnie.
 
 ## Zadania
 > [!zadanie] Zadanie 1
@@ -133,6 +170,9 @@ Ile cyfr tracisz przy cond(A) ≈ 10^k?::Około k cyfr z mniej więcej 16 dostę
 Dlaczego nie liczyć x = inv(A) @ b?::Wolniej i mniej dokładnie niż solve, a odwrotność macierzy rzadkiej jest gęsta
 Czym rozwiązać duży rzadki układ w Pythonie?::scipy.sparse (CSR/CSC, np. sp.diags) i scipy.sparse.linalg.spsolve
 
+Trzy etapy eliminacji Gaussa w kodzie::Wybór elementu głównego (zamiana wierszy), zerowanie pod przekątną, podstawianie wstecz
+Złożoność eliminacji Gaussa i algorytmu Thomasa::Gauss O(n³), Thomas O(n) dla trójdiagonalnej
+
 ## Moje notatki
 > [!ja] Tu piszesz ty — Albert tej sekcji nie rusza.
 
@@ -142,3 +182,4 @@ Czym rozwiązać duży rzadki układ w Pythonie?::scipy.sparse (CSR/CSC, np. sp.
 - R. L. Burden, J. D. Faires, *Numerical Analysis*, Brooks/Cole — rozdz. 6 (Direct Methods for Solving Linear Systems), rozdz. 7 (Iterative Techniques in Matrix Algebra; przykład 4×4 dla Jacobiego).
 - Dokumentacja NumPy: `numpy.linalg.solve`, `numpy.linalg.cond`.
 - Dokumentacja SciPy: `scipy.linalg.lu_factor`, `scipy.linalg.solve_banded`, `scipy.sparse.diags`, `scipy.sparse.linalg.spsolve`.
+- Kurs MN w C++: Kod/metody_numeryczne (moduły, testy, rozwiązania wzorcowe)
