@@ -3,7 +3,7 @@ typ: pojęcie
 status: nowe
 przedmioty: ["[[AGH Metoda elementów skończonych]]"]
 wymaga: ["[[Całka oznaczona]]", "[[Interpolacja]]"]
-powiązane: ["[[Kwadratury Gaussa]]", "[[Przekształcenie izoparametryczne]]", "[[Jakobian]]", "[[Funkcje kształtu]]", "[[Macierz sztywności]]", "[[Aproksymacja średniokwadratowa]]", "[[Różniczkowanie numeryczne]]", "[[Numeryczne rozwiązywanie RRZ]]", "[[MES 1D — od różnic skończonych do macierzy sztywności]]"]
+powiązane: ["[[Jakobian]]", "[[Funkcje kształtu]]", "[[Macierz sztywności]]", "[[Aproksymacja średniokwadratowa]]", "[[Różniczkowanie numeryczne]]", "[[Numeryczne rozwiązywanie RRZ]]", "[[MES 1D — od różnic skończonych do macierzy sztywności]]"]
 tags: [pojęcie, metody-numeryczne, mes]
 utworzono: 2026-10-02
 źródła: ["A. Milenin — Podstawy metody elementów skończonych (Wyd. AGH 2010)", "O.C. Zienkiewicz, R.L. Taylor, J.Z. Zhu — The Finite Element Method: Its Basis and Fundamentals", "Z. Fortuna, B. Macukow, J. Wąsowski — Metody numeryczne (WNT)", "R.L. Burden, J.D. Faires — Numerical Analysis", "Dokumentacja numpy.polynomial.legendre.leggauss i scipy.integrate.quad", "Instrukcja: Lab — kwadratury Gaussa-Legendre'a", "Kurs MN w C++: Kod/metody_numeryczne (moduły, testy, rozwiązania wzorcowe)"]
@@ -202,7 +202,7 @@ Instrukcja: [[Lab — kwadratury Gaussa-Legendre'a.pdf]]. Oddajesz na zajęciach
 > [!zajecia]
 > - **Projekt MES 2D:** napisz raz porządną strukturę „schemat całkowania” (tablice punktów i wag dla 2×2 i 3×3) oraz funkcję liczącą $J$, $\det J$ i $J^{-1}$ w każdym punkcie. **Ćwicz w C++:** `Kod/metody_numeryczne/zadania/m06.cpp` (prostokąty, trapezy, Simpson, parabole z instrukcji, węzły Gaussa 1–4, Gauss na [a, b], Gauss 2D, całka po czworokącie), specyfikacja w `m06.h`, sprawdzasz `./sprawdz.sh 06`. Wzorzec: `rozwiazania/m06.cpp`, dopiero po własnej próbie. Jakobian, $H$, $C$ i $H_{bc}$ elementu MES są w m09. Test kontrolny: suma $\det J \cdot w_i w_j$ po punktach musi równać się polu elementu.
 > - **Egzamin:** „wyprowadź węzły i wagi dla dwóch punktów”, „do jakiego stopnia dokładna jest kwadratura $n$-punktowa”, „co to jest jakobian przekształcenia i po co $\det J$ w całce”, „ile punktów całkowania potrzeba dla elementu 4- i 9-węzłowego”.
-> - Łączy się z: [[Kwadratury Gaussa]], [[Przekształcenie izoparametryczne]], [[Jakobian]], [[Funkcje kształtu]], [[Macierz sztywności]].
+> - Łączy się z: [[Jakobian|przekształcenie izoparametryczne]], [[Jakobian]], [[Funkcje kształtu]], [[Macierz sztywności]].
 
 ## Zadania
 > [!zadanie] Zadanie 1
