@@ -1,8 +1,44 @@
 {
   "recentFiles": [
     {
+      "basename": "01 MES zajęcia 1 — funkcje kształtu, interpolacja, siatka",
+      "path": "Załączniki/MES/Kustra — instrukcje/01 MES zajęcia 1 — funkcje kształtu, interpolacja, siatka.pdf"
+    },
+    {
+      "basename": "MES — kurs dr. Kustry (mapa labów)",
+      "path": "Pojęcia/MES — kurs dr. Kustry (mapa labów).md"
+    },
+    {
       "basename": "AGH Metoda elementów skończonych",
       "path": "Przedmioty/AGH sem5/AGH Metoda elementów skończonych.md"
+    },
+    {
+      "basename": "Model SNN — od dźwięku do decyzji",
+      "path": "SNN_Agent/Model SNN — od dźwięku do decyzji.md"
+    },
+    {
+      "basename": "PK Fizyka",
+      "path": "Przedmioty/PK sem1/PK Fizyka.md"
+    },
+    {
+      "basename": "Zasada Huygensa",
+      "path": "Pojęcia/Zasada Huygensa.md"
+    },
+    {
+      "basename": "Start",
+      "path": "Start.md"
+    },
+    {
+      "basename": "PK Matematyka 1",
+      "path": "Przedmioty/PK sem1/PK Matematyka 1.md"
+    },
+    {
+      "basename": "PK Matematyka 2",
+      "path": "Przedmioty/PK sem2/PK Matematyka 2.md"
+    },
+    {
+      "basename": "Słówka",
+      "path": "Angielski/Słówka.md"
     },
     {
       "basename": "2026-10-02 piątek",
@@ -27,10 +63,6 @@
     {
       "basename": "AGH Optymalizacja",
       "path": "Przedmioty/AGH sem5/AGH Optymalizacja.md"
-    },
-    {
-      "basename": "Start",
-      "path": "Start.md"
     },
     {
       "basename": "l3nav",
