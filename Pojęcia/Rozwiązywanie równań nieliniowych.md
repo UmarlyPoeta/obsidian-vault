@@ -1,7 +1,7 @@
 ---
 typ: pojęcie
 status: nowe
-przedmioty: ["[[AGH Metoda elementów skończonych]]", "[[AGH Optymalizacja]]"]
+przedmioty: ["[[AGH Metody numeryczne]]", "[[AGH Metoda elementów skończonych]]", "[[AGH Optymalizacja]]"]
 wymaga: ["[[Pochodna]]", "[[Arytmetyka zmiennoprzecinkowa i błędy numeryczne]]"]
 powiązane: ["[[Układy równań liniowych]]", "[[Funkcja celu i warunki optymalności]]", "[[Wielomiany]]", "[[Numeryczne rozwiązywanie RRZ]]", "[[MES 1D — od różnic skończonych do macierzy sztywności]]"]
 tags: [pojęcie, metody-numeryczne]
@@ -145,6 +145,37 @@ Instrukcje: [[Lab RN1 — metoda stycznych i siecznych.pdf]], [[Lab RN2 — bise
 > ```
 > Zamiast własnych funkcji w `main` przekazujesz `f` i `df` jako argument typu `F1` (`std::function<double(double)>`), więc ta sama metoda działa dla każdego równania.
 
+## Wykład dr Szeligi (W06) — co dochodzi
+> [!definicja] Pierwiastki i twierdzenia (wykład)
+> - $x^*$ **pojedynczy**: $f(x) = (x - x^*)g(x)$; **$n$-krotny**: $f(x) = (x - x^*)^ng(x)$.
+> - **Tw. 1:** $f \in C^n$; $x^*$ jest $n$-krotny ⇔ $f(x^*) = f'(x^*) = \dots = f^{(n-1)}(x^*) = 0$ i $f^{(n)}(x^*) \ne 0$.
+> - **Tw. 2:** jeśli $x^*$ jest $n$-krotnym pierwiastkiem $f$, to jest **pojedynczym** pierwiastkiem $g = f/f'$.
+> - **Tw. 3 (Bolzano):** $f$ ciągła na $[a, b]$ i $f(a)f(b) < 0$ ⇒ co najmniej jeden pierwiastek w $[a, b]$.
+
+> [!definicja] Ogólny schemat iteracyjny
+> $f(x) = 0$ przekształcasz do $x = \Phi(x)$, np. $\Phi(x) = x - g(x)f(x)$ z ciągłym $g \ne 0$ ($x^*$ to **punkt stały**), i liczysz $x^{(p+1)} = \Phi(x^{(p)})$. Stop: kolejne przybliżenia niewiele się różnią albo przekroczona liczba kroków.
+> - **Istnienie punktu stałego:** $\Phi$ ciągła na $[a, b]$ i $\Phi([a, b]) \subset [a, b]$.
+> - **Jednoznaczność:** $\Phi$ lipschitzowska ze stałą $L < 1$ (kontrakcja): $|\Phi(x_1) - \Phi(x_2)| \le L|x_1 - x_2|$. Na slajdzie warunek jest zapisany dla $\Phi'$ ($|\Phi'(x_1) - \Phi'(x_2)| \le L|x_1 - x_2|$), co jest nieścisłe: kontrakcją ma być samo $\Phi$ (w praktyce sprawdzasz $|\Phi'(x)| \le L < 1$ na przedziale).
+> - Slajd z wykresami: $0 < \Phi' < 1$ zbieżność jednostajna (schodki), $-1 < \Phi' < 0$ zbieżność oscylacyjna (spirala), $|\Phi'| > 1$ rozbieżność.
+> - **Rząd zbieżności $r$:** $|x^{(p+1)} - x^*| \le M|x^{(p)} - x^*|^r$. Szacunek z wykładu: $r \approx \frac{\log|x^{(p+1)} - x^{(p)}|}{\log|x^{(p)} - x^{(p-1)}|}$ dla dużych $p$ (to wersja zgrubna; dokładniejsza używa trzech kolejnych różnic: $r \approx \frac{\ln(|d_{p+1}|/|d_p|)}{\ln(|d_p|/|d_{p-1}|)}$). Iteracja prosta jest zwykle rzędu 1.
+
+> [!wzor] Newton i jego modyfikacje (wykład)
+> - Wyprowadzenie z Taylora: $f(x^*) \approx f(x^{(0)}) + (x^* - x^{(0)})f'(x^{(0)}) = 0$.
+> - **Zawsze zbieżny** dla funkcji wypukłych i monotonicznych ($f' \ne 0$, $f'' > 0$ wszędzie). Kwadratowo dla pierwiastków pojedynczych, **liniowo dla wielokrotnych**.
+> - **Tłumiony Newton:** $x^{(p+1)} = x^{(p)} - 2^{-k}\frac{f(x^{(p)})}{f'(x^{(p)})}$, $k \ge 0$ najmniejsze z $|f(x^{(p+1)})| < |f(x^{(p)})|$.
+> - **Pierwiastek wielokrotny, znany rząd $r$:** $x^{(p+1)} = x^{(p)} - r\frac{f}{f'}$ (przywraca rząd 2).
+> - **Nieznany rząd:** Newton dla $u = f/f'$: $x^{(p+1)} = x^{(p)} - \frac{f f'}{(f')^2 - f f''}$.
+
+> [!wzor] Sieczne, fałszywa linia i ich ulepszenia
+> - **Sieczne:** $x^{(p+1)} = x^{(p)} - \frac{x^{(p)} - x^{(p-1)}}{f(x^{(p)}) - f(x^{(p-1)})}f(x^{(p)})$, rząd $\frac{1+\sqrt5}{2} \approx 1{,}618$, **nie zawsze zbieżna**. Dla pierwiastków wielokrotnych zamień $f$ na $h(x) = \frac{f(x)^2}{f(x + f(x)) - f(x)}$ (iloraz typu Steffensena; w eksporcie slajdu widać tylko mianownik, licznik $f(x)^2$ to postać standardowa). Uwaga: slajd nazywa sieczne „inaczej regula falsi”. To mylące, bo regula falsi to **inna** metoda (fałszywa linia, niżej). W teście traktuj je osobno. (Na slajdzie ułamek jest mnożony przez $f(x^{(p-1)})$, a startuje się od $x^{(p)}$. To niespójne: poprawnie albo $x^{(p)} - f(x^{(p)})\cdot\frac{x^{(p)} - x^{(p-1)}}{f(x^{(p)}) - f(x^{(p-1)})}$, albo równoważnie $x^{(p-1)} - f(x^{(p-1)})\cdot\frac{x^{(p)} - x^{(p-1)}}{f(x^{(p)}) - f(x^{(p-1)})}$.)
+> - **Fałszywa linia (regula falsi):** start z $f(x^{(0)})f(x^{(1)}) < 0$, sieczna zawsze między punktami o **różnych znakach**. **Zawsze zbieżna** dla ciągłych $f$, ale **rząd 1**.
+> - **Pegaz:** jak fałszywa linia, ale gdy pierwiastek zostaje po tej samej stronie, stary koniec dostaje zmniejszoną wartość $f^{*(0)} = f^{(0)}\frac{f^{(1)}}{f^{(1)} + f^{(2)}}$, co odkleja „przyklejony” koniec.
+> - Rodzina modyfikacji (rząd zbieżności): **Illinois** $f^{*(0)} = f^{(0)}/2$ (1,442); **Anderson–Björck** $f^{*(0)} = f^{(0)}\big(1 - \frac{f^{(2)}}{f^{(1)}}\big)$ jeśli dodatnie, inaczej $f^{(0)}/2$ (1,682–1,710); **King** (1,710–1,732); **Anderson–Björck–King** (formuła A–B ze schematem Kinga).
+
+> [!definicja] Wszystkie pierwiastki wielomianu i układy równań
+> - **Procedura Wilkinsona:** znajdź pierwiastek o **najmniejszym module**, podziel wielomian przez $(x - x_1^*)$ (deflacja, resztę ignorujesz), szukaj kolejnego… Na końcu uporządkuj pierwiastki rosnąco i popraw każdy metodą szybko zbieżną (Newton) na **oryginalnym** wielomianie. Do dobrych przybliżeń, także zespolonych: interpolacja wielomianu odcinkami paraboli (metoda Müllera).
+> - **Układ $F(x) = 0$, $F: \mathbb R^N \to \mathbb R^N$:** Newton: policz $F'(x)$, rozwiąż $F'(x)s = F(x)$, $x \leftarrow x - s$.
+
 ## Typowe błędy
 > [!blad] Newton z daleka
 > Dla $f(x) = \operatorname{arctg} x$ i $x_0 = 2$ kolejne punkty skaczą coraz dalej (rozbieżność). Przy $f'(x_k) \approx 0$ krok jest ogromny. Lekarstwo: lepszy start (np. kilka kroków bisekcji) albo tłumienie kroku.
@@ -186,7 +217,45 @@ Instrukcje: [[Lab RN1 — metoda stycznych i siecznych.pdf]], [[Lab RN2 — bise
 > > [!odpowiedz]- Odpowiedź
 > > Krok Newtona kosztuje $f$ i $f'$, krok siecznych tylko jedno $f$. Na jedno obliczenie funkcji sieczne dają rząd $1{,}618$, a Newton $\sqrt2 \approx 1{,}414$ (gdy $f'$ jest tak drogie jak $f$).
 
+## Pytania testowe (egzamin UPeL)
+> [!zadanie] 1. Metoda Newtona:
+> a) jest zbieżna kwadratowo dla pierwiastków pojedynczych b) jest zbieżna liniowo dla pierwiastków wielokrotnych c) zawsze jest zbieżna d) jest zawsze zbieżna dla funkcji wypukłych i monotonicznych
+> > [!odpowiedz]- Odpowiedź
+> > **a, b, d.**
+
+> [!zadanie] 2. Rząd zbieżności metody siecznych wynosi:
+> a) 1 b) $\frac{1+\sqrt5}{2} \approx 1{,}618$ c) 2 d) 1,442
+> > [!odpowiedz]- Odpowiedź
+> > **b.** 1,442 to Illinois.
+
+> [!zadanie] 3. Metoda fałszywej linii (regula falsi):
+> a) wymaga $f(x^{(0)})f(x^{(1)}) < 0$ b) jest zawsze zbieżna dla funkcji ciągłych c) ma rząd 1 d) ma rząd 1,618
+> > [!odpowiedz]- Odpowiedź
+> > **a, b, c.**
+
+> [!zadanie] 4. Iteracja $x = \Phi(x)$ ma jedno rozwiązanie w $[a, b]$, gdy:
+> a) $\Phi$ ciągła i $\Phi([a,b]) \subset [a,b]$ b) dodatkowo $\Phi$ jest kontrakcją ($L < 1$) c) $\Phi'(x) > 1$ d) $f(a)f(b) > 0$
+> > [!odpowiedz]- Odpowiedź
+> > **a i b razem** (a: istnienie, b: jednoznaczność).
+
+> [!zadanie] 5. Jeśli $x^*$ jest pierwiastkiem trzykrotnym $f$, to dla $g = f/f'$ jest pierwiastkiem:
+> a) trzykrotnym b) dwukrotnym c) pojedynczym d) nie jest pierwiastkiem
+> > [!odpowiedz]- Odpowiedź
+> > **c** (twierdzenie 2 z wykładu).
+
+> [!zadanie] 6. W procedurze Wilkinsona szukania wszystkich pierwiastków wielomianu:
+> a) zaczyna się od pierwiastka o najmniejszym module b) po znalezieniu pierwiastka dzieli się wielomian przez $(x - x^*)$ c) na końcu poprawia się pierwiastki na oryginalnym wielomianie d) zaczyna się od pierwiastka o największym module
+> > [!odpowiedz]- Odpowiedź
+> > **a, b, c.**
+
 ## Fiszki #fiszki/numeryczne
+Twierdzenie Bolzano::$f$ ciągła na $[a,b]$, $f(a)f(b) < 0$ ⇒ istnieje pierwiastek w $[a,b]$
+Pierwiastek $n$-krotny $f$ a funkcja $f/f'$::Dla $f/f'$ jest pierwiastkiem pojedynczym
+Newton dla pierwiastka o znanej krotności $r$::$x_{p+1} = x_p - r\,f(x_p)/f'(x_p)$
+Tłumiony Newton::$x_{p+1} = x_p - 2^{-k}f/f'$, najmniejsze $k$ z $|f(x_{p+1})| < |f(x_p)|$
+Rząd metody Illinois, Anderson–Björck, King::1,442; 1,682–1,710; 1,710–1,732
+Procedura Wilkinsona::Najmniejszy co do modułu pierwiastek, deflacja, powtórz; na końcu popraw Newtonem na oryginale
+Warunki istnienia i jednoznaczności punktu stałego::$\Phi$ ciągła, $\Phi([a,b]) \subset [a,b]$; kontrakcja $L < 1$
 Wzór na krok metody Newtona w 1D::x_{k+1} = x_k − f(x_k) / f'(x_k)
 Jaki jest rząd zbieżności Newtona dla pierwiastka jednokrotnego?::2 (kwadratowa), dla wielokrotnego spada do 1
 Jaki jest rząd zbieżności metody siecznych?::(1 + √5)/2 ≈ 1,618

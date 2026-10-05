@@ -1,7 +1,7 @@
 ---
 typ: pojęcie
 status: nowe
-przedmioty: ["[[AGH Metoda elementów skończonych]]", "[[AGH Optymalizacja]]"]
+przedmioty: ["[[AGH Metody numeryczne]]", "[[AGH Metoda elementów skończonych]]", "[[AGH Optymalizacja]]"]
 wymaga: ["[[Pochodna]]", "[[Arytmetyka zmiennoprzecinkowa i błędy numeryczne]]"]
 powiązane: ["[[Interpolacja]]", "[[Aproksymacja średniokwadratowa]]", "[[Funkcja celu i warunki optymalności]]", "[[Numeryczne rozwiązywanie RRZ]]", "[[MES 1D — od różnic skończonych do macierzy sztywności]]", "[[Rozwiązywanie równań nieliniowych]]"]
 tags: [pojęcie, metody-numeryczne]

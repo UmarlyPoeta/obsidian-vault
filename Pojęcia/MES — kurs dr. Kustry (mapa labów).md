@@ -18,6 +18,17 @@ utworzono: 2026-10-05
 > [!intuicja] Po ludzku
 > Płytka stali o temperaturze 100 °C trafia do pieca o temperaturze 1200 °C. Pytanie: jak szybko się nagrzewa i gdzie jest najgorętsza? Program dzieli płytkę na kwadraty (elementy). W każdym liczy, jak łatwo ciepło przez niego płynie ($H$), ile ciepła mieści ($C$) i ile wpada z pieca przez brzeg ($H_{bc}$, $P$). Potem skleja to w jeden duży układ równań i rozwiązuje go krok po kroku w czasie.
 
+## Zasady zaliczenia (2026/27, z UPeL)
+> [!wazne] Co się zmieniło względem 2025/26
+> Treść jest prawie identyczna jak rok wcześniej (niżej). Nowe w wersji 2026/27 (porównałem oba PDF-y):
+> - **UPEL to jedyne miejsce oddawania sprawozdań i kodu. Sprawozdania wysłane mailem nie będą brane pod uwagę.**
+> - Kolokwia mogą mieć formę **testu na UPEL, sprawdzianu albo niezapowiedzianej kartkówki** (dopisany „sprawdzian”).
+> - Wprost dopisano, że trzy składowe oceny (kolokwia, sprawozdanie, odpowiedź ustna) **mają równe wagi**.
+>
+> Oryginał: ![[00 Zasady zaliczenia 2026-27.pdf]]
+>
+> Materiały do zajęć na UPeL 2026/27 („Wstęp” do druku i „MES zajęcia 1”) są **identyczne** z kopiami, które już są w vaulcie (te same sumy MD5). Siatki testowe różnią się tylko nagłówkiem: na UPeL jest `Nodes number 16`, a w kopii w vaulcie `Nodes_number 16`. Parsery z [[Siatka MES i wczytywanie danych]] i `mes2d.py` obsługują oba warianty (sprawdziłem `mes2d.py` na pliku z UPeL).
+
 ## Zasady zaliczenia (2025/26, od prowadzącego)
 > [!definicja] Jak się zalicza część laboratoryjną
 > - Piszesz **samodzielnie** oprogramowanie MES do nieustalonego transportu ciepła z konwekcją. Na **3 ostatnich zajęciach** jest **kolokwium ustne**: rozmowa z prowadzącym o twoim kodzie i teorii.
@@ -48,6 +59,16 @@ Kolejność jest zgodna z numeracją materiałów prowadzącego. Daty mogą się
 
 ## Dane testowe i wyniki do porównania
 - Siatki: [[Test1_4_4.txt]] (kwadrat 4×4 węzły), [[Test2_4_4_MixGrid.txt]] (ten sam kwadrat, ale elementy są nieprostokątne), [[Test3_31_31_kwadrat.txt]] (31×31 węzłów).
+- Opis plików, numeracja węzłów i elementów oraz wyniki z ABAQUS: [[12 Siatki MES — opis plików testowych.pdf]]. Format pliku: blok `GlobalData` (SimulationTime 500, SimulationStepTime 50, Conductivity 25, Alfa 300, Tot 1200, InitialTemp 100, Density 7800, SpecificHeat 700, Nodes number, Elements number), potem `*Node`, `*Element, type=DC2D4` (4 węzły elementu przeciwnie do ruchu wskazówek zegara) i `*BC`. Numeracja w Test1 idzie od prawego górnego rogu: węzły 1–4 to górny rząd od prawej do lewej, element E1 jest w prawym górnym rogu.
+
+> [!wazne] Test4_31_31_trapez: jest w opisie, nie ma pliku
+> PDF „Siatki MES” pokazuje czwartą siatkę: **31×31 węzłów na równoległoboku** („trapez”), 900 elementów, konwekcja $q = \alpha(t - t_{ot})$, $\alpha = 300$, $t_{ot} = 1200$ °C na całym brzegu. **Pliku `Test4_31_31_trapez.txt` nie ma na UPeL** (ani w kopii w vaulcie), więc trzeba go dostać od prowadzącego albo wygenerować samemu (np. w ABAQUS: [[11 Tworzenie siatek w ABAQUS.pdf]]). Maksymalne temperatury z legend ABAQUS dla tej siatki:
+>
+> | czas [s] | 1 | 5 | 10 | 15 | 20 | 60 |
+> |---|---|---|---|---|---|---|
+> | $T_{max}$ [°C] | 163,5 | 277,5 | 348,6 | 397,7 | 436,0 | 608,8 |
+>
+> Dla porównania kwadrat Test3 ma po 1, 5 i 10 s max 149,6, 226,7 i 276,7 °C. Równoległobok nagrzewa się szybciej w **ostrych narożnikach**, bo tam ciepło wchodzi przez dwa boki do małej objętości. Na wykresach z ABAQUS widać właśnie gorące ostre rogi.
 - Wyniki pośrednie od prowadzącego są w folderze `Załączniki/MES/Kustra — wyniki testowe/`: jakobian, $dN/dx$, $H$ lokalne, $H_{bc}$, $P$, $H$ globalna i $C$.
 
 > [!wzor] Min i max temperatura w czasie (schemat niejawny, 2 punkty Gaussa)
@@ -124,6 +145,7 @@ Dane fizyczne siatek testowych Kustry::k = 25, α = 300, t_ot = 1200, t0 = 100, 
 > [!ja] Tu piszesz ty — Albert tej sekcji nie rusza.
 
 ## Źródła
+- UPeL „Metoda Elementów Skończonych — ITE 2026/2027”: zasady zaliczenia 2026/27, „Siatki MES” (opis plików + wyniki ABAQUS), pliki Test1–Test3 (pobrane 2026-10-05).
 - P. Kustra, materiały do laboratorium MES, AGH WIMiIP, 2025/26: [home.agh.edu.pl/~pkustra/MES.html](https://home.agh.edu.pl/~pkustra/MES.html). Kopie w `Załączniki/MES/Kustra — instrukcje/` pochodzą z publicznego repozytorium studenta (AndrzejJanaszek/fem-lab-agh, styczeń 2026), bo strona AGH nie była dostępna z miejsca, w którym je pobierałem.
 - A. Milenin, *Podstawy metody elementów skończonych*, Wydawnictwa AGH, Kraków 2010 (rozdziały 5 i 6 = „Wstęp” i „Rozwiązanie niestacjonarne”).
 - Więcej: [[MES — źródła i podręczniki]].

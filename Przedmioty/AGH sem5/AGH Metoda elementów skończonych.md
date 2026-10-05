@@ -17,6 +17,7 @@ tags: [przedmiot, agh]
 
 ## Laboratorium (dr Kustra)
 - [[MES — kurs dr. Kustry (mapa labów)]]: plan 14 labów, zasady zaliczenia, materiały prowadzącego, siatki testowe i wyniki do porównania. Stamtąd jest też link do listy podręczników.
+- **UPeL 2026/27** („Metoda Elementów Skończonych — ITE 2026/2027”, stan z 2026-10-05): zasady zaliczenia na nowy rok ([[00 Zasady zaliczenia 2026-27.pdf]]: kod i sprawozdanie **tylko przez UPEL**, maile nie są brane pod uwagę), „Wstęp” i „Zajęcia 1” (bez zmian względem kopii w vaulcie), opis siatek testowych z wynikami ABAQUS ([[12 Siatki MES — opis plików testowych.pdf]]). Siatka Test4 (trapez) jest opisana, ale pliku nie ma. Szczegóły w mapie labów.
 
 ## Tematy
 - [[Kurs — Metody numeryczne]] (powtórka podstaw: m00–m08)
@@ -33,7 +34,7 @@ tags: [przedmiot, agh]
 ## Postęp
 ```dataviewjs
 const me = dv.current();
-const topics = [...new Set((me.file.outlinks ?? []).map(l => l.path))];
+const topics = [...new Set((me.file.outlinks ?? []).map(l => l.path))].filter(p => !p.endsWith(".pdf"));
 const rows = topics.map(p => { const n = dv.page(p);
   return [n ? n.file.link : dv.fileLink(p.replace(/\.md$/, "")), n?.status ?? "brak notatki"]; });
 const icon = {"umiem": "✅", "uczę się": "🟡", "nowe": "🟠", "brak notatki": "⬜"};

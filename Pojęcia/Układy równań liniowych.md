@@ -1,7 +1,7 @@
 ---
 typ: pojęcie
 status: nowe
-przedmioty: ["[[AGH Metoda elementów skończonych]]", "[[AGH Programowanie równoległe]]", "[[AGH Optymalizacja]]"]
+przedmioty: ["[[AGH Metody numeryczne]]", "[[AGH Metoda elementów skończonych]]", "[[AGH Programowanie równoległe]]", "[[AGH Optymalizacja]]"]
 wymaga: ["[[Arytmetyka zmiennoprzecinkowa i błędy numeryczne]]"]
 powiązane: ["[[Rozwiązywanie równań nieliniowych]]", "[[MES 1D — od różnic skończonych do macierzy sztywności]]", "[[Numeryczne rozwiązywanie RRZ]]", "[[Aproksymacja średniokwadratowa]]", "[[Interpolacja]]", "[[Trening — Programowanie równoległe w kodzie]]"]
 tags: [pojęcie, metody-numeryczne]
@@ -134,7 +134,25 @@ Instrukcje: [[Lab — eliminacja Gaussa.pdf]], [[Lab — Gauss z wyborem element
 > - **Bez wyboru** nie działa: po pierwszym kroku wiersz 1 to $(0, 0, 2, 2{,}5 \mid 1)$, czyli zero na przekątnej.
 > - **Wybór w kolumnie (zamiana wierszy):** w kolumnie 0 największe jest 4, więc wiersz 2 idzie na górę. Dalej tak samo w każdej kolumnie.
 > - **Gauss–Crout (zamiana kolumn):** w wierszu 0 największe jest 4 w kolumnie 1, więc wektor kolumn zaczyna się od $[1, 0, 2, 3]$. Kolumn nie przestawiasz w pamięci: odwołujesz się `A[i][kol[j]]`, a na końcu wynik z kolumny $j$ wpisujesz do `x[kol[j]]`.
-> - **Zad. 3 (tabelka):** dla macierzy z załącznika prowadzącego zrób kolumny „bez wyboru / wiersze / kolumny” i wpisuj ✓ albo ✗ (zero na przekątnej, zły wynik). Jako „zły wynik” sprawdzaj residuum $\|Ax - b\|$ i porównanie z drugą metodą. Pliku z tymi macierzami nie mam, więc tabeli nie policzyłem.
+> - **Zad. 3 (tabelka):** dla macierzy z załącznika prowadzącego zrób kolumny „bez wyboru / wiersze / kolumny” i wpisuj ✓ albo ✗ (zero na przekątnej, zły wynik). Jako „zły wynik” sprawdzaj residuum $\|Ax - b\|$ i porównanie z drugą metodą. Załącznik jest teraz w vaulcie: [[Lab — przykładowe układy do pivotingu i LU.pdf]], a tabela policzona jest niżej.
+
+> [!przyklad] Zad. 3: wyniki dla przykładowych układów prowadzącego (double, policzone 2026-10-05)
+> We wszystkich sześciu układach **dokładne rozwiązanie to same jedynki**.
+>
+> | # | układ | $\operatorname{cond}_2(A)$ | bez wyboru | wybór w wierszach | Gauss–Crout (kolumny) |
+> |---|---|---|---|---|---|
+> | 1 | $\begin{bmatrix}10^{-20} & 1\\ 1 & 1\end{bmatrix}$, $b = (1, 2)$ | 2,6 | ✗ $x = (0;\ 1)$ | ✓ $(1;\ 1)$ | ✓ $(1;\ 1)$ |
+> | 2 | $1, 10^8, 10^8$ z $+1$ na przekątnej | $6\cdot10^{16}$ | ✓ $(1, 1, 1)$ | ✓ $(1, 1, 1)$ | ✗ $(0;\ 1{,}00000001;\ 1)$ |
+> | 3 | jedynki z $1{,}0000001$ na przekątnej | $9\cdot10^7$ | ≈ błąd $4\cdot10^{-9}$ | ≈ błąd $4\cdot10^{-9}$ | ≈ błąd $4\cdot10^{-9}$ |
+> | 4 | $1, 10^{10}, 1$ z $+1$ na przekątnej | $2{,}5\cdot10^{20}$ | ✓ $(1, 1, 1)$ | ✓ $(1, 1, 1)$ | ✗ $(-1;\ 1{,}0000000002;\ 1)$ |
+> | 5 | Vandermonde w $1;\ 1{,}0001;\ 1{,}0002;\ 1{,}0003$ | $1{,}3\cdot10^{13}$ | ✗ błąd $4{,}4\cdot10^{-4}$ | ✗ błąd $4{,}4\cdot10^{-4}$ | ✗ błąd $4{,}4\cdot10^{-4}$ |
+> | 6 | $\begin{bmatrix}1 & 1\\ 1 & 1{,}00000000000001\end{bmatrix}$ | $4\cdot10^{14}$ | ✗ $(0{,}978;\ 1{,}022)$ | ✗ to samo | ✗ to samo |
+>
+> **Wnioski do sprawozdania:**
+> - Układ 1 to klasyczny **mały element główny**: zadanie jest świetnie uwarunkowane ($\operatorname{cond} \approx 2{,}6$), a winny jest algorytm. Wybór elementu (dowolny) naprawia wynik.
+> - Układy 2 i 4: wybór **w kolumnach** (Crout) bierze ogromny element $10^8$ albo $10^{10}$ z wiersza i przy odejmowaniu „gubi” jedynki z pierwszej kolumny (bo $10^{10} + 1$ i $10^{10}$ różnią się na granicy precyzji). Wybór w wierszach patrzy na kolumnę, w której są same jedynki, i działa. **Wybór elementu nie jest uniwersalny**, pomaga też skalowanie wierszy.
+> - Układy 3, 5, 6 są **źle uwarunkowane**: żadna strategia nie pomaga. Błąd względny jest ograniczony przez $\operatorname{cond}\cdot\varepsilon$ ($\varepsilon \approx 1{,}1\cdot10^{-16}$) i rzeczywiście tyle wychodzi: układ 3: oszacowanie $10^{-8}$, wynik $4\cdot10^{-9}$; układ 5: $1{,}4\cdot10^{-3}$, wynik $4{,}4\cdot10^{-4}$; układ 6: $0{,}044$, wynik $0{,}022$. Pomoże tylko większa precyzja albo inne sformułowanie zadania ([[Uwarunkowanie zadania i stabilność algorytmów]]).
+> - W układach 2 i 4 bez wyboru wychodzi dokładnie, bo wszystkie dane są liczbami całkowitymi dokładnie reprezentowalnymi w double. To szczęście, a nie zasługa algorytmu.
 
 ### LU Doolittle'a i skalowanie
 > [!przyklad] Przykład z instrukcji: $A = \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 10 \end{bmatrix}$, $b = (6, 8, 3)$
@@ -197,6 +215,24 @@ Instrukcje: [[Lab — eliminacja Gaussa.pdf]], [[Lab — Gauss z wyborem element
 > }
 > ```
 
+## Wykład dr Szeligi (W02) — co dochodzi
+> [!definicja] Gauss–Crout (wykład)
+> Eliminacja Gaussa dzieli przez $a_{ii}$, które może być zerem albo zostać wyzerowane. **Metoda Crouta:** przed eliminacją w danym **wierszu** szukasz elementu o największym module i zamieniasz jego **kolumnę** z kolumną elementu przekątnego. Kolumn nie przestawiasz fizycznie: trzymasz wektor numerów kolumn $w$ i zamieniasz w nim dwa elementy (czas stały). Na końcu przy podstawianiu wstecz $x$ wpisujesz pod numerami z $w$. Zawodzi tylko, gdy cały wiersz $A|b$ jest zerowy (wtedy układu i tak nie da się rozwiązać).
+
+> [!wzor] Rozkład LU metodą Doolittle'a (algorytm z wykładu)
+> $A = LU$, $l_{ii} = 1$. Z $a_{ij} = \sum_k l_{ik}u_{kj}$:
+> $$u_{ij} = a_{ij} - \sum_{k=1}^{i-1}l_{ik}u_{kj}\quad(i \le j), \qquad l_{ij} = \frac{1}{u_{jj}}\Big(a_{ij} - \sum_{k=1}^{j-1}l_{ik}u_{kj}\Big)\quad(i > j)$$
+> Kolejność: **dla $j = 1, \dots, n$** najpierw $u_{ij}$ dla $i = 1, \dots, j$, potem $l_{ij}$ dla $i = j+1, \dots, n$. Potrzebne elementy są zawsze policzone wcześniej, a każde $a_{ij}$ jest użyte raz, więc $L$ i $U$ można trzymać **w miejscu $A$** (in situ): pod przekątną $l_{ij}$, na i nad przekątną $u_{ij}$, jedynek z przekątnej $L$ nie zapisujesz.
+> - Rozwiązanie: $Ly = b$ w przód ($y_1 = b_1$, $y_i = b_i - \sum_{j<i}l_{ij}y_j$), potem $Ux = y$ wstecz. $y$ można trzymać w miejscu $x$.
+> - Opłaca się przy **wielu prawych stronach** (rozkład raz, potem tylko podstawienia).
+> - Metoda nie jest niezawodna (dzielenie przez $u_{jj} = 0$). Modyfikacja: **Doolittle–Crout** z wyborem elementu w wierszu.
+> - **Algorytm Crouta (LU)** z wykładu: dla $k = 1, \dots, n-1$ (1) podziel kolumnę pod $a_{kk}$ przez $a_{kk}$, (2) od podmacierzy na prawo i w dół odejmij $a_{ik}\cdot a_{kj}$.
+
+> [!przyklad] Przykład z wykładu: $\begin{bmatrix}1&4&7\\2&5&8\\3&6&9\end{bmatrix} = \begin{bmatrix}1&0&0\\2&1&0\\3&2&1\end{bmatrix}\begin{bmatrix}1&4&7\\0&-3&-6\\0&0&0\end{bmatrix}$
+> $u_{33} = 0$, czyli macierz jest **osobliwa** ($\det = 0$, wiersz 3 = 2·wiersz 2 − wiersz 1). Rozkład istnieje, ale układu $Ax = b$ z tą macierzą nie rozwiążesz: przy podstawianiu wstecz dzielisz przez $u_{33} = 0$. Dobry test dla programu (powinien to wykryć).
+
+> Macierze rzadkie, laplasjan 1D i 2D, metody Jacobiego, Gaussa–Seidla, SOR, Richardsona i metody projekcji z drugiej części wykładu: [[Metody iteracyjne rozwiązywania układów liniowych]].
+
 ## Typowe błędy
 > [!blad] Gauss bez wyboru elementu głównego
 > Przy $a_{11} = 0$ dzielisz przez zero, a przy $a_{11} = 10^{-20}$ mnożnik $10^{20}$ zjada wszystkie cyfry. Dla układu $\begin{bmatrix}10^{-20} & 1\\ 1 & 1\end{bmatrix}\mathbf x = (1, 2)$ bez zamiany wychodzi $(0, 1)$ zamiast $(1, 1)$.
@@ -239,7 +275,31 @@ Instrukcje: [[Lab — eliminacja Gaussa.pdf]], [[Lab — Gauss z wyborem element
 > > [!odpowiedz]- Odpowiedź
 > > Przy stałym $\Delta t$ i liniowym problemie macierz układu się nie zmienia. `solve` za każdym razem robi rozkład $O(n^3)$, a z gotowym LU każdy krok to dwa podstawienia $O(n^2)$ (dla macierzy rzadkich jeszcze mniej).
 
+## Pytania testowe (egzamin UPeL)
+> [!zadanie] 1. W metodzie Gaussa–Crouta (wykład):
+> a) zamienia się wiersze b) zamienia się kolumny, zapamiętując ich kolejność w wektorze c) element główny szuka się w bieżącym wierszu d) kolumny trzeba fizycznie przestawić w pamięci
+> > [!odpowiedz]- Odpowiedź
+> > **b, c.**
+
+> [!zadanie] 2. W rozkładzie Doolittle'a:
+> a) $L$ ma jedynki na przekątnej b) $U$ ma jedynki na przekątnej c) $L$ i $U$ można zapisać w miejscu $A$ d) rozkład trzeba powtarzać dla każdego nowego $b$
+> > [!odpowiedz]- Odpowiedź
+> > **a, c.** (b) to wariant Crouta; (d) fałsz, to właśnie zaleta LU.
+
+> [!zadanie] 3. Koszt rozwiązania układu z gotowym rozkładem LU:
+> a) $O(n)$ b) $O(n^2)$ c) $O(n^3)$ d) $O(n\log n)$
+> > [!odpowiedz]- Odpowiedź
+> > **b.** Dwa podstawienia trójkątne.
+
+> [!zadanie] 4. Dlaczego dla dużych macierzy rzadkich (MES) unika się LU?
+> > [!odpowiedz]- Odpowiedź
+> > Rozkład **wypełnia zera** (fill-in), więc pamięć i czas rosną jak dla macierzy gęstej. Dla kilku milionów niewiadomych to rzędu $10^{19}$ działań i $10^{13}$ B pamięci. Stąd metody iteracyjne, w których kluczowe jest tanie mnożenie przez rzadką $A$.
+
 ## Fiszki #fiszki/numeryczne
+Doolittle: wzór na $u_{ij}$ ($i \le j$)::$u_{ij} = a_{ij} - \sum_{k<i} l_{ik}u_{kj}$
+Doolittle: wzór na $l_{ij}$ ($i > j$)::$l_{ij} = \frac{1}{u_{jj}}(a_{ij} - \sum_{k<j} l_{ik}u_{kj})$
+Gauss–Crout: co zamienia i jak zapamiętuje?::Zamienia kolumny (największy element w wierszu), kolejność w wektorze numerów kolumn
+Kiedy wybór w kolumnach (Crout) psuje wynik, a wybór w wierszach nie?::Gdy w wierszu są ogromne elementy (np. $10^{10}$), które „zjadają” małe wartości z innych kolumn przy odejmowaniu
 Na czym polega częściowy wybór elementu głównego?::W kolumnie k zamieniasz wiersz k z wierszem o największym |a_ik| (i ≥ k), wtedy mnożniki mają moduł ≤ 1
 Jaki jest koszt eliminacji Gaussa dla macierzy n×n?::Około 2n³/3 działań, czyli O(n³)
 Co daje rozkład PA = LU?::Rozkład liczysz raz w O(n³), potem każde nowe b to Ly = Pb i Ux = y w O(n²)

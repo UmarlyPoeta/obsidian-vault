@@ -1,7 +1,7 @@
 ---
 typ: pojęcie
 status: nowe
-przedmioty: ["[[AGH Metoda elementów skończonych]]"]
+przedmioty: ["[[AGH Metody numeryczne]]", "[[AGH Metoda elementów skończonych]]"]
 wymaga: ["[[Całka oznaczona]]", "[[Interpolacja]]"]
 powiązane: ["[[Jakobian]]", "[[Funkcje kształtu]]", "[[Macierz sztywności]]", "[[Aproksymacja średniokwadratowa]]", "[[Różniczkowanie numeryczne]]", "[[Numeryczne rozwiązywanie RRZ]]", "[[MES 1D — od różnic skończonych do macierzy sztywności]]"]
 tags: [pojęcie, metody-numeryczne, mes]
@@ -185,6 +185,42 @@ Instrukcja: [[Lab — kwadratury Gaussa-Legendre'a.pdf]]. Oddajesz na zajęciach
 > ```
 > Bez `<functional>` działa też wskaźnik: `double gauss_legendre(double (*f)(double), ...)`, ale wtedy nie przekażesz lambdy z przechwytywaniem.
 
+## Wykład dr Szeligi (W05) — co dochodzi
+> [!definicja] Kwadratura i jej rząd (definicje z wykładu)
+> - **Kwadratura liniowa:** $Q(f) = \sum A_{i,0}f(x_{i,0}) + \sum A_{i,1}f'(x_{i,1}) + \dots$; najczęściej tylko wartości: $Q(f) = \sum_{i=0}^nA_if(x_i)$ (uogólnienie sum Riemanna). $A_i$ to **współczynniki**, $x_i$ to **węzły**. Ogólniej przybliża się $I_p(f) = \int_a^bp(x)f(x)\,dx$ z **funkcją wagową** $p \ge 0$.
+> - **Rząd kwadratury $= n$**, gdy jest dokładna dla wszystkich wielomianów stopnia **mniejszego od $n$** i istnieje wielomian stopnia $n$, dla którego nie jest.
+>
+> **Uwaga na konwencję.** W tej notatce wyżej piszę „dokładna do stopnia $d$”. Rząd w sensie wykładu to wtedy $d + 1$. Trapezy: dokładne do stopnia 1, **rząd 2**. Simpson: dokładny do 3, **rząd 4**. Gauss z $n+1$ węzłami: dokładny do $2n+1$, **rząd $2n+2$**. W teście czytaj uważnie, o co pytają.
+
+> [!wzor] Zbieżność ciągu kwadratur
+> $Q_n(f) = \sum_iA_i^{(n)}f(x_i^{(n)})$ jest zbieżny do $I_p(f)$ dla **każdej** $f$ ciągłej na $[a, b]$ ⇔ (a) jest zbieżny dla każdego wielomianu **i** (b) $\sum_i|A_i^{(n)}| \le K$ dla wszystkich $n$.
+> **Wniosek:** jeśli wszystkie współczynniki są **nieujemne**, wystarczy zbieżność dla wielomianów.
+
+> [!wzor] Kwadratury interpolacyjne i Newtona–Cotesa
+> **Interpolacyjna:** całkujesz wielomian interpolacyjny (Lagrange'a/Hermite'a) $f$: $Q(f) = I_p(H_{n,f})$, reszta $R(f) = \int p(x)p_{n+1}(x)\frac{f^{(n+1)}(\xi(x))}{(n+1)!}dx$. Oparta na węzłach o łącznej krotności $n + 1$ ma **rząd co najmniej $n + 1$**.
+> **Newton–Cotes:** interpolacyjna na węzłach **równoodległych** $x_i = a + ih$, $h = \frac{b-a}{n}$:
+> $$A_i = h\int_0^n\prod_{j\ne i}\frac{t - j}{i - j}\,dt, \qquad A_i = A_{n-i}$$
+> - $n = 1$: $A_0 = A_1 = \frac{b-a}{2}$, **wzór trapezów**.
+> - $n = 2$: $A_0 = A_2 = \frac{b-a}{6}$, $A_1 = \frac{4(b-a)}{6}$, **wzór Simpsona (parabol)** $\frac{b-a}{6}\left(f(a) + 4f\big(\frac{a+b}{2}\big) + f(b)\right)$.
+> - Rząd N–C na $n+1$ węzłach: **$n + 2$ dla $n$ parzystych**, **$n + 1$ dla $n$ nieparzystych**. Dlatego Simpson ($n = 2$, rząd 4) jest „za darmo” o rząd lepszy niż wzór 3/8 ($n = 3$, też rząd 4).
+
+> [!wzor] Kwadratury Gaussa: skąd maksymalny rząd
+> Szukamy kwadratury o maksymalnym rzędzie wśród opartych na $n + 1$ węzłach. Wystarczy szukać wśród interpolacyjnych. Z $f = H_{n,f} + p_{n+1}g$ reszta to $\int p\,p_{n+1}g = (p_{n+1}, g)$. Żeby znikała dla $g$ możliwie wysokiego stopnia, $p_{n+1}$ musi być **$(n+1)$-szym wielomianem ortogonalnym** na $[a, b]$ z wagą $p$. Wtedy kwadratura jest dokładna dla stopnia $\le 2n+1$, czyli ma **rząd $2n + 2$**, i to jest maksimum (dla $f = p_{n+1}^2$: $Q = 0 \ne I > 0$).
+> - Węzły: pierwiastki $P_{n+1}$, **rzeczywiste, jednokrotne, wewnątrz $(a, b)$** ([[Wielomiany ortogonalne]]).
+> - Współczynniki: $A_i = \frac{a_{n+1}\|P_n\|^2}{a_nP'_{n+1}(x_i)P_n(x_i)} = \frac{1}{\sum_{k=0}^n\tilde P_k(x_i)^2}$ ($\tilde P_k$ ortonormalne), więc **zawsze dodatnie**. Stąd ciąg kwadratur Gaussa jest **zbieżny dla każdej $f$ ciągłej**.
+> - Reszta: $R(f) = \frac{f^{(2n+2)}(\xi)}{(2n+2)!}\int_a^bp(x)p_{n+1}^2(x)\,dx$.
+> - Wada: trzeba znać pierwiastki wielomianów ortogonalnych; wyznaczanie ich bywa droższe niż sama całka (dlatego węzły są w tablicach).
+> - Symetryczna waga ⇒ węzły symetryczne względem środka i $A_i = A_{n-i}$.
+
+> [!przyklad] Z wykładu: 4 węzły Gaussa–Legendre'a na $[2, 3]$
+> Pierwiastki $P_4 = \frac{35}{8}x^4 - \frac{30}{8}x^2 + \frac38$: $\mp\sqrt{\frac{15 + 2\sqrt{30}}{35}} = \mp0{,}86114$, $\mp\sqrt{\frac{15 - 2\sqrt{30}}{35}} = \mp0{,}33998$. Wagi: $A_{0,3} = \frac{49}{6(18 + \sqrt{30})} \approx 0{,}34785$, $A_{1,2} = \frac{49}{6(18 - \sqrt{30})} \approx 0{,}65215$ (sprawdzone z `leggauss(4)`).
+> Zamiana zmiennej $t = \frac12(x + 5)$ przenosi $[-1, 1]$ na $[2, 3]$: $\int_2^3g(t)\,dt \approx \sum B_ig(t_i)$, $t_i = \frac{x_i + 5}{2}$, $B_i = \frac{A_i}{2}$. Ogólnie $x = \alpha t + \beta$, $\alpha = \frac{b-a}{d-c}$, $\beta = \frac{ad - bc}{d-c}$, $B_i = \frac{A_i}{\alpha}$.
+
+> [!przyklad]- Z wykładu: dlaczego nawet „znana” całka bywa numeryczna
+> $\int_1^2x^{-1{,}0001}dx = \frac{1 - 2^{-0{,}0001}}{0{,}0001}$. Wartość dokładna zależy od tego, jak dokładnie policzysz $2^{-0{,}0001}$, a do tego to odejmowanie bliskich liczb ($1 - 0{,}99993$). Wynik $\approx 0{,}693123$.
+
+> Metoda Monte Carlo (całki wielowymiarowe, błąd $\sim 1/\sqrt N$ niezależny od wymiaru, przykład całki 5D z wykładu): [[Metoda Monte Carlo]].
+
 ## Typowe błędy
 > [!blad] Zapominasz o jakobianie
 > $\sum w_i f(x_i)$ bez czynnika $(b-a)/2$ (albo bez $\det J$ w 2D) daje wynik przeskalowany. Kontrola: całka z $1$ musi dać długość odcinka albo pole elementu.
@@ -225,7 +261,39 @@ Instrukcja: [[Lab — kwadratury Gaussa-Legendre'a.pdf]]. Oddajesz na zajęciach
 > > [!odpowiedz]- Odpowiedź
 > > $I \approx \frac{4 \cdot 1{,}71864 - 1{,}71971}{3} = 1{,}718283$, a dokładnie $e - 1 = 1{,}718282$. Błąd spadł z $10^{-3}$ do $10^{-6}$.
 
+## Pytania testowe (egzamin UPeL)
+> [!zadanie] 1. Kwadratura Gaussa oparta na $n + 1$ węzłach (wykład):
+> a) ma rząd $2n + 2$ b) jest dokładna dla wielomianów stopnia $\le 2n + 1$ c) ma węzły równoodległe d) ma dodatnie współczynniki
+> > [!odpowiedz]- Odpowiedź
+> > **a, b, d.**
+
+> [!zadanie] 2. Rząd kwadratury Newtona–Cotesa na $n + 1$ węzłach wynosi:
+> a) zawsze $n + 1$ b) $n + 2$ dla $n$ parzystych c) $n + 1$ dla $n$ nieparzystych d) $2n + 2$
+> > [!odpowiedz]- Odpowiedź
+> > **b, c.**
+
+> [!zadanie] 3. Rząd wzoru trapezów i wzoru Simpsona (w sensie wykładu) to:
+> a) 1 i 2 b) 2 i 3 c) 2 i 4 d) 1 i 3
+> > [!odpowiedz]- Odpowiedź
+> > **c.** Trapezy dokładne do stopnia 1 (rząd 2), Simpson do stopnia 3 (rząd 4).
+
+> [!zadanie] 4. Ciąg kwadratur z nieujemnymi współczynnikami jest zbieżny dla wszystkich funkcji ciągłych, gdy:
+> a) jest zbieżny dla wszystkich wielomianów b) węzły są równoodległe c) liczba węzłów rośnie d) współczynniki sumują się do $b - a$
+> > [!odpowiedz]- Odpowiedź
+> > **a.**
+
+> [!zadanie] 5. Węzłami kwadratury Gaussa–Legendre'a na $[-1, 1]$ są:
+> a) pierwiastki wielomianu Legendre'a b) pierwiastki wielomianu Czebyszewa c) punkty równoodległe z końcami d) ekstrema wielomianu Legendre'a
+> > [!odpowiedz]- Odpowiedź
+> > **a.**
+
 ## Fiszki #fiszki/numeryczne
+Rząd kwadratury (definicja z wykładu)::Rząd $n$: dokładna dla wszystkich wielomianów stopnia $< n$, niedokładna dla pewnego stopnia $n$
+Rząd Newtona–Cotesa na $n+1$ węzłach::$n+2$ dla parzystych $n$, $n+1$ dla nieparzystych
+Rząd kwadratury Gaussa na $n+1$ węzłach::$2n+2$ (dokładna do stopnia $2n+1$), maksymalny możliwy
+Warunek zbieżności ciągu kwadratur dla wszystkich $f$ ciągłych::Zbieżność dla wielomianów + ograniczone $\sum|A_i^{(n)}|$; przy $A_i \ge 0$ wystarczy zbieżność dla wielomianów
+Wagi Gaussa–Legendre'a dla 4 węzłów::0,34785 (dla ±0,86114) i 0,65215 (dla ±0,33998)
+Zamiana przedziału w kwadraturze: nowe wagi::$B_i = A_i/\alpha$, gdzie $x = \alpha t + \beta$
 Rząd błędu złożonej metody trapezów::O(h²) — połowa kroku zmniejsza błąd 4 razy
 Rząd błędu złożonej metody Simpsona::O(h⁴), dokładna dla wielomianów do stopnia 3; n musi być parzyste
 Do jakiego stopnia dokładna jest n-punktowa kwadratura Gaussa–Legendre'a?::Do stopnia 2n − 1

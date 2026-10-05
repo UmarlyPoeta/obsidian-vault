@@ -1,7 +1,7 @@
 ---
 typ: pojęcie
 status: nowe
-przedmioty: ["[[AGH Metoda elementów skończonych]]", "[[PK Matematyka 2]]"]
+przedmioty: ["[[AGH Metody numeryczne]]", "[[AGH Metoda elementów skończonych]]", "[[PK Matematyka 2]]"]
 wymaga: ["[[Równanie różniczkowe zwyczajne]]", "[[Układy równań liniowych]]"]
 powiązane: ["[[Schematy całkowania w czasie]]", "[[Nieustalony przepływ ciepła]]", "[[Transformata Laplace'a]]", "[[Arytmetyka zmiennoprzecinkowa i błędy numeryczne]]", "[[Rozwiązywanie równań nieliniowych]]", "[[Różniczkowanie numeryczne]]", "[[Całkowanie numeryczne i kwadratury Gaussa]]", "[[MES 1D — od różnic skończonych do macierzy sztywności]]"]
 tags: [pojęcie, metody-numeryczne, mes]
@@ -140,6 +140,42 @@ Instrukcja: [[Lab RR — Euler i Runge-Kutta.pdf]]. Oddajesz na zajęciach (10 p
 > for (int i = 0; i <= N; ++i) out << i * h << " " << vE[i] << " " << v4[i] << "\n";
 > ```
 
+## Wykład dr Szeligi (W07) — co dochodzi
+> [!definicja] Zagadnienie początkowe (Cauchy'ego) i brzegowe
+> $y' = f(x, y)$, $x \in [a, b]$, plus **warunek początkowy** $y(a) = y_a$ (zagadnienie Cauchy'ego) albo **warunek brzegowy** $g(y(a), y(b)) = 0$ (zagadnienie brzegowe). Samo $y' = y$ ma nieskończenie wiele rozwiązań $Ce^x$.
+> **Twierdzenie (istnienie i jednoznaczność):** jeśli $f$ jest ciągła względem $x$ i spełnia **warunek Lipschitza** względem $y$, $|f(x, y_1) - f(x, y_2)| \le L|y_1 - y_2|$, to dla każdego $y_a$ istnieje dokładnie jedno rozwiązanie na $[a, b]$. Wtedy zadanie jest **poprawnie postawione** (małe zaburzenia $\delta f$, $\delta y_a$ dają małe zmiany rozwiązania).
+
+> [!definicja] Klasy metod różnicowych
+> - **Jednokrokowe:** $y_{i+1} = y_i + h\,\Phi_f(x_i, y_i; h)$. Do $y_{i+1}$ wystarcza $y_i$. $\Phi$ to **funkcja przyrostu względnego**; w Eulerze $\Phi = f$.
+> - **Liniowe wielokrokowe ($k$-krokowe):** $\alpha_ky_{i+k} + \dots + \alpha_0y_i = h(\beta_kf_{i+k} + \dots + \beta_0f_i)$, $\alpha_k \ne 0$, $|\alpha_0| + |\beta_0| \ne 0$. Potrzeba $k$ wartości startowych (z innej metody). Jednokrokowa z $\Phi$ liniowym w $f$ to przypadek $k = 1$.
+> - **Zbieżność:** $y_i(h) \to y(x)$ przy $h \to 0$ dla $x = a + ih$. **Warunek aproksymacji (zgodności):** $\Phi_f(x, y; 0) = f(x, y)$ (konieczny).
+> - **Rząd metody $p$:** największe $p$, że $|\Phi_f(x, y; h) - \Delta_f(x, y; h)| \le Ch^p$, gdzie $\Delta_f = \frac{z(x+h) - z(x)}{h}$ to **dokładny przyrost względny** (z rozwiązania dokładnego). Teoretycznie rząd $p$ daje $\Phi$ = suma częściowa Taylora $\sum_{j<p}\frac{d^jf}{dx^j}\frac{h^j}{(j+1)!}$, ale to wymaga drogich pochodnych, stąd Runge–Kutta.
+
+> [!wzor] Euler i jego modyfikacje
+> - Euler: $y_{i+1} = y_i + hf(x_i, y_i)$. Błąd lokalny $|g_i| \le M_2h^2$, $M_2 = \max\frac{|y''|}{2}$. Błąd globalny $|e_i| \le M_2h(x_i - a) \le M_2(b-a)h$, a z funkcją Lipschitza $E_L(x) = \frac{e^{Lx} - 1}{L}$: $|e_i| \le M_2h\,E_L(x_i - a)$. **Błąd globalny $O(h)$, rząd 1.**
+> - **Metoda Heuna** (ulepszony Euler, rząd 2): $y_{i+1} = y_i + \frac h2\big[f(x_i, y_i) + f(x_i + h, y_i + hf(x_i, y_i))\big]$.
+> - **Zmodyfikowany Euler** (punkt środkowy, rząd 2): $y_{i+1} = y_i + hf\big(x_i + \frac h2, y_i + \frac h2f(x_i, y_i)\big)$.
+> - Obie modyfikacje przyspieszają zbieżność, ale krok kosztuje 2 wywołania $f$.
+
+> [!wzor] Runge–Kutta
+> $\Phi = \sum_{i=1}^rc_ik_i$, $k_i = f\big(x + h\sum_jb_{ij},\ y + h\sum_jb_{ij}k_j\big)$. Gdy $b_{ij} = 0$ dla $j \ge i$, metoda jest **otwarta (jawna)**: $k_i$ liczysz po kolei. Koszt kroku: $r$ wywołań $f$. Wykład: maksymalny rząd metody $r$-etapowej $p(r) = r$. **Doprecyzowanie:** to prawda dla $r \le 4$; dla $r = 5$ maksymalny rząd jawnej RK to 4, dla $r = 6$ to 5 (bariery Butchera), dlatego RK4 jest „najbardziej opłacalna”. Klasyczna RK4: wzór wyżej.
+
+> [!definicja] Metody jawne, niejawne i sztywność (z wykładu)
+> - **Jawne:** $y_{i+1} = F(x, y_i, y_i', \dots)$, proste i tanie, ale dokładność i stabilność silnie zależą od kroku.
+> - **Niejawne:** $y_{i+1} = G(x, y_{i+1}, y_i, \dots)$, w każdym kroku trzeba rozwiązać (zwykle nieliniowe) równanie $y_{i+1} - hf(x_{i+1}, y_{i+1}) = y_i$, za to **na ogół bezwarunkowo stabilne**.
+> - **Układ sztywny:** wartości własne $\lambda_s = a_s + ib_s$ jakobianu $J = [\partial f_l/\partial y_r]$ mają $a_s < 0$ i **współczynnik sztywności** $S = \frac{a_{max}}{a_{min}} \gg 1$ (gdzie $a_{max} = \max(-a_s)$, $a_{min} = \min(-a_s)$). Dla liniowego $y' = Jy + g(x)$: $y = u_1 + u_2$, gdzie $u_2 = \sum c_sw_se^{\lambda_sx} \to 0$ (szybko zanikające składowe), a interesuje nas wolna $u_1$.
+> - Równanie $n$-tego rzędu sprowadzasz do układu 1. rzędu: $z_1 = y, z_2 = y', \dots, z_n = y^{(n-1)}$, $z_n' = f(x, z_1, \dots, z_n)$. Przykład z wykładu: $y'' + ky = f(t)$, $y(0) = 0$, $y'(0) = 1$ → $z_1' = z_2$, $z_2' = -kz_1 + f(t)$, $z_1(0) = 0$, $z_2(0) = 1$.
+
+> [!przyklad] Trzy przykłady z wykładu (policzone)
+> 1. **Dokładność:** $y' = y(1 - t)$, $y(0) = 1$, dokładnie $y = e^{t - t^2/2}$. W $t = 2$ (dokładnie 1): Euler $h = 0{,}1$ daje $1{,}0690$, $h = 0{,}01$ daje $1{,}0067$. Błąd spada ok. 10×, tak jak dla metody rzędu 1.
+> 2. **Niestabilność zadania:** $y' = 3y - 4e^{-x}$, $y(0) = 1$, dokładnie $y = e^{-x}$. Ogólne rozwiązanie to $e^{-x} + Ce^{3x}$. Każdy błąd (zaokrąglenia, metody) wprowadza małe $C \ne 0$, które rośnie jak $e^{3x}$. **Każda** metoda numeryczna się tu rozjedzie, bo zadanie jest źle uwarunkowane, nie algorytm.
+> 3. **Równanie sztywne:** $y' = -1000y$, $y(0) = 2$, dokładnie $2e^{-1000x}$. Euler jawny: $y_{i+1} = (1 - 1000h)y_i$, stabilny tylko dla $h < 0{,}002$. Euler niejawny: $y_{i+1} = \frac{y_i}{1 + 1000h}$, stabilny dla każdego $h$; nawet przy $h = 1$ daje $y_i = 2/1001^i$.
+>
+> ![[Równanie sztywne — Euler jawny i niejawny.png]]
+
+> [!przyklad]- Przykład z wykładu: stygnięcie kuli przez promieniowanie
+> $T'(t) = \alpha\,(T(t)^4 - \beta)$, $T(0) = T_0 = 1200$ K (zapis ze slajdu; przy chłodzeniu $T' < 0$, więc $\alpha < 0$, a $\beta = T_{ot}^4$). Pytanie: temperatura po 300 s. Równanie jest nieliniowe, a na początku bardzo szybkie (czynnik $T^3$ w jakobianie), więc jawny Euler wymaga małego kroku na starcie.
+
 ## Typowe błędy
 > [!blad] „Niejawny = zawsze dokładny”
 > Euler niejawny jest **stabilny** przy każdym kroku, ale nadal tylko 1. rzędu. Duży krok daje stabilną, lecz niedokładną odpowiedź. Stabilność i dokładność to dwie różne sprawy.
@@ -178,7 +214,45 @@ Instrukcja: [[Lab RR — Euler i Runge-Kutta.pdf]]. Oddajesz na zajęciach (10 p
 > > [!odpowiedz]- Odpowiedź
 > > $C = 1$, $K = -\lambda$: $(\frac1h - \frac\lambda2)\,y_{k+1} = (\frac1h + \frac\lambda2)\,y_k$. Po pomnożeniu przez $h$ dostajesz $y_{k+1} = \frac{1 + h\lambda/2}{1 - h\lambda/2}\,y_k$.
 
+## Pytania testowe (egzamin UPeL)
+> [!zadanie] 1. Zagadnienie $y' = f(x, y)$, $y(a) = y_a$ ma dokładnie jedno rozwiązanie, jeśli:
+> a) $f$ jest ciągła względem $x$ i lipschitzowska względem $y$ b) $f$ jest różniczkowalna w nieskończoność c) $f$ jest ograniczona d) $y_a = 0$
+> > [!odpowiedz]- Odpowiedź
+> > **a.**
+
+> [!zadanie] 2. Które metody są rzędu 2?
+> a) Euler b) Heun (ulepszony Euler) c) zmodyfikowany Euler (punkt środkowy) d) klasyczna RK4
+> > [!odpowiedz]- Odpowiedź
+> > **b, c.** Euler rząd 1, RK4 rząd 4.
+
+> [!zadanie] 3. Metody niejawne:
+> a) wymagają w każdym kroku rozwiązania równania b) są na ogół bezwarunkowo stabilne c) nadają się do równań sztywnych d) są zawsze tańsze w jednym kroku od jawnych
+> > [!odpowiedz]- Odpowiedź
+> > **a, b, c.**
+
+> [!zadanie] 4. Dla $y' = -1000y$ jawny Euler jest stabilny dla:
+> a) każdego $h$ b) $h < 0{,}002$ c) $h < 0{,}001$ d) $h > 0{,}002$
+> > [!odpowiedz]- Odpowiedź
+> > **b.** $|1 - 1000h| < 1$.
+
+> [!zadanie] 5. Układ $y' = f(x, y)$ jest sztywny, gdy wartości własne jakobianu:
+> a) mają ujemne części rzeczywiste b) mają bardzo różne moduły części rzeczywistych ($S \gg 1$) c) są czysto urojone d) są równe
+> > [!odpowiedz]- Odpowiedź
+> > **a, b** (oba warunki naraz).
+
+> [!zadanie] 6. Warunek aproksymacji (zgodności) metody jednokrokowej to:
+> a) $\Phi_f(x, y; 0) = f(x, y)$ b) $\Phi_f(x, y; h) = 0$ c) $h < 2/|\lambda|$ d) $\Phi$ liniowa w $f$
+> > [!odpowiedz]- Odpowiedź
+> > **a.**
+
 ## Fiszki #fiszki/numeryczne
+Warunek Lipschitza (RRZ)::$|f(x,y_1) - f(x,y_2)| \le L|y_1 - y_2|$; z ciągłością w $x$ daje jednoznaczność zagadnienia Cauchy'ego
+Postać ogólna metody jednokrokowej::$y_{i+1} = y_i + h\Phi_f(x_i, y_i; h)$
+Warunek aproksymacji (zgodności)::$\Phi_f(x, y; 0) = f(x, y)$
+Metoda Heuna::$y_{i+1} = y_i + \frac h2[f(x_i,y_i) + f(x_i+h, y_i + hf(x_i,y_i))]$, rząd 2
+Błąd globalny metody Eulera::$O(h)$, $|e_i| \le M_2(b-a)h$
+Współczynnik sztywności::$S = a_{max}/a_{min} \gg 1$ (moduły ujemnych części rzeczywistych wartości własnych jakobianu)
+Dlaczego $y' = 3y - 4e^{-x}$, $y(0)=1$ psuje każdą metodę?::Ogólne rozwiązanie $e^{-x} + Ce^{3x}$; każdy błąd wprowadza $C \ne 0$, które rośnie wykładniczo
 Wzór Eulera jawnego::y(k+1) = y(k) + h·f(t(k), y(k)), rząd 1
 Wzór Eulera niejawnego dla y' = Ay::(I − hA)·y(k+1) = y(k), rząd 1, stabilny dla każdego h
 Schemat θ w MES nieustalonym::(C/Δt + θK)·T(k+1) = (C/Δt − (1 − θ)K)·T(k) + F

@@ -1,7 +1,7 @@
 ---
 typ: pojęcie
 status: nowe
-przedmioty: ["[[AGH Metoda elementów skończonych]]", "[[AGH Optymalizacja]]", "[[AGH Programowanie równoległe]]"]
+przedmioty: ["[[AGH Metody numeryczne]]", "[[AGH Metoda elementów skończonych]]", "[[AGH Optymalizacja]]", "[[AGH Programowanie równoległe]]"]
 wymaga: ["[[Pochodna]]"]
 powiązane: ["[[Rozwiązywanie równań nieliniowych]]", "[[Układy równań liniowych]]", "[[Różniczkowanie numeryczne]]", "[[Całkowanie numeryczne i kwadratury Gaussa]]", "[[Numeryczne rozwiązywanie RRZ]]"]
 tags: [pojęcie, metody-numeryczne]
@@ -106,6 +106,14 @@ int main() {
 > - Porównanie z zerem: zamiast `if (x == 0.0)` pisz `if (std::fabs(x) < eps)`. Wyjątek: dzielenie przez dokładne zero (np. $f'(x_k) = 0$ w Newtonie) sprawdzasz `== 0`.
 > - Wypisywanie: `printf("%.10f", x)` albo `std::cout << std::setprecision(12)` (z `<iomanip>`). Domyślne 6 cyfr ukrywa błędy rzędu $10^{-7}$.
 
+## Wykład dr Szeligi (W01) — co dochodzi
+> [!definicja] Zapis z wykładu
+> - Liczba całkowita na słowie $d+1$ bitów: zakres $[-2^d + 1,\ 2^d - 1]$ (zapis stałopozycyjny).
+> - Liczba rzeczywista: $x = s\cdot2^c\cdot m$, **cecha** $c$ na $d - t$ bitach, **mantysa** $m \in [\frac12, 1)$ zaokrąglona do $t$ bitów (wykład normuje mantysę do $[\frac12, 1)$, IEEE 754 do $[1, 2)$ z ukrytą jedynką; to ten sam pomysł). $|m - m_t| \le \frac12 2^{-t}$, więc $rd(x) = x(1+\varepsilon)$, $|\varepsilon| \le 2^{-t}$.
+> - Standard IEEE 754 (autor: William Kahan) definiuje formaty 32-bitowy (single) i 64-bitowy (double).
+>
+> Formalne definicje **uwarunkowania**, **poprawności numerycznej** (wskaźniki kumulacji) i **stabilności numerycznej** (optymalny poziom błędu), wielomian Wilkinsona i iloczyn skalarny jako przykłady: [[Uwarunkowanie zadania i stabilność algorytmów]].
+
 ## Typowe błędy
 > [!blad] `==` na floatach i „dziwne” wyniki typu `0.30000000000000004`
 > To nie błąd Pythona, tylko $0{,}1$ nie ma skończonego rozwinięcia dwójkowego. Kryteria stopu w metodach iteracyjnych zawsze z tolerancją.
@@ -148,7 +156,25 @@ int main() {
 > > [!odpowiedz]- Odpowiedź
 > > $\operatorname{cond} = |x \cdot \frac1x / \ln x| = 1/|\ln x| \approx 1000{,}5$. Błąd względny $x$ rzędu $10^{-16}$ daje błąd $\ln x$ rzędu $10^{-13}$: tracisz 3 cyfry przez samo zadanie.
 
+## Pytania testowe (egzamin UPeL)
+> [!zadanie] 1. Błąd reprezentacji $rd(x) = x(1+\varepsilon)$ w arytmetyce z $t$-bitową mantysą spełnia:
+> a) $|\varepsilon| \le 2^{-t}$ b) $|\varepsilon| \le 2^{t}$ c) $|\varepsilon| \le 10^{-t}$ d) $\varepsilon = 0$ dla liczb całkowitych z zakresu
+> > [!odpowiedz]- Odpowiedź
+> > **a, d.** Liczby całkowite mieszczące się w mantysie są reprezentowane dokładnie.
+
+> [!zadanie] 2. Które operacje grożą utratą cyfr znaczących?
+> a) odejmowanie bliskich liczb b) mnożenie dwóch liczb dodatnich c) dodawanie liczby bardzo małej do bardzo dużej d) dzielenie przez liczbę bliską 1
+> > [!odpowiedz]- Odpowiedź
+> > **a, c.** (a) redukcja cyfr, (c) mała liczba „ginie” w zaokrągleniu. Mnożenie i dzielenie mają mały błąd względny.
+
+> [!zadanie] 3. Ile cyfr dziesiętnych dokładności daje double?
+> a) ok. 7 b) ok. 15–16 c) ok. 32 d) 52
+> > [!odpowiedz]- Odpowiedź
+> > **b.** 52 bity mantysy (+1 ukryty) to $\log_{10}2^{53} \approx 15{,}95$ cyfr.
+
 ## Fiszki #fiszki/numeryczne
+Cecha i mantysa w zapisie z wykładu::$x = s\cdot2^c\cdot m$, $m \in [1/2, 1)$, mantysa na $t$ bitach, cecha na $d-t$ bitach
+Zakres liczb całkowitych na słowie $d+1$ bitów::$[-2^d + 1,\ 2^d - 1]$
 Ile wynosi epsilon maszynowy dla double?::2^−52 ≈ 2,22·10^−16 (odstęp między 1 a następną liczbą maszynową)
 <!--SR:!2026-10-03,1,230-->
 Ile bitów mantysy, wykładnika i znaku ma IEEE 754 double?::52 mantysy (plus ukryta jedynka), 11 wykładnika, 1 znaku

@@ -1,7 +1,7 @@
 ---
 typ: pojęcie
 status: nowe
-przedmioty: ["[[AGH Metoda elementów skończonych]]", "[[AGH Optymalizacja]]", "[[AGH Programowanie równoległe]]"]
+przedmioty: ["[[AGH Metody numeryczne]]", "[[AGH Metoda elementów skończonych]]", "[[AGH Optymalizacja]]", "[[AGH Programowanie równoległe]]"]
 wymaga: []
 powiązane: ["[[Arytmetyka zmiennoprzecinkowa i błędy numeryczne]]", "[[Rozwiązywanie równań nieliniowych]]", "[[Układy równań liniowych]]", "[[Interpolacja]]", "[[Aproksymacja średniokwadratowa]]", "[[Różniczkowanie numeryczne]]", "[[Całkowanie numeryczne i kwadratury Gaussa]]", "[[Numeryczne rozwiązywanie RRZ]]", "[[MES 1D — od różnic skończonych do macierzy sztywności]]", "[[Funkcje kształtu]]", "[[Jakobian]]", "[[Macierz sztywności]]", "[[Metoda złotego podziału]]", "[[MES — kurs dr. Kustry (mapa labów)]]"]
 tags: [pojęcie, mapa, metody-numeryczne]
@@ -14,6 +14,7 @@ utworzono: 2026-10-02
 > - **Co to:** 11 modułów, w każdym notatka + **zadania w C++ z testami** + rozwiązanie wzorcowe. Kod jest w repo: `Kod/metody_numeryczne/`.
 > - **Cel:** napisać samemu każdy klocek, z którego składa się program MES (Gauss, funkcje kształtu, kwadratury, jakobian, schemat w czasie) i metody optymalizacji (pochodne, Newton, złoty podział). Wszystko w C++, bo w C++ są laby MES, Optymalizacji i instrukcje z metod numerycznych.
 > - **Jak:** `./sprawdz.sh 01` pokazuje, które testy przechodzą. Najpierw piszesz sam, do rozwiązania zaglądasz po 20 minutach utknięcia.
+> - **Przedmiot z UPeL** (wykłady dr Szeligi, plan labów, zasady egzaminu testowego): [[AGH Metody numeryczne]]. W notatkach modułów są teraz sekcje „Wykład dr Szeligi” i „Pytania testowe”, a nowe notatki z wykładów to [[Uwarunkowanie zadania i stabilność algorytmów]], [[Metody iteracyjne rozwiązywania układów liniowych]], [[Interpolacja Hermite'a i funkcje sklejane]], [[Wielomiany ortogonalne]], [[Aproksymacja jednostajna i Padégo]] i [[Metoda Monte Carlo]].
 
 ## Mapa: co z czego wynika
 

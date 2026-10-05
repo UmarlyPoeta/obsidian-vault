@@ -1,7 +1,7 @@
 ---
 typ: pojęcie
 status: nowe
-przedmioty: ["[[AGH Metoda elementów skończonych]]", "[[AGH Optymalizacja]]"]
+przedmioty: ["[[AGH Metody numeryczne]]", "[[AGH Metoda elementów skończonych]]", "[[AGH Optymalizacja]]"]
 wymaga: ["[[Układy równań liniowych]]", "[[Interpolacja]]", "[[Arytmetyka zmiennoprzecinkowa i błędy numeryczne]]"]
 powiązane: ["[[Metamodelowanie]]", "[[Funkcja celu i warunki optymalności]]", "[[Różniczkowanie numeryczne]]", "[[Wielomiany]]"]
 tags: [pojęcie, metody-numeryczne]
@@ -109,6 +109,35 @@ Instrukcja: [[Lab — aproksymacja średniokwadratowa.pdf]]. Oddajesz na zajęci
 > ```
 > Wczytujesz `std::ifstream plik("dane.txt"); plik >> n >> m; for (...) plik >> x[i] >> y[i] >> w[i];`, wołasz `aproksymacja(x, y, w, n)` i wypisujesz: liczbę węzłów, współczynniki, tabelę $x_i$, $y_i$, $F(x_i)$ i błąd $E$.
 
+## Wykład dr Szeligi (W04) — co dochodzi
+> [!definicja] Ujęcie z wykładu: aproksymacja w przestrzeni unitarnej
+> Dla $f \in V$ (przestrzeń unitarna) i skończenie wymiarowej podprzestrzeni $U$: element $h^* \in U$ jest optymalny **⇔ $f - h^*$ jest ortogonalny do $U$**. Błąd:
+> $$\varepsilon_U = \|f - h^*\| = \left(\|f\|^2 - \|h^*\|^2\right)^{1/2} \qquad (\text{Pitagoras: } \|f\|^2 = \|f - h^*\|^2 + \|h^*\|^2)$$
+> - Baza $f_1, \dots, f_n$ podprzestrzeni $U$: $h^* = \sum\alpha_jf_j$ spełnia **układ równań normalnych** $\sum_j\alpha_j(f_j, f_i) = (f, f_i)$ z **macierzą Grama** $[(f_j, f_i)]$. Koszt: $\frac{n(n+1)}{2} + n$ iloczynów skalarnych plus ok. $n^3$ na układ.
+> - Baza **ortonormalna** $g_j$: układ staje się jednostkowy, $h^* = \sum_j(f, g_j)g_j$, $\varepsilon_U^2 = \|f\|^2 - \sum_j(f, g_j)^2$. Tylko $n$ iloczynów skalarnych i lepsza dokładność. Współczynniki $(f, g_j)$ to **współczynniki Fouriera**, a $h_n^*$ to sumy częściowe szeregu Fouriera. Zbieżność do $f$ dla każdego $\varepsilon$ ⇔ **równość Parsevala** $\|f\|^2 = \sum_{j=1}^\infty(f, g_j)^2$.
+> - Rekurencja (gdy chcemy błąd $< \varepsilon$ możliwie niskim stopniem): $h_n^* = h_{n-1}^* + (f, g_n)g_n$, $\varepsilon_{U_n}^2 = \varepsilon_{U_{n-1}}^2 - (f, g_n)^2$, kolejne $g_n$ ze zmodyfikowanego Grama–Schmidta. Bazy i rekurencje: [[Wielomiany ortogonalne]].
+>
+> **Ciągła** (w $L^2_p[a,b]$) i **dyskretna** (w $l^2_{p,N}$, suma po punktach z wagami) aproksymacja średniokwadratowa wielomianami. W dyskretnej stopień $n \le N - 1$; dla $n = N - 1$ wynikiem jest wielomian interpolacyjny Lagrange'a i błąd 0. (Slajd mówi, że dla $n < N - 1$ zadanie „nie ma jednoznacznego rozwiązania”. To pomyłka: przy różnych punktach rozwiązanie dla $n < N - 1$ **jest** jednoznaczne, a niejednoznaczność pojawia się dopiero dla $n > N - 1$.)
+
+> [!wzor] Baza $1, x, \dots, x^n$ na $[0,1]$ z wagą 1 → macierz Hilberta
+> $(x^i, x^j) = \int_0^1x^{i+j}dx = \frac{1}{i+j+1}$, czyli macierz Grama to **macierz Hilberta**, skrajnie źle uwarunkowana:
+>
+> | $n$ | 3 | 5 | 8 | 10 |
+> |---|---|---|---|---|
+> | $\operatorname{cond}_2(H_n)$ | 524 | $4{,}8\cdot10^5$ | $1{,}5\cdot10^{10}$ | $1{,}6\cdot10^{13}$ |
+>
+> Dlatego baza potęgowa daje złe wyniki już dla umiarkowanych stopni, a lepsza jest baza ortogonalna z reguły trójczłonowej.
+
+> [!przyklad] Z wykładu: $f(x) = \sqrt x$, waga $p(x) = x$ na $[0, 1]$, wielomian stopnia 2
+> **Sposób I (układ normalny):** $(x^i, x^j) = \int_0^1x^{i+j+1}dx = \frac{1}{i+j+2}$, $(x^i, \sqrt x) = \frac{2}{2i+5}$:
+> $$\begin{bmatrix}\frac12 & \frac13 & \frac14\\ \frac13 & \frac14 & \frac15\\ \frac14 & \frac15 & \frac16\end{bmatrix}\begin{bmatrix}\alpha_0\\\alpha_1\\\alpha_2\end{bmatrix} = \begin{bmatrix}\frac25\\ \frac27\\ \frac29\end{bmatrix} \ \Rightarrow\ w_2^*(x) = \frac{8}{35} + \frac87x - \frac{8}{21}x^2$$
+> (sprawdzone numerycznie: $0{,}22857;\ 1{,}14286;\ -0{,}38095$).
+> **Sposób II (Gram–Schmidt)** na $1, x, x^2$: $g_1 = 1$, $g_2 = x - \frac23$, $g_3 = x^2 - \frac65x + \frac{3}{10}$, potem normowanie i $w_2^* = \sum(\sqrt x, g_k)g_k$.
+> **Sposób III (reguła trójczłonowa):** $\beta_1 = -\frac23$, $\beta_2 = -\frac{8}{15}$, $\gamma_2 = -\frac{1}{18}$, ten sam $P_2 = x^2 - \frac65x + \frac{3}{10}$. Szczegóły w [[Wielomiany ortogonalne]].
+> Wszystkie trzy dają ten sam wielomian; różnią się kosztem i odpornością na błędy zaokrągleń.
+
+> Aproksymacja jednostajna (minimaksowa, warunek Haara, alternans Czebyszewa) i aproksymacja Padégo: [[Aproksymacja jednostajna i Padégo]].
+
 ## Typowe błędy
 > [!blad] Odwracanie $A^T A$ dla wielomianów wysokiego stopnia
 > Kwadrat uwarunkowania zjada połowę cyfr. Używaj `lstsq` albo QR, a zmienną $x$ przeskaluj do $[-1, 1]$.
@@ -147,7 +176,34 @@ Instrukcja: [[Lab — aproksymacja średniokwadratowa.pdf]]. Oddajesz na zajęci
 > > [!odpowiedz]- Odpowiedź
 > > Układ normalny: $\mathrm{cond} = 10^{14}$, czyli do 14 z ok. 16 cyfr. QR: do 7 cyfr.
 
+## Pytania testowe (egzamin UPeL)
+> [!zadanie] 1. W przestrzeni unitarnej $h^* \in U$ jest elementem optymalnym dla $f$ wtedy i tylko wtedy, gdy:
+> a) $h^*$ jest ortogonalny do $f$ b) $f - h^*$ jest ortogonalny do $U$ c) $\|h^*\| = \|f\|$ d) $h^*$ interpoluje $f$
+> > [!odpowiedz]- Odpowiedź
+> > **b.**
+
+> [!zadanie] 2. Macierz układu równań normalnych dla bazy $1, x, \dots, x^n$ na $[0, 1]$ z wagą 1 to:
+> a) macierz jednostkowa b) macierz Vandermonde'a c) macierz Hilberta d) macierz trójdiagonalna
+> > [!odpowiedz]- Odpowiedź
+> > **c.** I jest bardzo źle uwarunkowana.
+
+> [!zadanie] 3. Przy bazie ortonormalnej $g_j$ błąd aproksymacji wynosi:
+> a) $\|f\|^2 - \sum(f, g_j)^2$ b) $\left(\|f\|^2 - \sum(f, g_j)^2\right)^{1/2}$ c) $\sum(f, g_j)^2$ d) 0
+> > [!odpowiedz]- Odpowiedź
+> > **b.** (a) to jego kwadrat.
+
+> [!zadanie] 4. Dyskretna aproksymacja średniokwadratowa $N$ punktów wielomianem stopnia $N - 1$ daje:
+> a) prostą regresji b) wielomian interpolacyjny Lagrange'a c) błąd zerowy d) układ sprzeczny
+> > [!odpowiedz]- Odpowiedź
+> > **b, c.**
+
 ## Fiszki #fiszki/numeryczne
+Warunek optymalności w przestrzeni unitarnej::$f - h^* \perp U$
+Błąd aproksymacji w przestrzeni unitarnej::$\varepsilon_U = (\|f\|^2 - \|h^*\|^2)^{1/2}$
+Macierz Grama::Macierz iloczynów skalarnych $(f_j, f_i)$ funkcji bazowych, macierz układu normalnego
+Równość Parsevala::$\|f\|^2 = \sum_j (f, g_j)^2$; równoważna zbieżności szeregu Fouriera do $f$
+Aproksymacja $\sqrt x$ z wagą $x$ na [0,1], stopień 2 (wykład)::$w_2^* = 8/35 + 8x/7 - 8x^2/21$
+cond macierzy Hilberta 10×10::ok. $1{,}6\cdot10^{13}$ (norma 2)
 Czym różni się aproksymacja od interpolacji?::Aproksymacja nie przechodzi przez punkty, tylko minimalizuje sumę kwadratów odchyleń
 Układ normalny MNK::AᵀA c = Aᵀy
 Geometryczny sens rozwiązania MNK::Wektor reszt jest prostopadły do kolumn A (Aᵀr = 0)
