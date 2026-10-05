@@ -83,6 +83,8 @@ Pełna lista połączeń (158 topików, 11 serwisów, z automatycznie wykrytymi 
 
 ## Notatki zbiorcze
 - [[Nawigacja i autonomia — przepływ]]: od waypointu do ramki CAN, tryby, dokowanie, kolizje.
+- [[Regulator — hierarchia i działanie]] i [[Regulator — TODO, błędy i oscylacje]]: model Simulink od środka, przyczyny oscylacji, jak uprościć ścieżkę.
+- [[Regulator od zera — 1. Co to jest i Simulink]]: ta sama wiedza od podstaw, z wykresami (seria 4 notatek).
 - [[Magistrala CAN]]: ramki, ID, nadawcy, mapowanie CAN ↔ ROS.
 - [[Interfejsy (msg, srv, action)]]: wszystkie typy wiadomości z polami i użyciem.
 - [[Drzewo TF i układy współrzędnych]]: ramki, konwencje osi, kto co nadaje.

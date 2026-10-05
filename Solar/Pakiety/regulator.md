@@ -53,7 +53,13 @@ Brak.
 > [!blad] Znane problemy
 > - `regulator.cpp:30`: `bool use = true;` to zmienna lokalna, a pole `use` zostaje niezainicjalizowane.
 > - Według `sbt_transforms/REVIEW.md` (B2, B9) `rtU.end_heading` jest w konwencji ENU-CCW (`+atan2`), a `rtU.heading` z `/filter/euler` to kurs innej konwencji. Do tego orientacje w `/path` z `l2dp/planner` są liczone wstecz. Szczegóły w [[Drzewo TF i układy współrzędnych]].
-> - Brak przycinania wyjścia modelu do ±1000 przed rzutowaniem na `int16`.
+> - ~~Brak przycinania wyjścia modelu do ±1000~~: model ma saturację ±1000 (`code_gen_1.c:1236-1264`), sprawdzone 2026-10-05.
+> - `rtU.end_heading` jest w stopniach, a model odejmuje od niego kurs w radianach. Więcej w [[Regulator — TODO, błędy i oscylacje]].
+
+## Zobacz też
+- **Dla początkujących (dużo wykresów):** [[Regulator od zera — 1. Co to jest i Simulink]] → [[Regulator od zera — 2. Matematyka]] → [[Regulator od zera — 3. Logika rozmyta]] → [[Regulator od zera — 4. Dlaczego się buja]].
+- [[Regulator — hierarchia i działanie]]: rozbiór kodu C++ i modelu Simulink blok po bloku.
+- [[Regulator — TODO, błędy i oscylacje]]: lista TODO, przyczyny oscylacji, jak uprościć ścieżkę.
 
 ## Moje notatki
 > [!ja] Tu piszesz ty — Albert tej sekcji nie rusza.
