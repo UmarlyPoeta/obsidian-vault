@@ -99,6 +99,7 @@ print(f"x* ≈ {x:.4f} po {n} iteracjach")   # x* ≈ 2.2500 po 23 iteracjach
 
 ## Na zajęcia i egzamin
 > [!zajecia]
+> - **Ćwicz w C++ (bez frameworka):** `Kod/metody_numeryczne/zadania/m10.cpp`, funkcja `zloty_podzial` z licznikiem wywołań f, potem `najszybszy_spadek` używa jej do szukania kroku.
 > - **Projekt:** złoty podział to klasyczny „pierwszy algorytm” do własnej implementacji (Python lub MATLAB). Porównaj go z `fminbnd`, policz liczbę wywołań $f$ i pokaż zbieżność długości przedziału na wykresie (półlogarytmicznie widać prostą o nachyleniu $\ln 0{,}618$).
 > - **Egzamin:** „opisz metodę złotego podziału i uzasadnij wartość 0,618”, „ile iteracji potrzeba do dokładności ε”, „czym różni się od Fibonacciego”.
 > - Łączy się z: [[Funkcja celu i warunki optymalności]] (unimodalność), [[Metoda najszybszego spadku]] (szukanie kroku w kierunku), [[Metoda Hooke'a-Jeevesa]].

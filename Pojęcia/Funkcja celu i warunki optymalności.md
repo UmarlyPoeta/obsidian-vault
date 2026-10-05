@@ -69,6 +69,7 @@ utworzono: 2026-10-01
 
 ## Na zajęcia i egzamin
 > [!zajecia]
+> - **Ćwicz w C++:** `Kod/metody_numeryczne/zadania/m05.cpp` (gradient i hesjan numerycznie) i `m10.cpp` (`newton_min`: krok $H d = -\nabla f$ rozwiązany Gaussem z m02).
 > - **Projekt:** pierwsze, co oceni prowadząca, to **poprawne sformułowanie zadania**: zmienne, funkcja celu, ograniczenia, dlaczego taka metoda. Zapisz to wprost w sprawozdaniu.
 > - **Egzamin:** „podaj warunki konieczne i wystarczające istnienia minimum”, „zbadaj punkt stacjonarny funkcji dwóch zmiennych”, „co to jest funkcja unimodalna i po co jest metodom 1D”.
 > - Łączy się z: [[Metoda złotego podziału]] (1D, wymaga unimodalności), [[Metoda najszybszego spadku]], [[Mnożniki Lagrange'a]].

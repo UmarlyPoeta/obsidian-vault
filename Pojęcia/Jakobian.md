@@ -96,6 +96,7 @@ print(J.round(6), detJ, dNdx.round(4))   # diag(-0.016667), 0.000277778, [23.660
 
 ## Na zajęcia i egzamin
 > [!zajecia]
+> - **Ćwicz w C++:** `Kod/metody_numeryczne/zadania/m09.cpp`, funkcja `jakobian` (test na liczbach z Test1 i trapezie), sprawdzasz `./sprawdz.sh 09`. Najpierw m03 (pochodne funkcji kształtu) i m06 (węzły Gaussa).
 > - **Lab 3:** struktura `ElementUniwersalny` (tablice $\partial N/\partial\xi$, $\partial N/\partial\eta$ dla 2, 3 i 4 punktów) oraz struktura `Jakobian` ($J$, $J^{-1}$, $\det J$). Wyniki porównujesz z plikami prowadzącego dla Test1 i MixGrid.
 > - **Egzamin:** „wyprowadź $\partial N/\partial x$ przez jakobian”, „co oznacza $\det J$”, „dlaczego jakobian liczy się w każdym punkcie całkowania”.
 > - Łączy się z: [[Funkcje kształtu]], [[Całkowanie numeryczne i kwadratury Gaussa]], [[Macierz sztywności]].

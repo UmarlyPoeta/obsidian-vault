@@ -87,6 +87,7 @@ def symuluj(H, C, P, t0, dt, czas):
 
 ## Na zajęcia i egzamin
 > [!zajecia]
+> - **Ćwicz w C++:** `Kod/metody_numeryczne/zadania/m09.cpp` (`macierz_C`), `m07.cpp` (`schemat_theta`) i `m08.cpp` (`pret_nieustalony`, pętla czasowa w 1D).
 > - **Lab 9:** $[C]$ lokalna i globalna, pętla czasowa, tabela min/max. Porównujesz z plikiem *TestCase* (Test1) i z wynikami MixGrid i 31×31 w mapie kursu.
 > - **Sprawozdanie:** wyniki dla 3 siatek, wpływ $\Delta\tau$ i liczby punktów całkowania, rozkład temperatury (np. ParaView z plików `.vtu`), problem rzeczywisty (np. ściana wielowarstwowa, hartowanie, radiator).
 > - **Egzamin:** „wyprowadź schemat jawny i niejawny”, „dlaczego niejawny jest stabilny”, „wzór na $[C]$”, „co się stanie, gdy wyzerujesz $[C]$” (dostaniesz stan ustalony).

@@ -6,7 +6,7 @@ wymaga: ["[[Układy równań liniowych]]", "[[Różniczkowanie numeryczne]]", "[
 powiązane: ["[[Funkcje kształtu]]", "[[Macierz sztywności]]", "[[Metoda Galerkina]]", "[[Nieustalony przepływ ciepła]]", "[[Schematy całkowania w czasie]]", "[[Interpolacja]]", "[[Równanie różniczkowe zwyczajne]]"]
 tags: [pojęcie, metody-numeryczne, mes]
 utworzono: 2026-10-02
-źródła: ["A. Milenin — Podstawy metody elementów skończonych (Wyd. AGH 2010)", "O.C. Zienkiewicz, R.L. Taylor, J.Z. Zhu — The Finite Element Method: Its Basis and Fundamentals", "Z. Fortuna, B. Macukow, J. Wąsowski — Metody numeryczne (WNT)", "R.L. Burden, J.D. Faires — Numerical Analysis", "Dokumentacja numpy.linalg.solve"]
+źródła: ["A. Milenin — Podstawy metody elementów skończonych (Wyd. AGH 2010)", "O.C. Zienkiewicz, R.L. Taylor, J.Z. Zhu — The Finite Element Method: Its Basis and Fundamentals", "Z. Fortuna, B. Macukow, J. Wąsowski — Metody numeryczne (WNT)", "R.L. Burden, J.D. Faires — Numerical Analysis", "Dokumentacja numpy.linalg.solve", "Kurs MN w C++: Kod/metody_numeryczne (moduły, testy, rozwiązania wzorcowe)", "Notatki MES dr. Kustry: [[Metoda Galerkina]], [[Macierz sztywności]], [[Nieustalony przepływ ciepła]]"]
 ---
 # MES 1D — od różnic skończonych do macierzy sztywności
 
@@ -74,17 +74,27 @@ utworzono: 2026-10-02
 >
 > **5. Sprawdzenie analityczne:** szeregowo opór przewodzenia $L/k = 0{,}005$ i opór konwekcji $1/\alpha = 0{,}005$ (m²·K/W), więc $q = \frac{100 - 20}{0{,}01} = 8000$ W/m² i $T(x) = 100 - \frac{q}{k}x = 100 - 200x$. Daje to $T(0{,}1) = 80$ i $T(0{,}2) = 60$. MES trafia **dokładnie**, bo w 1D przy elementach liniowych wartości w węzłach są dokładne. Bilans: przewodzenie $q A = 80$ W, konwekcja $\alpha A (60 - 20) = 80$ W.
 
-```python
-import numpy as np
-k, A, Le, alfa, Tinf = 40.0, 0.01, 0.1, 200.0, 20.0
-elementy = [(0, 1), (1, 2)]
-K, F = np.zeros((3, 3)), np.zeros(3)
-for i, j in elementy:                                  # agregacja
-    K[np.ix_([i, j], [i, j])] += k * A / Le * np.array([[1, -1], [-1, 1]])
-K[2, 2] += alfa * A; F[2] += alfa * A * Tinf           # konwekcja (Robin)
-K[0, :] = 0; K[0, 0] = 1; F[0] = 100.0                 # Dirichlet
-print(np.linalg.solve(K, F))                           # [100.  80.  60.]
+```cpp
+#include "m08.h"   // Kod/metody_numeryczne, konwencja „Wstępu” Kustry: [H]{t} + {P} = 0, q > 0 = ciepło odprowadzane
+// Ten sam pręt w konwencji prowadzącego: L = 0.2, S = 0.01, k = 40, 2 elementy, prawy koniec konwekcja.
+// Uwaga: m08 ma na lewym końcu strumień q (nie Dirichleta), więc zadaj q tak, żeby wyszło 100 °C:
+// przepływ 80 W przez S = 0.01 m^2 to q = -8000 W/m^2 (doprowadzane).
+Pret p{0.2, 0.01, 40, 2, -8000, 200, 20};
+Vec t = pret_ustalony(p);                         // {100, 80, 60}
 ```
+
+> [!kod]- To samo w Pythonie (do szybkiego sprawdzenia)
+> ```python
+> import numpy as np
+> k, A, Le, alfa, Tinf = 40.0, 0.01, 0.1, 200.0, 20.0
+> elementy = [(0, 1), (1, 2)]
+> K, F = np.zeros((3, 3)), np.zeros(3)
+> for i, j in elementy:                                  # agregacja
+>     K[np.ix_([i, j], [i, j])] += k * A / Le * np.array([[1, -1], [-1, 1]])
+> K[2, 2] += alfa * A; F[2] += alfa * A * Tinf           # konwekcja (Robin)
+> K[0, :] = 0; K[0, 0] = 1; F[0] = 100.0                 # Dirichlet
+> print(np.linalg.solve(K, F))                           # [100.  80.  60.]
+> ```
 
 > [!przyklad]- To samo z macierzą pojemności (stal: $\rho = 7800$, $c = 460$)
 > $\rho c A L_e = 7800 \cdot 460 \cdot 0{,}01 \cdot 0{,}1 = 3588$ J/K. Macierz spójna elementu to $598\begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}$, a skupiona $1794\,I$. Po agregacji (skupiona) $C = \mathrm{diag}(1794,\ 3588,\ 1794)$. Suma wszystkich wyrazów $C$ to zawsze $\rho c A L = 7176$ J/K (pojemność cieplna całego pręta), co jest dobrym testem kodu.
@@ -104,7 +114,7 @@ print(np.linalg.solve(K, F))                           # [100.  80.  60.]
 
 ## Na zajęcia i egzamin
 > [!zajecia]
-> - **Lab MES 1D:** dokładnie ten pręt: funkcjonał → $K_e$, $F_e$ → agregacja → warunki brzegowe → rozwiązanie → porównanie z analitycznym. Ćwicz na `m08_mes1d.py`, a funkcję `nieustalony` traktuj jako szkielet pętli czasowej projektu 2D.
+> - **Lab MES 1D:** dokładnie ten pręt: funkcjonał → $K_e$, $F_e$ → agregacja → warunki brzegowe → rozwiązanie → porównanie z analitycznym. **Ćwicz w C++:** `Kod/metody_numeryczne/zadania/m08.cpp` (macierz H i wektor P pręta, stan ustalony, macierz C, stan nieustalony), specyfikacja w `m08.h`, sprawdzasz `./sprawdz.sh 08`. Wzorzec: `rozwiazania/m08.cpp`, dopiero po własnej próbie. Uwaga: kod kursu używa konwencji Kustry ($q > 0$ to ciepło odprowadzane), a ta notatka odwrotnej. Element 2D jest w m09.
 > - **Projekt 2D:** struktury (węzły, elementy, dane globalne), agregacja i schemat θ zostają bez zmian. Zmienia się $K_e$ i $C_e$, które liczysz Gaussem 2×2 z $\det J$ ([[Całkowanie numeryczne i kwadratury Gaussa]]), oraz warunek konwekcji, który działa teraz na krawędzi elementu.
 > - **Weryfikacja w sprawozdaniu:** zbieżność przy zagęszczaniu siatki (błąd między węzłami $\sim h^2$), wpływ kroku czasowego, porównanie spójnej i skupionej $C$, kontrola bilansu ciepła.
 > - **Egzamin:** „wyprowadź macierz sztywności elementu 1D”, „jak uwzględnić konwekcję i strumień”, „dlaczego $K$ jest osobliwa przed warunkami brzegowymi”.
@@ -148,3 +158,5 @@ Czym różni się MES od różnic skończonych na równej siatce 1D?::Dla węzł
 - Z. Fortuna, B. Macukow, J. Wąsowski, *Metody numeryczne*, WNT (układy trójdiagonalne, różnice skończone).
 - R.L. Burden, J.D. Faires, *Numerical Analysis*, Cengage (finite-difference methods for boundary-value problems).
 - Dokumentacja: `numpy.linalg.solve`.
+- Kurs MN w C++: Kod/metody_numeryczne (moduły, testy, rozwiązania wzorcowe)
+- Notatki MES dr. Kustry: [[Metoda Galerkina]], [[Macierz sztywności]], [[Nieustalony przepływ ciepła]]

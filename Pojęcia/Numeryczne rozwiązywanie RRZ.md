@@ -6,7 +6,7 @@ wymaga: ["[[Równanie różniczkowe zwyczajne]]", "[[Układy równań liniowych]
 powiązane: ["[[Schematy całkowania w czasie]]", "[[Nieustalony przepływ ciepła]]", "[[Transformata Laplace'a]]", "[[Arytmetyka zmiennoprzecinkowa i błędy numeryczne]]", "[[Rozwiązywanie równań nieliniowych]]", "[[Różniczkowanie numeryczne]]", "[[Całkowanie numeryczne i kwadratury Gaussa]]", "[[MES 1D — od różnic skończonych do macierzy sztywności]]"]
 tags: [pojęcie, metody-numeryczne, mes]
 utworzono: 2026-10-02
-źródła: ["A. Milenin — Podstawy metody elementów skończonych (Wyd. AGH 2010)", "O.C. Zienkiewicz, R.L. Taylor, J.Z. Zhu — The Finite Element Method: Its Basis and Fundamentals", "Z. Fortuna, B. Macukow, J. Wąsowski — Metody numeryczne (WNT)", "R.L. Burden, J.D. Faires — Numerical Analysis", "Dokumentacja scipy.integrate.solve_ivp"]
+źródła: ["A. Milenin — Podstawy metody elementów skończonych (Wyd. AGH 2010)", "O.C. Zienkiewicz, R.L. Taylor, J.Z. Zhu — The Finite Element Method: Its Basis and Fundamentals", "Z. Fortuna, B. Macukow, J. Wąsowski — Metody numeryczne (WNT)", "R.L. Burden, J.D. Faires — Numerical Analysis", "Dokumentacja scipy.integrate.solve_ivp", "Instrukcja: Lab RR — metody rozwiązywania równań różniczkowych (Euler, RK2, RK4)", "Kurs MN w C++: Kod/metody_numeryczne (moduły, testy, rozwiązania wzorcowe)", "H.P. Langtangen, S. Linge — Finite Difference Computing with PDEs (Springer 2017, CC BY), rozdz. 3 i dodatek B (pobrane: Załączniki/MES/Podręczniki)"]
 ---
 # Numeryczne rozwiązywanie RRZ
 
@@ -68,21 +68,77 @@ utworzono: 2026-10-02
 >
 > Jawny Euler zaniża, niejawny zawyża, Crank–Nicolson jest między nimi i o rząd dokładniejszy, a RK4 trafia prawie idealnie. **Niestabilność:** przy $h = 25 > 2/r = 20$ mamy $R = -1{,}5$ i Euler jawny daje $90 \to -85 \to 177{,}5 \to -216{,}3$. Przy $h = 15$ ($R = -0{,}5$) rozwiązanie jest stabilne, ale oscyluje ($-15;\ 37{,}5;\ 11{,}25$).
 
-```python
-import numpy as np
-from scipy.integrate import solve_ivp
-r, Tot, h, n = 0.1, 20.0, 2.0, 30
-C, K, F = np.array([[1.0]]), np.array([[r]]), np.array([r * Tot])   # forma MES
-T = np.array([90.0])
-for theta in (0.0, 0.5, 1.0):
-    lewa, prawa = C / h + theta * K, C / h - (1 - theta) * K
-    Tk = T.copy()
-    for _ in range(n):
-        Tk = np.linalg.solve(lewa, prawa @ Tk + F)
-    print(theta, Tk[0])                      # 20.0867 / 20.1701 / 20.2949
-ref = solve_ivp(lambda t, y: -r * (y - Tot), (0, 60), [90.0], rtol=1e-10)
-print(ref.y[0, -1])                          # 20.1735
+```cpp
+#include "m07.h"   // Kod/metody_numeryczne, schemat_theta korzysta z gauss() z m02
+auto f = [](double x, double y) { return x * x + y; };
+double yE = euler(f, 0, 0.3, 0.1, 3);              // 0.1382 (przykład z instrukcji RR)
+double r = 0.1, Tot = 20, h = 2;                  // stygnięcie Newtona w formie MES: C T' + K T = F
+Mat C = {{1.0}}, K = {{r}};
+for (double theta : {0.0, 0.5, 1.0}) {
+    Vec T = schemat_theta(C, K, {r * Tot}, {90.0}, h, 30, theta);
+    std::printf("%.1f  %.4f
+", theta, T[0]);     // 20.0867 / 20.1701 / 20.2949 po 60 min
+}
 ```
+
+> [!kod]- To samo w Pythonie (do szybkiego sprawdzenia)
+> ```python
+> import numpy as np
+> from scipy.integrate import solve_ivp
+> r, Tot, h, n = 0.1, 20.0, 2.0, 30
+> C, K, F = np.array([[1.0]]), np.array([[r]]), np.array([r * Tot])   # forma MES
+> T = np.array([90.0])
+> for theta in (0.0, 0.5, 1.0):
+>     lewa, prawa = C / h + theta * K, C / h - (1 - theta) * K
+>     Tk = T.copy()
+>     for _ in range(n):
+>         Tk = np.linalg.solve(lewa, prawa @ Tk + F)
+>     print(theta, Tk[0])                      # 20.0867 / 20.1701 / 20.2949
+> ref = solve_ivp(lambda t, y: -r * (y - Tot), (0, 60), [90.0], rtol=1e-10)
+> print(ref.y[0, -1])                          # 20.1735
+> ```
+
+## Lab RR — Euler, RK2, RK4: co oddajesz i wyniki do sprawdzenia
+Instrukcja: [[Lab RR — Euler i Runge-Kutta.pdf]]. Oddajesz na zajęciach (10 pkt), na UPEL `.cpp` i sprawozdanie.
+
+> [!definicja] Wzory z instrukcji ($h = (b - a)/N$, $x_i = a + ih$)
+> - **Euler:** $y_{i+1} = y_i + h f(x_i, y_i)$.
+> - **RK2 (Heun):** $k_1 = f(x, y)$, $k_2 = f(x + h, y + hk_1)$, $y_{i+1} = y_i + \frac h2(k_1 + k_2)$.
+> - **RK4:** $k_1 = f(x, y)$, $k_2 = f(x + \frac h2, y + \frac h2 k_1)$, $k_3 = f(x + \frac h2, y + \frac h2 k_2)$, $k_4 = f(x + h, y + hk_3)$, $y_{i+1} = y_i + \frac h6(k_1 + 2k_2 + 2k_3 + k_4)$.
+
+> [!przyklad] Przykład z instrukcji: $y' = x^2 + y$, $y(0) = 0{,}1$, $N = 3$
+> $y_1 = 0{,}1 + 0{,}1(0 + 0{,}1) = 0{,}11$; $y_2 = 0{,}11 + 0{,}1(0{,}01 + 0{,}11) = 0{,}122$; $y_3 = 0{,}122 + 0{,}1(0{,}04 + 0{,}122) = 0{,}1382$.
+
+> [!przyklad] Zad. 2: rozwiązanie w $x = 1$ i badanie zbieżności
+> Rozwiązania dokładne: $y' = 2(x+1)y$, $y(0) = 1$ daje $y = e^{x^2 + 2x}$, więc $y(1) = e^3 = 20{,}085537$. $y' = x + y$, $y(0) = 0{,}1$ daje $y = 1{,}1e^x - x - 1$, więc $y(1) = 1{,}1e - 2 = 0{,}990110$.
+>
+> | $N$ | Euler (1) | RK2 (1) | RK4 (1) | Euler (2) | RK2 (2) | RK4 (2) |
+> |---|---|---|---|---|---|---|
+> | 10 | 12,635 | 19,306 | 20,08127 | 0,853117 | 0,985489 | 0,99010772 |
+> | 20 | 15,571 | 19,864 | 20,08523 | 0,918627 | 0,988910 | 0,99010986 |
+> | 40 | 17,566 | 20,026 | 20,08552 | 0,953570 | 0,989804 | 0,99011000 |
+> | 80 | 18,749 | 20,070 | 20,08554 | 0,971633 | 0,990033 | 0,99011001 |
+>
+> **Zbieżność:** podwojenie $N$ zmniejsza błąd Eulera ok. 2 razy (rząd 1), RK2 ok. 4 razy (rząd 2), RK4 ok. 16 razy (rząd 4). Na wykres daj $\log(\text{błąd})$ od $\log N$: nachylenia −1, −2, −4. Równanie (1) rośnie szybko ($e^{x^2}$), więc Euler przy $N = 10$ myli się o 37%.
+
+> [!przyklad] Zad. 3: kulka w oleju $m\,v' = mg - kv^2$, $v(0) = 0$, wynik w $t = 10$ s
+> Prędkość graniczna (gdy $v' = 0$): $v_\infty = \sqrt{mg/k} = \sqrt{0{,}05 \cdot 9{,}81 / 0{,}1} = 2{,}2147$ m/s. Ustala się po ok. 1 s.
+>
+> | krok $h$ | Euler | RK2 | RK4 |
+> |---|---|---|---|
+> | 0,5 | **rozbiega się** ($-\infty$) | **rozbiega się** | **rozbiega się** |
+> | 0,3 | 0,590 (oscyluje między ~0 a ~3) | 0,173 (ustala się na **fałszywej** wartości) | 2,2060 |
+> | 0,1 | 2,21472 | 2,21472 | 2,21472 |
+>
+> **Komentarz do sprawozdania:** to nie jest błąd programu, tylko **niestabilność metod jawnych**. Blisko $v_\infty$ równanie zachowuje się jak $v' \approx -\lambda(v - v_\infty)$ z $\lambda = 2kv_\infty/m = 8{,}86$ 1/s. Euler jest stabilny dla $h < 2/\lambda = 0{,}23$ s, RK4 dla $h < 2{,}79/\lambda \approx 0{,}31$ s. Dlatego przy $h = 0{,}3$ tylko RK4 daje sensowny wynik (RK2 znajduje wtedy fałszywy stan ustalony schematu, który nie jest rozwiązaniem równania), a przy $h = 0{,}5$ wszystkie trzy wybuchają. Euler przy $h = 0{,}5$: $v_1 = 4{,}905$ (powyżej $v_\infty$!), $v_2 = 4{,}905 + 0{,}5(9{,}81 - 2 \cdot 24{,}06) = -14{,}2$ i dalej coraz gorzej. Ta sama mechanika decyduje o kroku czasowym w MES (patrz [[Schematy całkowania w czasie]]).
+
+> [!kod]- Wypisanie danych do wykresu (plik tekstowy dla Excela albo gnuplota)
+> ```cpp
+> #include <fstream>
+> Vec vE = trajektoria(f, 0, 10, 0, N, 1), v4 = trajektoria(f, 0, 10, 0, N, 4);
+> std::ofstream out("kulka_h01.txt");
+> for (int i = 0; i <= N; ++i) out << i * h << " " << vE[i] << " " << v4[i] << "\n";
+> ```
 
 ## Typowe błędy
 > [!blad] „Niejawny = zawsze dokładny”
@@ -96,7 +152,7 @@ print(ref.y[0, -1])                          # 20.1735
 
 ## Na zajęcia i egzamin
 > [!zajecia]
-> - **Projekt MES 2D (nieustalony):** pętla czasowa to dokładnie schemat θ z tej notatki. W sprawozdaniu „weryfikacja kroku czasowego” oznacza: policz dla $\Delta t$, $\Delta t/2$, $\Delta t/4$ i pokaż, że wynik się stabilizuje (oraz jakiego rzędu jest zbieżność). Dla schematu jawnego podaj warunek stabilności. Ćwicz na `m07_rrz.py` (`schemat_theta`, `rzad_zbieznosci`), potem przenieś to do `m08_mes1d.py` (`nieustalony`).
+> - **Projekt MES 2D (nieustalony):** pętla czasowa to dokładnie schemat θ z tej notatki. W sprawozdaniu „weryfikacja kroku czasowego” oznacza: policz dla $\Delta t$, $\Delta t/2$, $\Delta t/4$ i pokaż, że wynik się stabilizuje (oraz jakiego rzędu jest zbieżność). Dla schematu jawnego podaj warunek stabilności. **Ćwicz w C++:** `Kod/metody_numeryczne/zadania/m07.cpp` (Euler, RK2, RK4, trajektoria, schemat θ dla układu C·T' + H·T = P), specyfikacja w `m07.h`, sprawdzasz `./sprawdz.sh 07`. Wzorzec: `rozwiazania/m07.cpp`, dopiero po własnej próbie. Potem `m08` (`pret_nieustalony`) i notatka [[Schematy całkowania w czasie]].
 > - **Egzamin MES:** „schematy całkowania w czasie: jawny, niejawny, Crank–Nicolson, wady i zalety”, „dlaczego schemat jawny wymaga małego kroku”.
 > - **PK Matematyka 2:** RRZ liniowe rozwiązujesz analitycznie (także przez [[Transformata Laplace'a]]); numeryka służy do sprawdzenia wyniku.
 > - Łączy się z: [[Schematy całkowania w czasie]], [[Nieustalony przepływ ciepła]], [[Równanie różniczkowe zwyczajne]].
@@ -136,6 +192,11 @@ Jak empirycznie wyznaczyć rząd metody?::Policz błąd dla h i h/2: p = log2(e(
 Jak zapisać y'' + 2ζωy' + ω²y = 0 jako układ?::u = [y, y'], u' = [u2, −ω²·u1 − 2ζω·u2]
 Jak skaluje się krok jawny w MES przy zagęszczaniu siatki?::Jak h_x², więc siatka dwa razy gęstsza wymaga kroku cztery razy krótszego
 
+Wzór metody RK2 z instrukcji (Heun)::k₁ = f(x, y), k₂ = f(x + h, y + h·k₁), y_{i+1} = y_i + h/2·(k₁ + k₂)
+Wzór metody RK4::y_{i+1} = y_i + h/6·(k₁ + 2k₂ + 2k₃ + k₄); k₂ i k₃ w połowie kroku, k₄ na końcu
+Ile razy maleje błąd po podwojeniu N dla Eulera, RK2, RK4?::2, 4 i 16 razy (rzędy 1, 2, 4)
+Prędkość graniczna kulki m·v' = mg − kv² i dlaczego h = 0,5 wybucha?::v∞ = √(mg/k) ≈ 2,21 m/s; λ = 2kv∞/m ≈ 8,9, a Euler wymaga h < 2/λ ≈ 0,23 s
+
 ## Moje notatki
 > [!ja] Tu piszesz ty — Albert tej sekcji nie rusza.
 
@@ -145,3 +206,6 @@ Jak skaluje się krok jawny w MES przy zagęszczaniu siatki?::Jak h_x², więc s
 - Z. Fortuna, B. Macukow, J. Wąsowski, *Metody numeryczne*, WNT (rozdz. o równaniach różniczkowych zwyczajnych).
 - R.L. Burden, J.D. Faires, *Numerical Analysis*, Cengage (Euler, Runge–Kutta, stabilność, równania sztywne).
 - Dokumentacja: `scipy.integrate.solve_ivp`.
+- Instrukcja: Lab RR — metody rozwiązywania równań różniczkowych (Euler, RK2, RK4)
+- Kurs MN w C++: Kod/metody_numeryczne (moduły, testy, rozwiązania wzorcowe)
+- H.P. Langtangen, S. Linge — Finite Difference Computing with PDEs (Springer 2017, CC BY), rozdz. 3 i dodatek B (pobrane: Załączniki/MES/Podręczniki)

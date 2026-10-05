@@ -6,7 +6,7 @@ wymaga: ["[[Pochodna]]", "[[Arytmetyka zmiennoprzecinkowa i błędy numeryczne]]
 powiązane: ["[[Interpolacja]]", "[[Aproksymacja średniokwadratowa]]", "[[Funkcja celu i warunki optymalności]]", "[[Numeryczne rozwiązywanie RRZ]]", "[[MES 1D — od różnic skończonych do macierzy sztywności]]", "[[Rozwiązywanie równań nieliniowych]]"]
 tags: [pojęcie, metody-numeryczne]
 utworzono: 2026-10-02
-źródła: ["Fortuna, Macukow, Wąsowski — Metody numeryczne (WNT)", "Kincaid, Cheney — Analiza numeryczna", "Burden, Faires — Numerical Analysis", "Dokumentacja SciPy: scipy.optimize.approx_fprime"]
+źródła: ["Fortuna, Macukow, Wąsowski — Metody numeryczne (WNT)", "Kincaid, Cheney — Analiza numeryczna", "Burden, Faires — Numerical Analysis", "Dokumentacja SciPy: scipy.optimize.approx_fprime", "Kurs MN w C++: Kod/metody_numeryczne (moduły, testy, rozwiązania wzorcowe)"]
 ---
 # Różniczkowanie numeryczne
 
@@ -69,12 +69,24 @@ utworzono: 2026-10-02
 >
 > Połowienie $h$ zmniejszyło błąd centralnej dokładnie 4 razy (rząd 2). Błąd $-9 \cdot 10^{-4}$ zgadza się z przewidywaniem $\frac{h^2}{6} f'''(1) = -\frac{0{,}01}{6} \cos 1 = -9{,}0 \cdot 10^{-4}$. Druga pochodna z $h = 0{,}1$: $-0{,}840770$ wobec $-\sin 1 = -0{,}841471$.
 
-```python
-import numpy as np
-f, x = np.sin, 1.0
-for h in (1e-1, 1e-5, 1e-12):
-    print(h, (f(x + h) - f(x - h)) / (2 * h) - np.cos(x))   # małe h ≠ dokładnie!
+```cpp
+#include "m05.h"   // Kod/metody_numeryczne
+#include <cstdio>
+for (double h : {1e-1, 1e-3, 1e-5, 1e-8, 1e-11})
+    std::printf("h = %g  błąd = %.3e\n", h,
+                roznica_centralna([](double x) { return std::sin(x); }, 1.0, h) - std::cos(1.0));
+// 1e-1: -9.0e-4   1e-3: -9.0e-8   1e-5: -1.1e-11   1e-8: 2.6e-9   1e-11: -1.2e-6  <- za małe h psuje wynik
+Vec g = gradient(rosenbrock, {-1, 2});   // (396, 200)
+Mat H = hesjan(rosenbrock, {1, 1});      // [[802, -400], [-400, 200]]
 ```
+
+> [!kod]- To samo w Pythonie (do szybkiego sprawdzenia)
+> ```python
+> import numpy as np
+> f, x = np.sin, 1.0
+> for h in (1e-1, 1e-5, 1e-12):
+>     print(h, (f(x + h) - f(x - h)) / (2 * h) - np.cos(x))   # małe h ≠ dokładnie!
+> ```
 
 > [!przyklad]- Przykład 2: za małe h
 > Dla $f = e^x$, $x = 1$, różnica w przód: przy $h = 10^{-1}$ błąd $0{,}14$, przy $h = 10^{-8}$ błąd $6{,}6 \cdot 10^{-9}$ (najlepszy), przy $h = 10^{-12}$ błąd znowu rośnie do $4{,}3 \cdot 10^{-4}$. Na wykresie log–log widać literę V: lewa gałąź to zaokrąglenia, prawa — obcięcie.
@@ -91,7 +103,7 @@ for h in (1e-1, 1e-5, 1e-12):
 
 ## Na zajęcia i egzamin
 > [!zajecia]
-> - **Optymalizacja:** gradient numeryczny w metodzie najszybszego spadku i metodach quasi-Newtona, hesjan do sprawdzania warunku dostatecznego minimum (dodatnia określoność). Ćwicz w `m05_rozniczkowanie.py` (`gradient`, `hesjan`) i porównaj z `scipy.optimize.approx_fprime`.
+> - **Optymalizacja:** gradient numeryczny w metodzie najszybszego spadku i metodach quasi-Newtona, hesjan do sprawdzania warunku dostatecznego minimum (dodatnia określoność). **Ćwicz w C++:** `Kod/metody_numeryczne/zadania/m05.cpp` (różnice przednia, centralna, druga pochodna, gradient, hesjan, krok optymalny), specyfikacja w `m05.h`, sprawdzasz `./sprawdz.sh 05`. Wzorzec: `rozwiazania/m05.cpp`, dopiero po własnej próbie. Dalej m10 składa z tego metodę Newtona i najszybszego spadku.
 > - **MES:** schemat $[1, -2, 1]/h^2$ dla $u'' = f$ to punkt wyjścia do MES 1D; pochodne funkcji kształtu po $\xi$ budują jakobian. Ćwicz `uklad_fd` i sprawdź, że błąd maleje jak $h^2$.
 > - **Typowe pytanie:** „wyprowadź z Taylora rząd różnicy centralnej”, „dlaczego nie można brać dowolnie małego $h$”, „na czym polega ekstrapolacja Richardsona”.
 > - Łączy się z: [[Funkcja celu i warunki optymalności]], [[MES 1D — od różnic skończonych do macierzy sztywności]], [[Numeryczne rozwiązywanie RRZ]].
@@ -129,6 +141,8 @@ Ile obliczeń f kosztuje gradient centralny w n wymiarach?::2n
 Skąd wziąć rząd schematu z eksperymentu?::Nachylenie prostej log(błąd) od log(h)
 Jak wygląda wiersz macierzy schematu różnicowego dla u'' = f?::[1, −2, 1] / h² — macierz trójdiagonalna
 
+Gradient i hesjan funkcji Rosenbrocka 100(y − x²)² + (1 − x)²::∇f = (−400x(y − x²) − 2(1 − x), 200(y − x²)); w (1, 1) hesjan [[802, −400], [−400, 200]]
+
 ## Moje notatki
 > [!ja] Tu piszesz ty — Albert tej sekcji nie rusza.
 
@@ -137,3 +151,4 @@ Jak wygląda wiersz macierzy schematu różnicowego dla u'' = f?::[1, −2, 1] /
 - D. Kincaid, W. Cheney, *Analiza numeryczna*, WNT — różniczkowanie numeryczne i ekstrapolacja Richardsona.
 - R. L. Burden, J. D. Faires, *Numerical Analysis*, Brooks/Cole — numerical differentiation, Richardson's extrapolation, finite-difference methods for boundary-value problems.
 - Dokumentacja SciPy: `scipy.optimize.approx_fprime`, `scipy.optimize.rosen_der`.
+- Kurs MN w C++: Kod/metody_numeryczne (moduły, testy, rozwiązania wzorcowe)

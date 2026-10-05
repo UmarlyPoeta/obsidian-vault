@@ -6,7 +6,7 @@ wymaga: ["[[Układy równań liniowych]]", "[[Interpolacja]]", "[[Arytmetyka zmi
 powiązane: ["[[Metamodelowanie]]", "[[Funkcja celu i warunki optymalności]]", "[[Różniczkowanie numeryczne]]", "[[Wielomiany]]"]
 tags: [pojęcie, metody-numeryczne]
 utworzono: 2026-10-02
-źródła: ["Fortuna, Macukow, Wąsowski — Metody numeryczne (WNT)", "Kincaid, Cheney — Analiza numeryczna", "Burden, Faires — Numerical Analysis", "Dokumentacja NumPy: numpy.linalg.lstsq, numpy.linalg.qr"]
+źródła: ["Fortuna, Macukow, Wąsowski — Metody numeryczne (WNT)", "Kincaid, Cheney — Analiza numeryczna", "Burden, Faires — Numerical Analysis", "Dokumentacja NumPy: numpy.linalg.lstsq, numpy.linalg.qr", "Instrukcja: Lab — aproksymacja średniokwadratowa", "Kurs MN w C++: Kod/metody_numeryczne (moduły, testy, rozwiązania wzorcowe)"]
 ---
 # Aproksymacja średniokwadratowa
 
@@ -58,15 +58,56 @@ utworzono: 2026-10-02
 >
 > Prosta $\hat y = 1{,}5 + x$. Reszty $(-0{,}5;\ 0{,}5;\ 0{,}5;\ -0{,}5)$ sumują się do zera, $S = 1$.
 
-```python
-import numpy as np
-x = np.array([0, 1, 2, 3.]); y = np.array([1, 3, 4, 4.])
-A = np.column_stack([np.ones_like(x), x])
-print(np.linalg.lstsq(A, y, rcond=None)[0])   # [1.5 1. ]
+```cpp
+#include "m04.h"   // Kod/metody_numeryczne, korzysta z gauss() z m02
+Vec x = {0, 1, 2, 3}, y = {1, 3, 4, 4}, w(4, 1.0);
+Vec a = aproksymacja(x, y, w, 1);                // a0 = 1.5, a1 = 1.0
+double E = blad_aproksymacji(x, y, w, a);        // 1.0 (reszty -0.5, 0.5, 0.5, -0.5)
 ```
+
+> [!kod]- To samo w Pythonie (do szybkiego sprawdzenia)
+> ```python
+> import numpy as np
+> x = np.array([0, 1, 2, 3.]); y = np.array([1, 3, 4, 4.])
+> A = np.column_stack([np.ones_like(x), x])
+> print(np.linalg.lstsq(A, y, rcond=None)[0])   # [1.5 1. ]
+> ```
 
 > [!przyklad]- Przykład 2: uwarunkowanie w praktyce
 > Wielomian stopnia 8 dopasowany do 60 punktów na $[0, 10]$, prawdziwe współczynniki same jedynki. $\mathrm{cond}(A) \approx 1{,}9 \cdot 10^9$, $\mathrm{cond}(A^T A) \approx 3{,}5 \cdot 10^{18}$. Błąd współczynników: układ normalny ok. $10^{-2}$, QR ok. $10^{-8}$. Przy stopniu 10 układ normalny daje błąd rzędu $10^2$ — wynik bezużyteczny.
+
+## Lab: aproksymacja — co oddajesz i wyniki do sprawdzenia
+Instrukcja: [[Lab — aproksymacja średniokwadratowa.pdf]]. Oddajesz na zajęciach (10 pkt), na UPEL `.cpp` i plik z rozwiązaniem zad. 2.
+
+> [!definicja] Zapis z instrukcji (baza jednomianów, wagi $w_i$)
+> $$g_{kj} = \sum_{i=0}^{m} w(x_i)\,x_i^{k}\,x_i^{j}, \qquad F_k = \sum_{i=0}^{m} w(x_i)\,x_i^{k}\,f(x_i), \qquad \sum_{j=0}^{n} g_{kj}\,a_j = F_k$$
+> To jest dokładnie układ normalny $A^T W A\,a = A^T W y$ z notatki wyżej, tylko rozpisany na sumy. $E = \sum w_i [f(x_i) - F(x_i)]^2$.
+
+> [!przyklad] Przykład z instrukcji: 8 punktów, prosta, wagi 1
+> $(1,2), (2,4), (3,3), (4,5), (5,6), (6,9), (7,11), (8,11)$.
+> - $g_{00} = \sum 1 = 8$, $g_{01} = g_{10} = \sum x_i = 36$, $g_{11} = \sum x_i^2 = 204$, $F_0 = \sum y_i = 51$, $F_1 = \sum x_i y_i = 288$.
+> - $\begin{bmatrix} 8 & 36 \\ 36 & 204 \end{bmatrix}\begin{bmatrix} a_0 \\ a_1 \end{bmatrix} = \begin{bmatrix} 51 \\ 288 \end{bmatrix}$ daje $a_0 = 0{,}107$, $a_1 = 1{,}393$ (dokładnie $3/28$ i $39/28$).
+> - Błąd $E = 6{,}393$.
+
+> [!przyklad] Zad. 2: dobór stopnia dla $(1; 3{,}2), (2; 5{,}7), \ldots, (8; 65{,}6)$
+> | stopień | współczynniki $a_0, a_1, \ldots$ | $E$ | $R^2$ |
+> |---|---|---|---|
+> | 1 | −12,889; 8,981 | 164,24 | 0,9538 |
+> | **2** | **1,896; 0,110; 0,986** | **1,006** | **0,99972** |
+> | 3 | 2,671; −0,697; 1,197; −0,0157 | 0,860 | 0,99976 |
+> | 4 | 2,286; −0,130; 0,950; 0,0253; −0,0023 | 0,851 | 0,99976 |
+>
+> **Uzasadnienie stopnia 2:** przejście z 1 na 2 zmniejsza $E$ ponad 160 razy, a dalsze stopnie prawie nic nie dają (0,86 i 0,85), za to dokładają współczynniki bliskie zeru, czyli dopasowują szum. Dane wyglądają na $y \approx x^2$ (współczynnik przy $x^2$ ≈ 0,99). Przy 8 punktach wysoki stopień zaczyna oscylować między węzłami.
+
+> [!kod]- Format pliku wejściowego (propozycja, wymaganie a) z instrukcji)
+> ```
+> 1          ← stopień wielomianu
+> 8          ← liczba węzłów
+> 1 2 1      ← x  y  waga
+> 2 4 1
+> ...
+> ```
+> Wczytujesz `std::ifstream plik("dane.txt"); plik >> n >> m; for (...) plik >> x[i] >> y[i] >> w[i];`, wołasz `aproksymacja(x, y, w, n)` i wypisujesz: liczbę węzłów, współczynniki, tabelę $x_i$, $y_i$, $F(x_i)$ i błąd $E$.
 
 ## Typowe błędy
 > [!blad] Odwracanie $A^T A$ dla wielomianów wysokiego stopnia
@@ -80,7 +121,7 @@ print(np.linalg.lstsq(A, y, rcond=None)[0])   # [1.5 1. ]
 
 ## Na zajęcia i egzamin
 > [!zajecia]
-> - **Optymalizacja:** metamodelowanie — zastępujesz drogą funkcję celu (np. symulację MES) tanią powierzchnią odpowiedzi dopasowaną MNK i optymalizujesz model. Ćwicz w `m04_aproksymacja.py` (`metamodel_kwadratowy`, `metamodel_minimum`).
+> - **Optymalizacja:** metamodelowanie — zastępujesz drogą funkcję celu (np. symulację MES) tanią powierzchnią odpowiedzi dopasowaną MNK i optymalizujesz model. Ćwicz: **Ćwicz w C++:** `Kod/metody_numeryczne/zadania/m04.cpp` (układ normalny, aproksymacja dowolnego stopnia, wielomian, błąd E), specyfikacja w `m04.h`, sprawdzasz `./sprawdz.sh 04`. Wzorzec: `rozwiazania/m04.cpp`, dopiero po własnej próbie.
 > - **MES:** identyfikacja parametrów (np. współczynnika wymiany ciepła) przez dopasowanie wyników symulacji do pomiarów; walidacja modelu.
 > - **Typowe pytanie:** „wyprowadź układ normalny”, „czym różni się interpolacja od aproksymacji”, „jak dobrać stopień wielomianu”.
 > - Łączy się z: [[Metamodelowanie]], [[Funkcja celu i warunki optymalności]], [[Interpolacja]].
@@ -118,6 +159,10 @@ Jak rozpoznać przeuczenie?::Błąd uczący maleje, a walidacyjny rośnie wraz z
 Ile parametrów ma kwadratowa powierzchnia odpowiedzi w 2D?::Sześć: 1, x1, x2, x1², x1x2, x2²
 Po co metamodel w optymalizacji?::Zastępuje drogą funkcję celu tanim modelem, który można szybko optymalizować
 
+Wzory na g_kj i F_k w aproksymacji z instrukcji::g_kj = Σ w_i x_i^k x_i^j, F_k = Σ w_i x_i^k y_i; rozwiązujesz Σ_j g_kj a_j = F_k
+Prosta dla 8 punktów z przykładu w instrukcji::a₀ = 0,107, a₁ = 1,393 (układ 8, 36; 36, 204 = 51, 288)
+Jaki stopień dla danych 3,2; 5,7; …; 65,6 z zad. 2 i dlaczego?::2, bo E spada ze 164 do 1,0, a stopnie 3 i 4 prawie nic nie poprawiają
+
 ## Moje notatki
 > [!ja] Tu piszesz ty — Albert tej sekcji nie rusza.
 
@@ -126,3 +171,5 @@ Po co metamodel w optymalizacji?::Zastępuje drogą funkcję celu tanim modelem,
 - D. Kincaid, W. Cheney, *Analiza numeryczna*, WNT — zadanie najmniejszych kwadratów, rozkład QR.
 - R. L. Burden, J. D. Faires, *Numerical Analysis*, Brooks/Cole — discrete least squares approximation.
 - Dokumentacja NumPy: `numpy.linalg.lstsq`, `numpy.linalg.qr`; SciPy: `scipy.optimize.curve_fit`.
+- Instrukcja: Lab — aproksymacja średniokwadratowa
+- Kurs MN w C++: Kod/metody_numeryczne (moduły, testy, rozwiązania wzorcowe)

@@ -6,7 +6,7 @@ wymaga: ["[[Całka oznaczona]]", "[[Interpolacja]]"]
 powiązane: ["[[Kwadratury Gaussa]]", "[[Przekształcenie izoparametryczne]]", "[[Jakobian]]", "[[Funkcje kształtu]]", "[[Macierz sztywności]]", "[[Aproksymacja średniokwadratowa]]", "[[Różniczkowanie numeryczne]]", "[[Numeryczne rozwiązywanie RRZ]]", "[[MES 1D — od różnic skończonych do macierzy sztywności]]"]
 tags: [pojęcie, metody-numeryczne, mes]
 utworzono: 2026-10-02
-źródła: ["A. Milenin — Podstawy metody elementów skończonych (Wyd. AGH 2010)", "O.C. Zienkiewicz, R.L. Taylor, J.Z. Zhu — The Finite Element Method: Its Basis and Fundamentals", "Z. Fortuna, B. Macukow, J. Wąsowski — Metody numeryczne (WNT)", "R.L. Burden, J.D. Faires — Numerical Analysis", "Dokumentacja numpy.polynomial.legendre.leggauss i scipy.integrate.quad"]
+źródła: ["A. Milenin — Podstawy metody elementów skończonych (Wyd. AGH 2010)", "O.C. Zienkiewicz, R.L. Taylor, J.Z. Zhu — The Finite Element Method: Its Basis and Fundamentals", "Z. Fortuna, B. Macukow, J. Wąsowski — Metody numeryczne (WNT)", "R.L. Burden, J.D. Faires — Numerical Analysis", "Dokumentacja numpy.polynomial.legendre.leggauss i scipy.integrate.quad", "Instrukcja: Lab — kwadratury Gaussa-Legendre'a", "Kurs MN w C++: Kod/metody_numeryczne (moduły, testy, rozwiązania wzorcowe)"]
 ---
 # Całkowanie numeryczne i kwadratury Gaussa
 
@@ -73,22 +73,83 @@ utworzono: 2026-10-02
 >
 > Wszystkie wagi są równe 1. **Pole** $= \sum \det J = 9{,}000$, zgodnie ze wzorem Gaussa na pole wielokąta. **Moment** $\iint x\,dA = \sum x \det J = 17{,}000$, więc środek ciężkości ma $\bar x = 17/9 \approx 1{,}889$. Wynik jest dokładny, bo $x\,\det J$ jest co najwyżej kwadratowy w każdej zmiennej.
 
-```python
-import numpy as np
-xi, w = np.polynomial.legendre.leggauss(2)
-wsp = np.array([(0, 0), (4, 0), (3, 3), (0, 2)], float)
-pole = moment = 0.0
-for a, wa in zip(xi, w):
-    for b, wb in zip(xi, w):
-        N = 0.25 * np.array([(1-a)*(1-b), (1+a)*(1-b), (1+a)*(1+b), (1-a)*(1+b)])
-        dNa = 0.25 * np.array([-(1-b), 1-b, 1+b, -(1+b)])
-        dNb = 0.25 * np.array([-(1-a), -(1+a), 1+a, 1-a])
-        J = np.array([dNa @ wsp, dNb @ wsp])     # wiersze: d/dξ, d/dη
-        detJ = np.linalg.det(J)
-        pole += wa * wb * detJ
-        moment += wa * wb * (N @ wsp[:, 0]) * detJ
-print(pole, moment)                              # 9.0 17.0
+```cpp
+#include "m06.h"   // Kod/metody_numeryczne, calka_czworokat korzysta z N4 z m03
+double x[4] = {0, 4, 3, 0}, y[4] = {0, 0, 3, 2};
+double pole   = calka_czworokat([](double, double) { return 1.0; }, x, y, 2);   // 9
+double moment = calka_czworokat([](double X, double) { return X; }, x, y, 2);   // 17
+double I = gauss_legendre([](double t) { return std::sin(t); }, 0.5, 2.5, 2);  // 1.67163 (lab)
 ```
+
+> [!kod]- To samo w Pythonie (do szybkiego sprawdzenia)
+> ```python
+> import numpy as np
+> xi, w = np.polynomial.legendre.leggauss(2)
+> wsp = np.array([(0, 0), (4, 0), (3, 3), (0, 2)], float)
+> pole = moment = 0.0
+> for a, wa in zip(xi, w):
+>     for b, wb in zip(xi, w):
+>         N = 0.25 * np.array([(1-a)*(1-b), (1+a)*(1-b), (1+a)*(1+b), (1-a)*(1+b)])
+>         dNa = 0.25 * np.array([-(1-b), 1-b, 1+b, -(1+b)])
+>         dNb = 0.25 * np.array([-(1-a), -(1+a), 1+a, 1-a])
+>         J = np.array([dNa @ wsp, dNb @ wsp])     # wiersze: d/dξ, d/dη
+>         detJ = np.linalg.det(J)
+>         pole += wa * wb * detJ
+>         moment += wa * wb * (N @ wsp[:, 0]) * detJ
+> print(pole, moment)                              # 9.0 17.0
+> ```
+
+## Lab: kwadratury Gaussa–Legendre'a — co oddajesz i wyniki do sprawdzenia
+Instrukcja: [[Lab — kwadratury Gaussa-Legendre'a.pdf]]. Oddajesz na zajęciach (10 pkt), na UPEL `.cpp` i plik z odpowiedziami.
+
+> [!definicja] Tablica z instrukcji i zamiana przedziału
+> | $n$ | węzły $x_i$ | wagi $A_i$ |
+> |---|---|---|
+> | 2 | $\pm\frac{\sqrt3}{3} = \pm0{,}57735$ | 1, 1 |
+> | 3 | $\pm\sqrt{3/5} = \pm0{,}774597$; 0 | $\frac59, \frac89, \frac59$ |
+> | 4 | $\pm\frac{1}{35}\sqrt{525 - 70\sqrt{30}} = \pm0{,}339981$; $\pm\frac{1}{35}\sqrt{525 + 70\sqrt{30}} = \pm0{,}861136$ | $\frac{18 + \sqrt{30}}{36} = 0{,}652145$; $\frac{18 - \sqrt{30}}{36} = 0{,}347855$ |
+>
+> $$\int_a^b f(x)\,dx \approx \frac{b - a}{2}\sum_{i=1}^{n} A_i f(t_i), \qquad t_i = \frac{a + b}{2} + \frac{b - a}{2}x_i$$
+> Czynnik $\frac{b-a}{2}$ to jakobian 1D z MES.
+
+> [!przyklad] Zad. 1: trzy całki, Gauss 2/3/4 i Newton–Cotes dla $n = 20$
+> | całka | dokładnie | G2 | G3 | G4 | prostokąty | trapezy | parabole (Simpson) |
+> |---|---|---|---|---|---|---|---|
+> | $\int_{0{,}5}^{2{,}5}\sin x$ | 1,6787262 | 1,6716257 | 1,6787876 | 1,6787259 | 1,6794259 | 1,6773270 | 1,6787271 |
+> | $\int_{0{,}5}^{5}(x^2 + 2x + 5)$ | 88,875 | 88,875 | 88,875 | 88,875 | 88,856016 | 88,912969 | 88,875 |
+> | $\int_{0{,}5}^{5} e^x$ | 146,764438 | 138,621354 | 146,426442 | 146,756901 | 146,455313 | 147,383079 | 146,766515 |
+>
+> Wnioski: dla wielomianu 2. stopnia Gauss od 2 węzłów i Simpson są dokładne. Dla $e^x$ na długim przedziale 4 węzły Gaussa (4 wywołania $f$) dają błąd $7{,}5\cdot10^{-3}$, czyli lepiej niż prostokąty i trapezy z 20 podziałami, ale gorzej niż Simpson z 21 wywołaniami. Prostokąty mają mniej więcej połowę błędu trapezów i przeciwny znak.
+
+> [!przyklad] Zad. 2: $I_1 \ldots I_8$ schematem 2, 3 i 4-węzłowym
+> | całka | dokładnie | G2 | G3 | G4 |
+> |---|---|---|---|---|
+> | $I_1 = \int_{-1}^1 (3x^2 + 2x + 1)$ | 4 | **4** | **4** | **4** |
+> | $I_2 = \int_{-1}^1 (x^3 - 4x + 2)$ | 4 | **4** | **4** | **4** |
+> | $I_3 = \int_{-1}^1 (x^4 + x^2 + 1)$ | 3,0666667 | 2,8888889 | **3,0666667** | **3,0666667** |
+> | $I_4 = \int_{-1}^1 (x^5 - 2x^3 + x)$ | 0 | **0** | **0** | **0** |
+> | $I_5 = \int_{-1}^1 (x^6 + x^2)$ | 0,9523810 | 0,7407407 | 0,9066667 | **0,9523810** |
+> | $I_6 = \int_0^2 (x^4 - 3x^2 + 2)$ | 2,4 | 2,2222222 | **2,4** | **2,4** |
+> | $I_7 = \int_0^1 e^x$ | 1,7182818285 | 1,7178963780 | 1,7182810044 | 1,7182818275 |
+> | $I_8 = \int_0^\pi \sin x$ | 2 | 1,9358196 | 2,0013889 | 1,9999842 |
+>
+> **Odpowiedzi na pytania:**
+> 1. **2 węzły** są dokładne dla wielomianów stopnia $\le 3$: $I_1$, $I_2$ i $I_4$. $I_4$ ma stopień 5, ale jest funkcją nieparzystą na przedziale symetrycznym, więc każda symetryczna kwadratura daje 0.
+> 2. **3 węzły** są dokładne do stopnia $\le 5$: $I_1$–$I_4$ i $I_6$ (stopień 4 na $[0, 2]$).
+> 3. **4 węzły** są dokładne do stopnia $\le 7$: wszystkie wielomiany, w tym $I_5$ (stopień 6).
+> 4. $e^x$ i $\sin x$ nie są wielomianami: ich szereg Taylora ma nieskończenie wiele wyrazów, a $n$-węzłowy Gauss całkuje dokładnie tylko część do $x^{2n-1}$.
+> 5. Błąd maleje bardzo szybko (dla funkcji gładkich wykładniczo z $n$): $I_7$ ma błędy $3{,}9\cdot10^{-4}$, $8{,}2\cdot10^{-7}$, $1{,}0\cdot10^{-9}$, czyli ok. 3 cyfry więcej na każdy węzeł.
+
+> [!kod]- Funkcja podcałkowa jako argument (wymaganie z zad. 1)
+> ```cpp
+> #include <functional>
+> double gauss_legendre(std::function<double(double)> f, double a, double b, int n);
+>
+> double moja(double x) { return x * x + 2 * x + 5; }
+> gauss_legendre(moja, 0.5, 5, 3);                                   // nazwa funkcji
+> gauss_legendre([](double x) { return std::exp(x); }, 0.5, 5, 4);   // lambda
+> ```
+> Bez `<functional>` działa też wskaźnik: `double gauss_legendre(double (*f)(double), ...)`, ale wtedy nie przekażesz lambdy z przechwytywaniem.
 
 ## Typowe błędy
 > [!blad] Zapominasz o jakobianie
@@ -105,7 +166,7 @@ print(pole, moment)                              # 9.0 17.0
 
 ## Na zajęcia i egzamin
 > [!zajecia]
-> - **Projekt MES 2D:** napisz raz porządną strukturę „schemat całkowania” (tablice punktów i wag dla 2×2 i 3×3) oraz funkcję liczącą $J$, $\det J$ i $J^{-1}$ w każdym punkcie. Ćwicz na `m06_calkowanie.py` (funkcje `gauss_2d`, `jakobian_q4`, `calka_czworokat`). Test kontrolny: suma $\det J \cdot w_i w_j$ po punktach musi równać się polu elementu.
+> - **Projekt MES 2D:** napisz raz porządną strukturę „schemat całkowania” (tablice punktów i wag dla 2×2 i 3×3) oraz funkcję liczącą $J$, $\det J$ i $J^{-1}$ w każdym punkcie. **Ćwicz w C++:** `Kod/metody_numeryczne/zadania/m06.cpp` (prostokąty, trapezy, Simpson, węzły Gaussa 1–4, Gauss na [a, b], Gauss 2D, całka po czworokącie), specyfikacja w `m06.h`, sprawdzasz `./sprawdz.sh 06`. Wzorzec: `rozwiazania/m06.cpp`, dopiero po własnej próbie. Jakobian, $H$, $C$ i $H_{bc}$ elementu MES są w m09. Test kontrolny: suma $\det J \cdot w_i w_j$ po punktach musi równać się polu elementu.
 > - **Egzamin:** „wyprowadź węzły i wagi dla dwóch punktów”, „do jakiego stopnia dokładna jest kwadratura $n$-punktowa”, „co to jest jakobian przekształcenia i po co $\det J$ w całce”, „ile punktów całkowania potrzeba dla elementu 4- i 9-węzłowego”.
 > - Łączy się z: [[Kwadratury Gaussa]], [[Przekształcenie izoparametryczne]], [[Jakobian]], [[Funkcje kształtu]], [[Macierz sztywności]].
 
@@ -144,6 +205,13 @@ Co oznacza det J ≤ 0 w elemencie?::Złą numerację węzłów (zgodnie z ruche
 Ile wynosi suma det J razy wagi po punktach Gaussa?::Pole elementu, co jest dobrym testem kodu
 Co daje ekstrapolacja Richardsona dla trapezów?::(4T(h/2) − T(h))/3 usuwa błąd h² i daje Simpsona; powtarzana to metoda Romberga
 
+Węzły i wagi Gaussa 3-węzłowego::±√(3/5) ≈ ±0,7746 i 0; wagi 5/9, 8/9, 5/9
+Węzły i wagi Gaussa 4-węzłowego::±0,339981 (waga 0,652145) i ±0,861136 (waga 0,347855)
+Zamiana przedziału [a, b] na [−1, 1] w kwadraturze Gaussa::t = (a+b)/2 + (b−a)/2·x, całka = (b−a)/2·Σ A_i f(t_i)
+Dla jakich wielomianów kwadratura n-węzłowa Gaussa jest dokładna?::Stopnia ≤ 2n − 1 (2 węzły: ≤ 3, 3: ≤ 5, 4: ≤ 7)
+Dlaczego ∫(x⁵ − 2x³ + x) na [−1, 1] wychodzi dokładnie już z 2 węzłów?::Funkcja nieparzysta na symetrycznym przedziale: węzły symetryczne dają 0
+∫ sin x na [0,5; 2,5] Gaussem 2-węzłowym::1,67163 (dokładnie 1,67873)
+
 ## Moje notatki
 > [!ja] Tu piszesz ty — Albert tej sekcji nie rusza.
 
@@ -153,3 +221,5 @@ Co daje ekstrapolacja Richardsona dla trapezów?::(4T(h/2) − T(h))/3 usuwa bł
 - Z. Fortuna, B. Macukow, J. Wąsowski, *Metody numeryczne*, WNT (rozdz. o całkowaniu numerycznym).
 - R.L. Burden, J.D. Faires, *Numerical Analysis*, Cengage (Newton–Cotes, Romberg, Gaussian quadrature).
 - Dokumentacja: `numpy.polynomial.legendre.leggauss`, `scipy.integrate.quad`.
+- Instrukcja: Lab — kwadratury Gaussa-Legendre'a
+- Kurs MN w C++: Kod/metody_numeryczne (moduły, testy, rozwiązania wzorcowe)

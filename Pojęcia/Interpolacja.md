@@ -6,7 +6,7 @@ wymaga: ["[[Wielomiany]]", "[[Układy równań liniowych]]", "[[Arytmetyka zmien
 powiązane: ["[[Aproksymacja średniokwadratowa]]", "[[Całkowanie numeryczne i kwadratury Gaussa]]", "[[MES 1D — od różnic skończonych do macierzy sztywności]]", "[[Różniczkowanie numeryczne]]"]
 tags: [pojęcie, metody-numeryczne]
 utworzono: 2026-10-02
-źródła: ["Fortuna, Macukow, Wąsowski — Metody numeryczne (WNT)", "Kincaid, Cheney — Analiza numeryczna", "Burden, Faires — Numerical Analysis", "Milenin — Podstawy metody elementów skończonych (Wyd. AGH 2010)", "Dokumentacja SciPy: scipy.interpolate.CubicSpline"]
+źródła: ["Fortuna, Macukow, Wąsowski — Metody numeryczne (WNT)", "Kincaid, Cheney — Analiza numeryczna", "Burden, Faires — Numerical Analysis", "Milenin — Podstawy metody elementów skończonych (Wyd. AGH 2010)", "Dokumentacja SciPy: scipy.interpolate.CubicSpline", "Kurs MN w C++: Kod/metody_numeryczne (moduły, testy, rozwiązania wzorcowe)", "Notatka [[Funkcje kształtu]] (wersja MES tego tematu, kurs dr. Kustry)"]
 ---
 # Interpolacja
 
@@ -83,12 +83,23 @@ flowchart TD
 >
 > $p(x) = 1 + 2x - 1{,}5\,x(x-1) + \tfrac{7}{12} x(x-1)(x-2)$, więc $p(3) = 1 + 6 - 9 + 3{,}5 = 1{,}5$. Ten sam wynik, bo wielomian jest jeden.
 
-```python
-import numpy as np
-from scipy.interpolate import KroghInterpolator
-x, y = [0, 1, 2, 4], [1, 3, 2, 5]
-print(KroghInterpolator(x, y)(3.0))    # 1.5
+```cpp
+#include "m03.h"   // Kod/metody_numeryczne
+Vec xs = {0, 1, 3}, ys = {0, 1, 9};                 // parabola x^2
+double w1 = lagrange(xs, ys, 2.0);                  // 4
+Vec b = ilorazy_roznicowe(xs, ys);                  // b = {0, 1, 1}: p(x) = 0 + 1(x-0) + 1(x-0)(x-1)
+double w2 = newton_wartosc(xs, b, 2.0);             // 4
+double T = interpolacja_1d(-5, 4, 20, 46, 1.55);    // 38.92 (lab 1 MES)
+auto N = N4(0.5, -0.5);                             // 0.1875, 0.5625, 0.1875, 0.0625
 ```
+
+> [!kod]- To samo w Pythonie (do szybkiego sprawdzenia)
+> ```python
+> import numpy as np
+> from scipy.interpolate import KroghInterpolator
+> x, y = [0, 1, 2, 4], [1, 3, 2, 5]
+> print(KroghInterpolator(x, y)(3.0))    # 1.5
+> ```
 
 > [!przyklad]- Przykład 2: temperatura w elemencie 4-węzłowym
 > Temperatury węzłowe $T = (100, 200, 300, 150)$ w węzłach $(-1,-1), (1,-1), (1,1), (-1,1)$. Punkt $(\xi, \eta) = (0{,}5;\ -0{,}5)$:
@@ -106,7 +117,7 @@ print(KroghInterpolator(x, y)(3.0))    # 1.5
 
 ## Na zajęcia i egzamin
 > [!zajecia]
-> - **Laby MES (pierwszy etap projektu):** funkcje kształtu elementów 3-, 4- i 9-węzłowych oraz interpolacja wartości węzłowych do punktu wewnątrz elementu. Pochodne $\partial N/\partial \xi$ są potrzebne do jakobianu. Ćwicz w `m03_interpolacja.py` (`ksztalt_1d`, `ksztalt_q4`, `ksztalt_lagrange_2d`).
+> - **Laby MES (pierwszy etap projektu):** funkcje kształtu elementów 3-, 4- i 9-węzłowych oraz interpolacja wartości węzłowych do punktu wewnątrz elementu. Pochodne $\partial N/\partial \xi$ są potrzebne do jakobianu. **Ćwicz w C++:** `Kod/metody_numeryczne/zadania/m03.cpp` (Lagrange, ilorazy różnicowe Newtona, interpolacja 1D, funkcje kształtu N4 i ich pochodne), specyfikacja w `m03.h`, sprawdzasz `./sprawdz.sh 03`. Wzorzec: `rozwiazania/m03.cpp`, dopiero po własnej próbie.
 > - **Egzamin MES:** „wyprowadź funkcje kształtu elementu kwadratowego 1D”, „jakie warunki spełniają funkcje kształtu” (delta Kroneckera, suma równa 1), „czym jest element Lagrange'a”.
 > - **Trójkąt 3-węzłowy (simpleks):** $N = (L_1, L_2, L_3)$, $L_3 = 1 - L_1 - L_2$, gdzie $L_k = A_k / A$ (pole trójkąta z punktem zamiast wierzchołka $k$ przez pole całego). Ćwicz `ksztalt_t3` i `wspolrzedne_L` w `m03`.
 > - Łączy się z: [[Całkowanie numeryczne i kwadratury Gaussa]] (całkujemy iloczyny funkcji kształtu), [[MES 1D — od różnic skończonych do macierzy sztywności]].
@@ -145,6 +156,8 @@ Wzór na błąd interpolacji wielomianowej::f^(n+1)(ζ)/(n+1)! razy iloczyn (x �
 Jaki układ rozwiązuje się dla naturalnego splajnu sześciennego?::Trójdiagonalny dla momentów M_i = S''(x_i), z M_0 = M_n = 0
 Zaleta postaci Newtona nad Lagrange'em::Dodanie węzła dokłada jeden wyraz, poprzednie współczynniki zostają
 
+Interpolacja 1D w elemencie z labu 1 MES: x₁ = −5 (20 °C), x₂ = 4 (46 °C), x = 1,55::T = 0,2722·20 + 0,7278·46 = 38,92 °C
+
 ## Moje notatki
 > [!ja] Tu piszesz ty — Albert tej sekcji nie rusza.
 
@@ -154,3 +167,5 @@ Zaleta postaci Newtona nad Lagrange'em::Dodanie węzła dokłada jeden wyraz, po
 - R. L. Burden, J. D. Faires, *Numerical Analysis*, Brooks/Cole — Lagrange, ilorazy różnicowe, splajny sześcienne.
 - A. Milenin, *Podstawy metody elementów skończonych*, Wyd. AGH 2010 — funkcje kształtu elementów.
 - Dokumentacja SciPy: `scipy.interpolate.CubicSpline`, `scipy.interpolate.KroghInterpolator`.
+- Kurs MN w C++: Kod/metody_numeryczne (moduły, testy, rozwiązania wzorcowe)
+- Notatka [[Funkcje kształtu]] (wersja MES tego tematu, kurs dr. Kustry)

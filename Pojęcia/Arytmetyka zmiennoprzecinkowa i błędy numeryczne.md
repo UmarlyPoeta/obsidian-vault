@@ -6,7 +6,7 @@ wymaga: ["[[Pochodna]]"]
 powiązane: ["[[Rozwiązywanie równań nieliniowych]]", "[[Układy równań liniowych]]", "[[Różniczkowanie numeryczne]]", "[[Całkowanie numeryczne i kwadratury Gaussa]]", "[[Numeryczne rozwiązywanie RRZ]]"]
 tags: [pojęcie, metody-numeryczne]
 utworzono: 2026-10-02
-źródła: ["Fortuna, Macukow, Wąsowski — Metody numeryczne (WNT)", "Kincaid, Cheney — Analiza numeryczna (WNT)", "Burden, Faires — Numerical Analysis (Brooks/Cole), rozdz. 1", "D. Goldberg — What Every Computer Scientist Should Know About Floating-Point Arithmetic (ACM Computing Surveys 23(1), 1991)", "N. J. Higham — Accuracy and Stability of Numerical Algorithms (SIAM 2002)", "Dokumentacja numpy: numpy.finfo, numpy.spacing"]
+źródła: ["Fortuna, Macukow, Wąsowski — Metody numeryczne (WNT)", "Kincaid, Cheney — Analiza numeryczna (WNT)", "Burden, Faires — Numerical Analysis (Brooks/Cole), rozdz. 1", "D. Goldberg — What Every Computer Scientist Should Know About Floating-Point Arithmetic (ACM Computing Surveys 23(1), 1991)", "N. J. Higham — Accuracy and Stability of Numerical Algorithms (SIAM 2002)", "Dokumentacja numpy: numpy.finfo, numpy.spacing", "Kurs MN w C++: Kod/metody_numeryczne (moduły, testy, rozwiązania wzorcowe)"]
 ---
 # Arytmetyka zmiennoprzecinkowa i błędy numeryczne
 
@@ -62,26 +62,49 @@ utworzono: 2026-10-02
 > $$x_2 = \frac{c}{q} = -10^{-8}$$
 > Błąd względny $1{,}7\cdot10^{-16}$, czyli pełna precyzja. Zadanie było **dobrze uwarunkowane**: winny był algorytm.
 
-```python
-import math
-xs = [1.0] + [1e-16] * 10**6
-s = 0.0
-for x in xs:            # zwykłe s += x
-    s += x
-print(s, math.fsum(xs))  # 1.0  1.0000000001  (każde 1e-16 ginie przy dodaniu do 1)
+```cpp
+#include "m00.h"   // Kod/metody_numeryczne
+#include <cstdio>
+int main() {
+    std::printf("%.3e\n", eps_maszynowy());           // 2.220e-16
+    Vec x(10000000, 0.1);
+    std::printf("%.10f\n", suma_naiwna(x));            // 999999.9998389754  (błąd ~1,6e-10 względnie)
+    std::printf("%.10f\n", suma_kahana(x));            // 1000000.0000000000
+    auto [x1, x2] = pierwiastki_kwadratowe(1, -1e8, 1); // 1e-8 i 1e8 bez utraty cyfr
+}
 ```
 
-> [!kod]- Suma Kahana (pełna wersja w `rozwiazania/m00_arytmetyka.py`)
+> [!kod]- To samo w Pythonie (do szybkiego sprawdzenia)
 > ```python
-> def suma_kahana(xs):
->     s = c = 0.0
->     for x in xs:
->         y = x - c          # dołóż to, co zgubiliśmy poprzednio
->         t = s + y          # tu młodsze bity y przepadają
->         c = (t - s) - y    # = minus to, co przepadło
->         s = t
->     return s
+> import math
+> xs = [1.0] + [1e-16] * 10**6
+> s = 0.0
+> for x in xs:            # zwykłe s += x
+>     s += x
+> print(s, math.fsum(xs))  # 1.0  1.0000000001  (każde 1e-16 ginie przy dodaniu do 1)
 > ```
+
+> [!kod]- Suma Kahana w C++ (pełna wersja: `Kod/metody_numeryczne/rozwiazania/m00.cpp`)
+> ```cpp
+> double suma_kahana(const Vec& x) {
+>     double s = 0, c = 0;
+>     for (double v : x) {
+>         double y = v - c;      // dołóż to, co zgubiliśmy poprzednio
+>         double t = s + y;      // tu młodsze bity y przepadają
+>         c = (t - s) - y;       // = minus to, co przepadło
+>         s = t;
+>     }
+>     return s;
+> }
+> ```
+
+## W C++ — o czym pamiętać
+> [!kod] Typy i kompilacja
+> - `double` ma 53 bity mantysy ($\varepsilon \approx 2{,}2\cdot10^{-16}$), `float` tylko 24 ($\approx 1{,}2\cdot10^{-7}$). W numeryce zawsze `double`.
+> - `std::numeric_limits<double>::epsilon()` z `<limits>` to gotowe $\varepsilon$. `std::fabs`, `std::sqrt`, `std::exp` z `<cmath>`.
+> - **Nie** kompiluj z `-ffast-math`: pozwala kompilatorowi przestawiać działania i niszczy np. sumę Kahana (kompilator „upraszcza” poprawkę do zera).
+> - Porównanie z zerem: zamiast `if (x == 0.0)` pisz `if (std::fabs(x) < eps)`. Wyjątek: dzielenie przez dokładne zero (np. $f'(x_k) = 0$ w Newtonie) sprawdzasz `== 0`.
+> - Wypisywanie: `printf("%.10f", x)` albo `std::cout << std::setprecision(12)` (z `<iomanip>`). Domyślne 6 cyfr ukrywa błędy rzędu $10^{-7}$.
 
 ## Typowe błędy
 > [!blad] `==` na floatach i „dziwne” wyniki typu `0.30000000000000004`
@@ -102,7 +125,7 @@ print(s, math.fsum(xs))  # 1.0  1.0000000001  (każde 1e-16 ginie przy dodaniu d
 > - **Optymalizacja:** kryteria stopu ($\|\nabla f\| < \varepsilon$) i różnicowe gradienty, gdzie za mały krok $h$ daje utratę cyfr.
 > - **Programowanie równoległe:** suma równoległa dodaje w innej kolejności, więc wynik różni się w ostatnich cyfrach od sekwencyjnego. Dodawanie float nie jest łączne.
 > - **Egzamin:** „czym jest epsilon maszynowy”, „podaj przykład utraty cyfr znaczących i jak jej uniknąć”, „uwarunkowanie a stabilność”, „co to rząd zbieżności”.
-> - **Ćwicz:** `kurs/m00_arytmetyka.py` (7 funkcji, test `tests/test_m00.py`).
+> - **Ćwicz w C++:** `Kod/metody_numeryczne/zadania/m00.cpp` (eps maszynowy, suma naiwna i Kahana, stabilne pierwiastki, Horner), specyfikacja w `m00.h`, sprawdzasz `./sprawdz.sh 00`. Wzorzec: `rozwiazania/m00.cpp`, dopiero po własnej próbie.
 
 ## Zadania
 > [!zadanie] Zadanie 1
@@ -140,6 +163,9 @@ Jak zmierzyć rząd zbieżności z danych?::p ≈ ln(e_{k+1}/e_k) / ln(e_k/e_{k�
 Co oznacza zbieżność kwadratowa?::e_{k+1} ≈ C e_k², liczba poprawnych cyfr podwaja się w każdym kroku
 Dlaczego 1e16 + 1 == 1e16 w double?::Przy 10^16 odstęp między liczbami maszynowymi wynosi 2, więc +1 ginie w zaokrągleniu
 
+Jak w C++ dostać epsilon maszynowy double?::std::numeric_limits<double>::epsilon() z <limits>, ok. 2,2·10⁻¹⁶
+Dlaczego nie używać -ffast-math w kodzie numerycznym?::Kompilator może przestawiać działania i np. wyzerować poprawkę w sumie Kahana
+
 ## Moje notatki
 > [!ja] Tu piszesz ty — Albert tej sekcji nie rusza.
 
@@ -150,3 +176,4 @@ Dlaczego 1e16 + 1 == 1e16 w double?::Przy 10^16 odstęp między liczbami maszyno
 - D. Goldberg, *What Every Computer Scientist Should Know About Floating-Point Arithmetic*, ACM Computing Surveys 23(1), 1991.
 - N. J. Higham, *Accuracy and Stability of Numerical Algorithms*, SIAM 2002 — rozdz. 4 „Summation” (algorytm Kahana).
 - Dokumentacja numpy: `numpy.finfo`, `numpy.spacing`; Python: `math.fsum`, `sum` (od 3.12 sumowanie z kompensacją).
+- Kurs MN w C++: Kod/metody_numeryczne (moduły, testy, rozwiązania wzorcowe)

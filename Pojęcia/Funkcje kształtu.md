@@ -89,6 +89,7 @@ print(N, N.sum(), N @ [20, 40, 80, 30])   # [0.1875 0.5625 0.1875 0.0625] 1.0 43
 
 ## Na zajęcia i egzamin
 > [!zajecia]
+> - **Ćwicz w C++:** `Kod/metody_numeryczne/zadania/m03.cpp`, funkcje `interpolacja_1d`, `N4`, `dN4_dksi`, `dN4_deta`.
 > - **Lab 1:** interpolacja temperatury w punkcie z funkcji kształtu (1D i 2D), własności $N_i$. Na kartkówce: „policz $T$ w punkcie $x$” albo „podaj $N_3$ elementu 4-węzłowego”.
 > - **Lab 3:** tabela $\partial N/\partial \xi$ i $\partial N/\partial \eta$ w punktach Gaussa, czyli element uniwersalny. Dla 2 punktów musisz dostać $-0{,}394338$, $0{,}394338$, $0{,}105662$, $-0{,}105662$ (wiersz pc1 w pliku wyników Test1).
 > - **Egzamin:** własności funkcji kształtu, zapis $t = \{N\}^T\{t\}$, wyprowadzenie pochodnych.
