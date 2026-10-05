@@ -1,6 +1,54 @@
 {
   "recentFiles": [
     {
+      "basename": "W01 Wstęp — reprezentacja liczb, uwarunkowanie, stabilność",
+      "path": "Załączniki/MN/Wykłady (Szeliga)/W01 Wstęp — reprezentacja liczb, uwarunkowanie, stabilność.pdf"
+    },
+    {
+      "basename": "AGH Metody numeryczne",
+      "path": "Przedmioty/AGH sem4/AGH Metody numeryczne.md"
+    },
+    {
+      "basename": "Uwarunkowanie zadania i stabilność algorytmów",
+      "path": "Pojęcia/Uwarunkowanie zadania i stabilność algorytmów.md"
+    },
+    {
+      "basename": "AGH Metoda elementów skończonych",
+      "path": "Przedmioty/AGH sem5/AGH Metoda elementów skończonych.md"
+    },
+    {
+      "basename": "AGH Programowanie równoległe",
+      "path": "Przedmioty/AGH sem5/AGH Programowanie równoległe.md"
+    },
+    {
+      "basename": "PK Komputerowe systemy operacyjne",
+      "path": "Przedmioty/PK sem1/PK Komputerowe systemy operacyjne.md"
+    },
+    {
+      "basename": "Optymalizacja W01 — wprowadzenie i klasyfikacja problemów",
+      "path": "Pojęcia/Optymalizacja W01 — wprowadzenie i klasyfikacja problemów.md"
+    },
+    {
+      "basename": "AGH Optymalizacja",
+      "path": "Przedmioty/AGH sem5/AGH Optymalizacja.md"
+    },
+    {
+      "basename": "AGH Inżynieria internetu",
+      "path": "Przedmioty/AGH sem5/AGH Inżynieria internetu.md"
+    },
+    {
+      "basename": "Java dla programisty C++ (JDK, JRE, JVM, typy)",
+      "path": "Pojęcia/Java dla programisty C++ (JDK, JRE, JVM, typy).md"
+    },
+    {
+      "basename": "AGH Aplikacje okienkowe i mobilne",
+      "path": "Przedmioty/AGH sem5/AGH Aplikacje okienkowe i mobilne.md"
+    },
+    {
+      "basename": "Aproksymacja jednostajna i Padégo",
+      "path": "Pojęcia/Aproksymacja jednostajna i Padégo.md"
+    },
+    {
       "basename": "Start",
       "path": "Start.md"
     },
@@ -15,10 +63,6 @@
     {
       "basename": "Rozwiązywanie równań nieliniowych",
       "path": "Pojęcia/Rozwiązywanie równań nieliniowych.md"
-    },
-    {
-      "basename": "AGH Metoda elementów skończonych",
-      "path": "Przedmioty/AGH sem5/AGH Metoda elementów skończonych.md"
     },
     {
       "basename": "Aproksymacja średniokwadratowa",
@@ -87,10 +131,6 @@
     {
       "basename": "Drawing 2026-10-05 00.12.28.excalidraw",
       "path": "Załączniki/Excalidraw/Drawing 2026-10-05 00.12.28.excalidraw.md"
-    },
-    {
-      "basename": "AGH Optymalizacja",
-      "path": "Przedmioty/AGH sem5/AGH Optymalizacja.md"
     },
     {
       "basename": "l3nav",
