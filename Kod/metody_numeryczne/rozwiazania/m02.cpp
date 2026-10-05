@@ -1,6 +1,67 @@
 #include "../m02.h"
 #include <utility>
 
+Mat macierz_rozszerzona(const Mat& A, const Vec& b) {
+    Mat Ab = A;
+    for (size_t i = 0; i < A.size(); ++i) Ab[i].push_back(b[i]);
+    return Ab;
+}
+
+void postepowanie_proste(Mat& Ab) {
+    int n = (int)Ab.size();
+    for (int k = 0; k < n - 1; ++k) {
+        if (std::fabs(Ab[k][k]) < 1e-12) throw std::runtime_error("zero na przekątnej w wierszu " + std::to_string(k));
+        for (int i = k + 1; i < n; ++i) {
+            double m = Ab[i][k] / Ab[k][k];
+            for (int j = k; j <= n; ++j) Ab[i][j] -= m * Ab[k][j];
+        }
+    }
+    if (std::fabs(Ab[n - 1][n - 1]) < 1e-12) throw std::runtime_error("zero na przekątnej w ostatnim wierszu");
+}
+
+Vec postepowanie_odwrotne(const Mat& Ab) {
+    int n = (int)Ab.size();
+    Vec x(n);
+    for (int i = n - 1; i >= 0; --i) {
+        double s = Ab[i][n];
+        for (int k = i + 1; k < n; ++k) s -= Ab[i][k] * x[k];
+        x[i] = s / Ab[i][i];
+    }
+    return x;
+}
+
+Vec gauss_bez_wyboru(const Mat& A, const Vec& b) {
+    Mat Ab = macierz_rozszerzona(A, b);
+    postepowanie_proste(Ab);
+    return postepowanie_odwrotne(Ab);
+}
+
+Vec gauss_crout(Mat A, Vec b, std::vector<int>& kol) {
+    int n = (int)b.size();
+    kol.resize(n);
+    for (int j = 0; j < n; ++j) kol[j] = j;
+    for (int k = 0; k < n; ++k) {
+        int p = k;                                       // największy |a_kj| w wierszu k
+        for (int j = k + 1; j < n; ++j)
+            if (std::fabs(A[k][kol[j]]) > std::fabs(A[k][kol[p]])) p = j;
+        std::swap(kol[k], kol[p]);                       // zamiana kolumn tylko w wektorze
+        double piv = A[k][kol[k]];
+        if (std::fabs(piv) < 1e-300) throw std::runtime_error("gauss_crout: wiersz zerowy");
+        for (int i = k + 1; i < n; ++i) {
+            double m = A[i][kol[k]] / piv;
+            for (int j = k; j < n; ++j) A[i][kol[j]] -= m * A[k][kol[j]];
+            b[i] -= m * b[k];
+        }
+    }
+    Vec x(n);
+    for (int i = n - 1; i >= 0; --i) {                   // x[kol[i]] to niewiadoma z kolumny i
+        double s = b[i];
+        for (int j = i + 1; j < n; ++j) s -= A[i][kol[j]] * x[kol[j]];
+        x[kol[i]] = s / A[i][kol[i]];
+    }
+    return x;
+}
+
 Vec gauss(Mat A, Vec b) {
     int n = (int)b.size();
     for (int k = 0; k < n; ++k) {
@@ -37,18 +98,81 @@ Mat rozklad_lu(Mat A) {
     return A;
 }
 
-Vec rozwiaz_lu(const Mat& LU, const Vec& b) {
+Vec lu_przod(const Mat& LU, const Vec& b) {
     int n = (int)b.size();
-    Vec y(n), x(n);
+    Vec y(n);
     for (int i = 0; i < n; ++i) {
         y[i] = b[i];
         for (int j = 0; j < i; ++j) y[i] -= LU[i][j] * y[j];
     }
+    return y;
+}
+
+Vec lu_wstecz(const Mat& LU, const Vec& y) {
+    int n = (int)y.size();
+    Vec x(n);
     for (int i = n - 1; i >= 0; --i) {
         x[i] = y[i];
         for (int j = i + 1; j < n; ++j) x[i] -= LU[i][j] * x[j];
         x[i] /= LU[i][i];
     }
+    return x;
+}
+
+Vec rozwiaz_lu(const Mat& LU, const Vec& b) { return lu_wstecz(LU, lu_przod(LU, b)); }
+
+void rozdziel_lu(const Mat& LU, Mat& L, Mat& U) {
+    size_t n = LU.size();
+    L.assign(n, Vec(n, 0.0));
+    U.assign(n, Vec(n, 0.0));
+    for (size_t i = 0; i < n; ++i)
+        for (size_t j = 0; j < n; ++j) {
+            if (j < i) L[i][j] = LU[i][j];
+            else U[i][j] = LU[i][j];
+            if (i == j) L[i][j] = 1;
+        }
+}
+
+bool diagonalnie_dominujaca(const Mat& A) {
+    bool ostro = false;
+    for (size_t i = 0; i < A.size(); ++i) {
+        double s = 0;
+        for (size_t j = 0; j < A.size(); ++j)
+            if (j != i) s += std::fabs(A[i][j]);
+        if (std::fabs(A[i][i]) < s) return false;
+        if (std::fabs(A[i][i]) > s) ostro = true;
+    }
+    return ostro;
+}
+
+static Vec krok_jacobiego(const Mat& A, const Vec& b, const Vec& x) {
+    size_t n = b.size();
+    Vec nowy(n);
+    for (size_t i = 0; i < n; ++i) {
+        double s = b[i];
+        for (size_t j = 0; j < n; ++j)
+            if (j != i) s -= A[i][j] * x[j];          // (L + U) x ze STAREGO wektora
+        nowy[i] = s / A[i][i];                         // D^-1
+    }
+    return nowy;
+}
+
+Vec jacobi(const Mat& A, const Vec& b, double eps, int maxit, int& iteracje) {
+    Vec x(b.size(), 0.0);
+    for (iteracje = 1; iteracje <= maxit; ++iteracje) {
+        Vec nowy = krok_jacobiego(A, b, x);
+        double zmiana = 0;
+        for (size_t i = 0; i < x.size(); ++i) zmiana = std::max(zmiana, std::fabs(nowy[i] - x[i]));
+        x = nowy;
+        if (zmiana < eps) return x;
+    }
+    iteracje = maxit;
+    return x;
+}
+
+Vec jacobi_n(const Mat& A, const Vec& b, int n) {
+    Vec x(b.size(), 0.0);
+    for (int i = 0; i < n; ++i) x = krok_jacobiego(A, b, x);
     return x;
 }
 

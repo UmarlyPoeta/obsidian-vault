@@ -3,7 +3,7 @@ typ: pojęcie
 status: nowe
 przedmioty: ["[[AGH Metoda elementów skończonych]]"]
 wymaga: ["[[Całka oznaczona]]", "[[Interpolacja]]"]
-powiązane: ["[[Kwadratury Gaussa]]", "[[Przekształcenie izoparametryczne]]", "[[Jakobian]]", "[[Funkcje kształtu]]", "[[Macierz sztywności]]", "[[Aproksymacja średniokwadratowa]]", "[[Różniczkowanie numeryczne]]", "[[Numeryczne rozwiązywanie RRZ]]", "[[MES 1D — od różnic skończonych do macierzy sztywności]]"]
+powiązane: ["[[Jakobian]]", "[[Funkcje kształtu]]", "[[Macierz sztywności]]", "[[Aproksymacja średniokwadratowa]]", "[[Różniczkowanie numeryczne]]", "[[Numeryczne rozwiązywanie RRZ]]", "[[MES 1D — od różnic skończonych do macierzy sztywności]]"]
 tags: [pojęcie, metody-numeryczne, mes]
 utworzono: 2026-10-02
 źródła: ["A. Milenin — Podstawy metody elementów skończonych (Wyd. AGH 2010)", "O.C. Zienkiewicz, R.L. Taylor, J.Z. Zhu — The Finite Element Method: Its Basis and Fundamentals", "Z. Fortuna, B. Macukow, J. Wąsowski — Metody numeryczne (WNT)", "R.L. Burden, J.D. Faires — Numerical Analysis", "Dokumentacja numpy.polynomial.legendre.leggauss i scipy.integrate.quad", "Instrukcja: Lab — kwadratury Gaussa-Legendre'a", "Kurs MN w C++: Kod/metody_numeryczne (moduły, testy, rozwiązania wzorcowe)"]
@@ -99,6 +99,40 @@ double I = gauss_legendre([](double t) { return std::sin(t); }, 0.5, 2.5, 2);  /
 > print(pole, moment)                              # 9.0 17.0
 > ```
 
+## Lab: metody geometryczne (prostokąty, trapezy, parabole) — wyniki do sprawdzenia
+Instrukcja: [[Lab — całkowanie metodami prostokątów, trapezów i parabol.pdf]]. Oddajesz na zajęciach (10 pkt), na UPEL `.cpp` i sprawozdanie z wykresem.
+
+> [!definicja] Wzory z instrukcji ($s = h = \frac{b-a}{n}$)
+> - **Prostokąty:** $\int_a^b f \approx s\sum_{i=0}^{n-1} f\left(x_i + \frac s2\right)$ — wartość w **środku** podprzedziału.
+> - **Trapezy:** $\sum_{i=0}^{n-1} \frac{x_{i+1} - x_i}{2}\left(f(x_i) + f(x_{i+1})\right)$.
+> - **Parabole:** wzór $\frac{b-a}{6}\left(f(a) + 4f\left(\frac{a+b}{2}\right) + f(b)\right)$ stosujesz na **każdym** z $n$ podprzedziałów. Działa dla dowolnego $n$ i daje to samo, co klasyczny złożony Simpson na $2n$ podziałach (w kodzie: `parabole` obok `simpson`).
+
+> [!przyklad] Zad. 1: $n = 4$
+> | całka | dokładnie | prostokąty | trapezy | parabole |
+> |---|---|---|---|---|
+> | $\int_{0{,}5}^{2{,}5}\sin x$ | 1,6787262 | **1,6963413** | **1,6436061** | 1,6787629 |
+> | $\int_{0{,}5}^{5}(x^2 + 2x + 5)$ | 88,875 | 88,4003906 | 89,8242188 | **88,875** (dokładnie) |
+> | $\int_{0{,}5}^{5} e^x$ | 146,7644378 | 139,3013721 | 161,9265256 | 146,8430899 |
+>
+> Pogrubione wyniki dla $\sin$ zgadzają się z instrukcją (1,6963 i 1,6436). Prostokąty kroki: $h_0 = \sin 0{,}75 = 0{,}682$, $h_1 = \sin 1{,}25 = 0{,}949$, $h_2 = \sin 1{,}75 = 0{,}984$, $h_3 = \sin 2{,}25 = 0{,}778$, suma razy $0{,}5$.
+
+> [!przyklad] Zad. 2: zbieżność (błąd $|I_n - I|$ dla $\int_{0{,}5}^{2{,}5}\sin x$)
+> | $n$ | prostokąty | trapezy | parabole |
+> |---|---|---|---|
+> | 1 | $3{,}2\cdot10^{-1}$ | $6{,}0\cdot10^{-1}$ | $1{,}1\cdot10^{-2}$ |
+> | 2 | $7{,}2\cdot10^{-2}$ | $1{,}4\cdot10^{-1}$ | $6{,}0\cdot10^{-4}$ |
+> | 4 | $1{,}8\cdot10^{-2}$ | $3{,}5\cdot10^{-2}$ | $3{,}7\cdot10^{-5}$ |
+> | 8 | $4{,}4\cdot10^{-3}$ | $8{,}8\cdot10^{-3}$ | $2{,}3\cdot10^{-6}$ |
+> | 16 | $1{,}1\cdot10^{-3}$ | $2{,}2\cdot10^{-3}$ | $1{,}4\cdot10^{-7}$ |
+> | 32 | $2{,}7\cdot10^{-4}$ | $5{,}5\cdot10^{-4}$ | $8{,}9\cdot10^{-9}$ |
+> | 64 | $6{,}8\cdot10^{-5}$ | $1{,}4\cdot10^{-4}$ | $5{,}6\cdot10^{-10}$ |
+>
+> **Komentarz do sprawozdania:**
+> - Podwojenie $n$ zmniejsza błąd prostokątów i trapezów **4 razy** (rząd $h^2$), a parabol **16 razy** (rząd $h^4$).
+> - Prostokąty mają mniej więcej **połowę** błędu trapezów i **przeciwny znak** (prostokąty zawyżają, trapezy zaniżają dla funkcji wklęsłej jak $\sin$ na tym przedziale). Dlatego $\frac{2P + T}{3}$ to właśnie wzór parabol.
+> - Dla wielomianu 2. stopnia parabole są dokładne już przy $n = 1$. Dla $e^x$ na długim przedziale błędy są większe (przy $n = 4$: 7,5; 15,2; 0,079), ale rzędy są te same.
+> - Wykres: oś $x$ to $n$, oś $y$ to wynik (albo lepiej $\log$ błędu). Na skali log-log widać proste o nachyleniach −2, −2, −4.
+
 ## Lab: kwadratury Gaussa–Legendre'a — co oddajesz i wyniki do sprawdzenia
 Instrukcja: [[Lab — kwadratury Gaussa-Legendre'a.pdf]]. Oddajesz na zajęciach (10 pkt), na UPEL `.cpp` i plik z odpowiedziami.
 
@@ -166,9 +200,9 @@ Instrukcja: [[Lab — kwadratury Gaussa-Legendre'a.pdf]]. Oddajesz na zajęciach
 
 ## Na zajęcia i egzamin
 > [!zajecia]
-> - **Projekt MES 2D:** napisz raz porządną strukturę „schemat całkowania” (tablice punktów i wag dla 2×2 i 3×3) oraz funkcję liczącą $J$, $\det J$ i $J^{-1}$ w każdym punkcie. **Ćwicz w C++:** `Kod/metody_numeryczne/zadania/m06.cpp` (prostokąty, trapezy, Simpson, węzły Gaussa 1–4, Gauss na [a, b], Gauss 2D, całka po czworokącie), specyfikacja w `m06.h`, sprawdzasz `./sprawdz.sh 06`. Wzorzec: `rozwiazania/m06.cpp`, dopiero po własnej próbie. Jakobian, $H$, $C$ i $H_{bc}$ elementu MES są w m09. Test kontrolny: suma $\det J \cdot w_i w_j$ po punktach musi równać się polu elementu.
+> - **Projekt MES 2D:** napisz raz porządną strukturę „schemat całkowania” (tablice punktów i wag dla 2×2 i 3×3) oraz funkcję liczącą $J$, $\det J$ i $J^{-1}$ w każdym punkcie. **Ćwicz w C++:** `Kod/metody_numeryczne/zadania/m06.cpp` (prostokąty, trapezy, Simpson, parabole z instrukcji, węzły Gaussa 1–4, Gauss na [a, b], Gauss 2D, całka po czworokącie), specyfikacja w `m06.h`, sprawdzasz `./sprawdz.sh 06`. Wzorzec: `rozwiazania/m06.cpp`, dopiero po własnej próbie. Jakobian, $H$, $C$ i $H_{bc}$ elementu MES są w m09. Test kontrolny: suma $\det J \cdot w_i w_j$ po punktach musi równać się polu elementu.
 > - **Egzamin:** „wyprowadź węzły i wagi dla dwóch punktów”, „do jakiego stopnia dokładna jest kwadratura $n$-punktowa”, „co to jest jakobian przekształcenia i po co $\det J$ w całce”, „ile punktów całkowania potrzeba dla elementu 4- i 9-węzłowego”.
-> - Łączy się z: [[Kwadratury Gaussa]], [[Przekształcenie izoparametryczne]], [[Jakobian]], [[Funkcje kształtu]], [[Macierz sztywności]].
+> - Łączy się z: [[Jakobian|przekształcenie izoparametryczne]], [[Jakobian]], [[Funkcje kształtu]], [[Macierz sztywności]].
 
 ## Zadania
 > [!zadanie] Zadanie 1
@@ -212,6 +246,10 @@ Dla jakich wielomianów kwadratura n-węzłowa Gaussa jest dokładna?::Stopnia �
 Dlaczego ∫(x⁵ − 2x³ + x) na [−1, 1] wychodzi dokładnie już z 2 węzłów?::Funkcja nieparzysta na symetrycznym przedziale: węzły symetryczne dają 0
 ∫ sin x na [0,5; 2,5] Gaussem 2-węzłowym::1,67163 (dokładnie 1,67873)
 
+Wartości z labu „metody geometryczne”: ∫ sin x na [0,5; 2,5], n = 4::Prostokąty 1,6963, trapezy 1,6436, parabole 1,67876 (dokładnie 1,67873)
+Rzędy złożonych metod prostokątów, trapezów i parabol::h², h² i h⁴: podwojenie n daje błąd 4, 4 i 16 razy mniejszy
+Związek prostokątów, trapezów i parabol::Błąd prostokątów ≈ −½ błędu trapezów, więc (2P + T)/3 to Simpson (parabole)
+
 ## Moje notatki
 > [!ja] Tu piszesz ty — Albert tej sekcji nie rusza.
 
@@ -223,3 +261,4 @@ Dlaczego ∫(x⁵ − 2x³ + x) na [−1, 1] wychodzi dokładnie już z 2 węzł
 - Dokumentacja: `numpy.polynomial.legendre.leggauss`, `scipy.integrate.quad`.
 - Instrukcja: Lab — kwadratury Gaussa-Legendre'a
 - Kurs MN w C++: Kod/metody_numeryczne (moduły, testy, rozwiązania wzorcowe)
+- Instrukcja: Lab — całkowanie metodami prostokątów, trapezów i parabol

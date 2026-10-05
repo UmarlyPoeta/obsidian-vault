@@ -20,6 +20,15 @@ double simpson(F1 f, double a, double b, int n) {
     return h / 3 * s;
 }
 
+double parabole(F1 f, double a, double b, int n) {
+    double h = (b - a) / n, s = 0;
+    for (int i = 0; i < n; ++i) {
+        double x = a + i * h;
+        s += f(x) + 4 * f(x + h / 2) + f(x + h);
+    }
+    return h / 6 * s;
+}
+
 void gauss_wezly(int n, Vec& x, Vec& A) {
     switch (n) {
     case 1: x = {0}; A = {2}; break;

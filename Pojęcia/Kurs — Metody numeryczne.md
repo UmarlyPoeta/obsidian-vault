@@ -44,23 +44,23 @@ flowchart LR
 |---|---|---|---|---|---|
 | m00 | [[Arytmetyka zmiennoprzecinkowa i błędy numeryczne]] | — | eps maszynowy, suma Kahana, stabilne pierwiastki, Horner | 40 min | kryteria stopu wszędzie |
 | m01 | [[Rozwiązywanie równań nieliniowych]] | [[Lab RN1 — metoda stycznych i siecznych.pdf\|RN1]], [[Lab RN2 — bisekcja i regula falsi.pdf\|RN2]] | bisekcja, falsi, styczne, sieczne, Newton 2×2, rząd zbieżności | 90 min | Optymalizacja (Newton), MES nieliniowy |
-| m02 | [[Układy równań liniowych]] | (Gauss w aproksymacji) | Gauss z wyborem, LU, Thomas, Gauss–Seidel | 90 min | **MES (układ H t = P)**, aproksymacja, Newton |
+| m02 | [[Układy równań liniowych]] | [[Lab — eliminacja Gaussa.pdf\|Gauss]], [[Lab — Gauss z wyborem elementu (pivoting, Crout).pdf\|pivoting]], [[Lab — LU Doolittle'a i skalowanie.pdf\|LU]], [[Lab — metoda Jacobiego.pdf\|Jacobi]] | Gauss bez i z wyborem, Crout, LU z L/U/y, Jacobi, Gauss–Seidel, Thomas | 2 h | **MES (układ H t = P)**, aproksymacja, Newton |
 | m03 | [[Interpolacja]], [[Funkcje kształtu]] | — | Lagrange, Newton, interpolacja 1D, $N_4$, $\partial N/\partial\xi$ | 60 min | **MES lab 1 i 3** |
 | m04 | [[Aproksymacja średniokwadratowa]] | [[Lab — aproksymacja średniokwadratowa.pdf\|aproksymacja]] | układ normalny, wielomian dowolnego stopnia, błąd $E$ | 60 min | Optymalizacja (metamodel) |
 | m05 | [[Różniczkowanie numeryczne]] | — | różnice skończone, gradient, hesjan | 50 min | **Optymalizacja (metody gradientowe)** |
-| m06 | [[Całkowanie numeryczne i kwadratury Gaussa]] | [[Lab — kwadratury Gaussa-Legendre'a.pdf\|kwadratury]] | prostokąty, trapezy, Simpson, Gauss 1–4, Gauss 2D, całka po czworokącie | 75 min | **MES lab 2–3** |
+| m06 | [[Całkowanie numeryczne i kwadratury Gaussa]] | [[Lab — całkowanie metodami prostokątów, trapezów i parabol.pdf\|metody geometryczne]], [[Lab — kwadratury Gaussa-Legendre'a.pdf\|kwadratury]] | prostokąty, trapezy, Simpson, parabole, Gauss 1–4, Gauss 2D, całka po czworokącie | 75 min | **MES lab 2–3** |
 | m07 | [[Numeryczne rozwiązywanie RRZ]] | [[Lab RR — Euler i Runge-Kutta.pdf\|RR]] | Euler, RK2, RK4, schemat θ dla układu | 75 min | **MES nieustalony** |
 | m08 | [[MES 1D — od różnic skończonych do macierzy sztywności]], [[Metoda Galerkina]] | — | pręt: $H$, $P$, $C$, agregacja, stan ustalony i nieustalony | 90 min | **MES** („Wstęp” Kustry) |
 | m09 | [[Jakobian]], [[Macierz sztywności]], [[Nieustalony przepływ ciepła]] | MES laby 3–9 | jakobian, $H$, $C$, $H_{bc}$, $P$ elementu 4-węzłowego | 2 h | **projekt MES** |
 | m10 | [[Metoda złotego podziału]], [[Funkcja celu i warunki optymalności]] | — | złoty podział z licznikiem, Newton dla minimum, najszybszy spadek | 75 min | **Optymalizacja** |
 
-Testy sprawdzają też przykłady z instrukcji: kroki stycznych 4,459 → 3,672 → 3,416 (RN1), kroki bisekcji 1 → 1,5 → 1,75 (RN2), prosta $a_0 = 0{,}107$, $a_1 = 1{,}392$ (aproksymacja), $y(0{,}3) = 0{,}1382$ (RR), $\int_{0{,}5}^{2{,}5}\sin x \approx 1{,}67163$ (kwadratury) i liczby z plików Kustry (det J, $H$, $C$, $H_{bc}$, $P$).
+Testy sprawdzają też przykłady z instrukcji: $x = (-1, 1, 6, -4)$ i macierz po postępowaniu prostym (Gauss), zero na przekątnej bez pivotingu i wynik z wyborem (pivoting), $L$, $U$, $y$ i efekt skalowania (LU), $D^{-1}b$ w pierwszej iteracji Jacobiego, prostokąty 1,6963 i trapezy 1,6436 (metody geometryczne), kroki stycznych 4,459 → 3,672 → 3,416 (RN1), kroki bisekcji 1 → 1,5 → 1,75 (RN2), prosta $a_0 = 0{,}107$, $a_1 = 1{,}392$ (aproksymacja), $y(0{,}3) = 0{,}1382$ (RR), $\int_{0{,}5}^{2{,}5}\sin x \approx 1{,}67163$ (kwadratury) i liczby z plików Kustry (det J, $H$, $C$, $H_{bc}$, $P$).
 
 ## Ścieżki: od czego zacząć
 > [!wazne] Pod najbliższe zajęcia
 > - **MES, lab 2 (całkowanie Gaussa):** m03 → **m06** → m02. Praca domowa z labu 2 to dokładnie testy z m06 ($\int 5x^2 + 3x + 6 = 15{,}333$, $\iint 5x^2y^2 + 3xy + 6 = 26{,}222$). Potem m09 krok po kroku razem z labami 3–9.
 > - **Optymalizacja (projekt):** m01 (styczne = Newton) → m05 (gradient, hesjan) → **m10** → [[Trening — Optymalizacja w kodzie]] i [[Framework optymalizacji (matrix, solution) w C++]].
-> - **Laby z metod numerycznych z instrukcji:** m01 (RN1, RN2), m04 (aproksymacja), m06 (kwadratury), m07 (RR). W każdej notatce jest sekcja „Lab” z wymaganiami, wynikami do porównania i szkieletem programu.
+> - **Laby z metod numerycznych z instrukcji:** m02 (Gauss, pivoting, LU, Jacobi), m06 (metody geometryczne, kwadratury), m01 (RN1, RN2), m04 (aproksymacja), m07 (RR). W każdej notatce jest sekcja „Lab” z wymaganiami, wynikami do porównania i szkieletem programu.
 >
 > **Minimum, jeśli masz tylko jeden wieczór:** m02 `gauss`, m03 `N4`/`dN4`, m06 `gauss_wezly` i `gauss_legendre`, m07 `schemat_theta`. To jest kręgosłup programu MES.
 
@@ -115,13 +115,13 @@ cd ~/obsidian-vault/Kod/metody_numeryczne      # ścieżka do twojego vaulta w W
 > - **MES, egzamin (60% oceny):** funkcje kształtu, kwadratury Gaussa, jakobian, macierz sztywności i wektor obciążeń, schematy w czasie. To są m03, m06, m07, m08 i m09.
 > - **MES, laby:** program piszesz sam i bronisz go ustnie. Moduły m02, m03, m06, m07 i m09 to dokładnie jego części, a testy m09 używają liczb z plików prowadzącego.
 > - **Optymalizacja:** m01 (Newton), m04 (metamodel), m05 (gradient i hesjan), m10 (złoty podział, Newton, najszybszy spadek), a do tego [[Trening — Optymalizacja w kodzie]].
-> - **Laby z instrukcji (metody numeryczne):** wyniki do porównania i odpowiedzi na pytania są w sekcjach „Lab” notatek m01, m04, m06 i m07.
+> - **Laby z instrukcji (metody numeryczne):** wyniki do porównania i odpowiedzi na pytania są w sekcjach „Lab” notatek m01, m02, m04, m06 i m07.
 
 ## Moje notatki
 > [!ja] Tu piszesz ty — Albert tej sekcji nie rusza.
 
 ## Źródła
-- Instrukcje do laboratorium (RN1, RN2, aproksymacja, RR, kwadratury): `Załączniki/MN/Instrukcje/`.
+- Instrukcje do laboratorium (eliminacja Gaussa, pivoting, LU, Jacobi, metody geometryczne całkowania, kwadratury, RN1, RN2, aproksymacja, RR): `Załączniki/MN/Instrukcje/`.
 - Z. Fortuna, B. Macukow, J. Wąsowski, *Metody numeryczne*, WNT — podstawowy polski podręcznik.
 - D. Kincaid, W. Cheney, *Analiza numeryczna*, WNT.
 - R.L. Burden, J.D. Faires, *Numerical Analysis*, Brooks/Cole.

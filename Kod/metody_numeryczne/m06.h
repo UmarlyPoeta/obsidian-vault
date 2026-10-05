@@ -6,7 +6,10 @@
 // Złożone kwadratury na n podprzedziałach długości h = (b - a) / n.
 double prostokaty(F1 f, double a, double b, int n);   // wartość w środku podprzedziału
 double trapezy(F1 f, double a, double b, int n);
-double simpson(F1 f, double a, double b, int n);       // „parabole”, n parzyste (inaczej invalid_argument)
+double simpson(F1 f, double a, double b, int n);       // klasyczny złożony Simpson, n parzyste (inaczej invalid_argument)
+// „Parabole” w wersji z instrukcji „Całkowanie — metody geometryczne”: wzór (6) na KAŻDYM z n podprzedziałów,
+// sum h/6 (f(x_i) + 4 f(x_i + h/2) + f(x_i + h)); działa dla dowolnego n (to Simpson na 2n podziałach).
+double parabole(F1 f, double a, double b, int n);
 
 // Węzły i wagi Gaussa–Legendre'a na [-1, 1] dla n = 1..4 (tablica z instrukcji).
 void gauss_wezly(int n, Vec& x, Vec& A);

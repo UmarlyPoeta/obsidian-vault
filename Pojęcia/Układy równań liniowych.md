@@ -114,6 +114,89 @@ Vec x = gauss({{2, 1, -1}, {-3, -1, 2}, {-2, 1, 2}}, {8, -11, -3});   // (2, 3, 
 > - `Mat` to `std::vector<std::vector<double>>`, dostęp `A[i][j]`. Dla dużych siatek MES (Test3: 961 węzłów, macierz 961×961 ≈ 7 MB) to jeszcze działa. Przy 100×100 elementach (10 201 węzłów, ok. 830 MB) potrzebna jest macierz pasmowa albo rzadka.
 > - Gauss bez wyboru elementu głównego wywraca się na zerze na przekątnej. Macierz MES z $H_{bc}$ jest symetryczna i dodatnio określona, więc tam działa i bez wyboru, ale wybór niczego nie psuje.
 
+## Laby z układów równań — co oddajesz i wyniki do sprawdzenia
+Instrukcje: [[Lab — eliminacja Gaussa.pdf]], [[Lab — Gauss z wyborem elementu (pivoting, Crout).pdf]], [[Lab — LU Doolittle'a i skalowanie.pdf]], [[Lab — metoda Jacobiego.pdf]]. Wszędzie dane czytasz **z pliku**, a `.cpp` wrzucasz na UPEL.
+
+### Eliminacja Gaussa (6 + 4 pkt)
+> [!przyklad] Przykład z instrukcji: $[A \mid b]$ i wynik postępowania prostego
+> $$\left[\begin{array}{cccc|c} 2 & 4 & 2 & 1 & 10 \\ 2 & 2 & 3 & 3 & 6 \\ 4 & 2 & 2 & 1 & 6 \\ 0 & 2 & 1 & 1 & 4 \end{array}\right] \;\to\; \left[\begin{array}{cccc|c} 2 & 4 & 2 & 1 & 10 \\ 0 & -2 & 1 & 2 & -4 \\ 0 & 0 & -5 & -7 & -2 \\ 0 & 0 & 0 & 0{,}2 & -0{,}8 \end{array}\right]$$
+> Mnożniki: $m_{10} = 1$, $m_{20} = 2$, $m_{30} = 0$, potem $m_{21} = 3$, $m_{31} = -1$, na końcu $m_{32} = -0{,}4$. Postępowanie odwrotne: $x_3 = -0{,}8/0{,}2 = -4$, $x_2 = \frac{-2 - (-7)(-4)}{-5} = 6$, $x_1 = \frac{-4 - (1 \cdot 6 + 2 \cdot (-4))}{-2} = 1$, $x_0 = \frac{10 - (4 + 12 - 4)}{2} = -1$. **Wynik: $x = (-1, 1, 6, -4)$.**
+
+> [!zadanie] Zad. 2: dwa układy, na których metoda się psuje (każdy z innego powodu)
+> 1. **Zero na przekątnej przy macierzy nieosobliwej:** $\begin{bmatrix} 0 & 1 \\ 1 & 1 \end{bmatrix} x = \begin{bmatrix} 1 \\ 2 \end{bmatrix}$ (rozwiązanie $x = (1, 1)$ istnieje, ale $m_{10} = 1/0$). Ten sam efekt w połowie eliminacji daje macierz z labu „pivoting” (po pierwszym kroku $a_{11} = 0$).
+> 2. **Macierz osobliwa:** $\begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}$ — po eliminacji $a_{11} = 0$, bo rozwiązań nie ma albo jest ich nieskończenie wiele. Tego nie naprawi żaden wybór elementu.
+> 3. (zapasowy) **Mały element główny, zły wynik bez błędu:** $\begin{bmatrix} 10^{-17} & 1 \\ 1 & 1 \end{bmatrix} x = \begin{bmatrix} 1 \\ 2 \end{bmatrix}$. Dokładnie $x \approx (1, 1)$, a Gauss bez wyboru daje $x_0 = 0$, bo $1 - 10^{17}$ zjada jedynkę.
+> 4. (zapasowy) **Złe uwarunkowanie:** układ z labu LU niżej — metoda działa, ale wynik ma błąd kilku procent.
+
+### Wybór elementu głównego (3 + 3 + 4 pkt)
+> [!przyklad] Układ z instrukcji
+> $$\left[\begin{array}{cccc|c} 2 & 4 & 2 & 1 & 10 \\ 1 & 2 & 3 & 3 & 6 \\ 4 & 5 & 2 & 1 & 6 \\ 0 & 1 & 2 & 9 & 1 \end{array}\right], \qquad x = (-4{,}011905;\ 4{,}023810;\ 1{,}273810;\ -0{,}619048)$$
+> - **Bez wyboru** nie działa: po pierwszym kroku wiersz 1 to $(0, 0, 2, 2{,}5 \mid 1)$, czyli zero na przekątnej.
+> - **Wybór w kolumnie (zamiana wierszy):** w kolumnie 0 największe jest 4, więc wiersz 2 idzie na górę. Dalej tak samo w każdej kolumnie.
+> - **Gauss–Crout (zamiana kolumn):** w wierszu 0 największe jest 4 w kolumnie 1, więc wektor kolumn zaczyna się od $[1, 0, 2, 3]$. Kolumn nie przestawiasz w pamięci: odwołujesz się `A[i][kol[j]]`, a na końcu wynik z kolumny $j$ wpisujesz do `x[kol[j]]`.
+> - **Zad. 3 (tabelka):** dla macierzy z załącznika prowadzącego zrób kolumny „bez wyboru / wiersze / kolumny” i wpisuj ✓ albo ✗ (zero na przekątnej, zły wynik). Jako „zły wynik” sprawdzaj residuum $\|Ax - b\|$ i porównanie z drugą metodą. Pliku z tymi macierzami nie mam, więc tabeli nie policzyłem.
+
+### LU Doolittle'a i skalowanie
+> [!przyklad] Przykład z instrukcji: $A = \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 10 \end{bmatrix}$, $b = (6, 8, 3)$
+> $$L = \begin{bmatrix} 1 & 0 & 0 \\ 4 & 1 & 0 \\ 7 & 2 & 1 \end{bmatrix}, \quad U = \begin{bmatrix} 1 & 2 & 3 \\ 0 & -3 & -6 \\ 0 & 0 & 1 \end{bmatrix}, \quad y = (6, -16, -7), \quad x = (-11{,}667;\ 19{,}333;\ -7)$$
+> Format pliku z instrukcji: najpierw $n$ wierszy macierzy, potem $n$ liczb wektora $b$. Rozmiar $n$ wyznaczysz z liczby liczb w pierwszym wierszu albo dopisz go na początku pliku.
+
+> [!przyklad] Zad. 2: $A = \begin{bmatrix} 1 & 1 \\ 1 & 1{,}00000000000001 \end{bmatrix}$, $b = (2;\ 2{,}00000000000001)$, dokładnie $x = (1, 1)$
+> | wariant | $u_{22}$ | $x$ (double, bez pivotingu) |
+> |---|---|---|
+> | oryginał | $9{,}992\cdot10^{-15}$ (zamiast $10^{-14}$) | (0,977778; 1,022222) |
+> | ×$10^{14}$ mnożone w programie | 1 | (0,96875; 1,03125) |
+> | ×$10^{14}$ wpisane do pliku (`1e14`, `100000000000001`, `200000000000001`) | 1 | **(1; 1) dokładnie** |
+> | ×$10^{-14}$ | $9{,}94\cdot10^{-29}$ | (0,984127; 1,015873) |
+> | dla porównania: `long double` | | (1,000000000000000; 1,000000000000000) |
+>
+> **Odpowiedzi na część 4:**
+> 1. **Tak.** Pomnożenie obu stron równań przez tę samą liczbę nie zmienia rozwiązania: zawsze $x = (1, 1)$.
+> 2. **Nie.** Każdy wariant daje inne $x$, błąd od 0 do ok. 3%.
+> 3. Najdokładniej: skalowanie w górę **z danymi wpisanymi dokładnie**, bo wszystkie liczby są wtedy całkowite i dokładnie reprezentowalne. Najgorzej: skalowanie w górę przez mnożenie w programie (3,1%). Oryginał ma 2,2%, a skalowanie w dół 1,6%.
+> 4. **Dlaczego skalowanie wpływa na wynik:** $1{,}00000000000001$ nie ma dokładnej reprezentacji binarnej (w double to $1{,}0000000000000099920$). Mnożenie przez $10^{\pm14}$, które nie jest potęgą dwójki, zaokrągla każdą liczbę od nowa, więc każdy wariant ma **inne błędy danych**. Układ jest prawie osobliwy: $\operatorname{cond}(A) \approx 4/10^{-14} = 4\cdot10^{14}$. Błąd względny danych ok. $10^{-16}$ rośnie więc do ok. $4\cdot10^{-2}$, czyli kilku procent. Skalowanie przez potęgę dwójki (np. $2^{47}$) daje wynik identyczny jak oryginał, co potwierdza, że winne są zaokrąglenia, a nie sam rozmiar liczb.
+> 5. **Krok z problemem:** $u_{22} = a_{22} - l_{21}u_{12} = 1{,}00000000000001 - 1$ (i tak samo $y_2 = b_2 - l_{21}y_1$). To **odejmowanie prawie równych liczb**: z 16 cyfr zostają 1–2 poprawne. Potem $x_2 = y_2/u_{22}$ dzieli dwie zaszumione małe liczby.
+> 6. **Jak temu zaradzić:** pivoting tu **nie pomaga** (element główny i tak wynosi 1, a $l_{21} = 1$), bo problemem jest złe uwarunkowanie, a nie mały dzielnik. Pomaga: większa precyzja (`long double`, `__float128`), podanie danych w postaci dokładnie reprezentowalnej, skalowanie przez potęgi dwójki zamiast $10^k$, iteracyjne poprawianie rozwiązania (residuum liczone w wyższej precyzji), a najlepiej przeformułowanie modelu, żeby macierz nie była prawie osobliwa.
+
+### Metoda Jacobiego (4 + 2 + 4 pkt)
+> [!definicja] Wzory z instrukcji
+> $A = L + D + U$, a stąd $x^{(i+1)} = -D^{-1}(L + U)x^{(i)} + D^{-1}b$, start $x^{(0)} = 0$. W kodzie bez macierzy: $x_i^{nowe} = \frac{b_i - \sum_{j \ne i} a_{ij}x_j^{stare}}{a_{ii}}$. **Wszystkie** składowe liczysz ze starego wektora (w Gauss–Seidlu od razu z nowych). Zbieżna dla macierzy nieredukowalnej, diagonalnie słabo dominującej: $|a_{ii}| \ge \sum_{j \ne i}|a_{ij}|$ w każdym wierszu i $>$ w co najmniej jednym.
+
+> [!przyklad] Mały test: $A = \begin{bmatrix} 4 & -1 & 1 \\ -1 & 4 & -2 \\ 1 & -2 & 4 \end{bmatrix}$, $b = (12, -1, 5)$, dokładnie $x = (3, 1, 1)$
+> - Dominacja: $4 \ge 2$, $4 \ge 3$, $4 \ge 3$, wszędzie ostro, więc zbieżna.
+> - Pierwsza iteracja z $x = 0$: $x^{(1)} = D^{-1}b = (3;\ -0{,}25;\ 1{,}25)$.
+> - $\varepsilon = 10^{-3}$: **21 iteracji**, $x = (3{,}000211;\ 0{,}999711;\ 1{,}000288)$, błąd $\approx 3\cdot10^{-4}$.
+> - $\varepsilon = 10^{-6}$: **39 iteracji**, błąd $\approx 3\cdot10^{-7}$.
+> - Gauss–Seidel na tej samej macierzy zbiega w mniej więcej połowie iteracji.
+
+> [!przyklad] Zad. 3: macierz 1000×1000 (pomiar na tym samym kodzie, g++ -O2)
+> Macierz losowa: $a_{ij} \in [-1, 1]$, $a_{ii} = \sum_{j \ne i}|a_{ij}| + 1$ (mocna dominacja), $b$ losowe.
+>
+> | metoda | $\varepsilon$ | iteracje | czas | $\lVert Ax - b\rVert_\infty$ |
+> |---|---|---|---|---|
+> | Jacobi | $10^{-3}$ | 2 | 1,5 ms | $2{,}3\cdot10^{-3}$ |
+> | Jacobi | $10^{-6}$ | 4 | 3,0 ms | $3{,}1\cdot10^{-6}$ |
+> | Jacobi | $10^{-10}$ | 7 | 4,8 ms | $1{,}6\cdot10^{-10}$ |
+> | Gauss z wyborem | — | — | 177 ms | $4{,}3\cdot10^{-15}$ |
+>
+> Komentarz: iteracja Jacobiego kosztuje $O(n^2)$, a Gauss $O(n^3)$, więc przy silnej dominacji Jacobi jest kilkadziesiąt razy szybszy, a błąd ustawiasz przez $\varepsilon$. Przy słabej dominacji iteracji jest dużo więcej. Czas mierz `std::chrono::steady_clock` (przykład w notatce [[Kompilacja i pomiar czasu wykonania]]). Twoje czasy będą inne, ale proporcje podobne.
+
+> [!kod]- Wczytywanie macierzy rozszerzonej z pliku (wspólne dla wszystkich labów)
+> ```cpp
+> #include <fstream>
+> // plik: n, potem n wierszy po n + 1 liczb (A i b)
+> std::ifstream we("dane.txt");
+> int n; we >> n;
+> Mat A(n, Vec(n)); Vec b(n);
+> for (int i = 0; i < n; ++i) {
+>     for (int j = 0; j < n; ++j) we >> A[i][j];
+>     we >> b[i];
+> }
+> void wypisz(const Mat& M) {
+>     for (auto& w : M) { for (double v : w) std::printf("%10.4f ", v); std::printf("\n"); }
+> }
+> ```
+
 ## Typowe błędy
 > [!blad] Gauss bez wyboru elementu głównego
 > Przy $a_{11} = 0$ dzielisz przez zero, a przy $a_{11} = 10^{-20}$ mnożnik $10^{20}$ zjada wszystkie cyfry. Dla układu $\begin{bmatrix}10^{-20} & 1\\ 1 & 1\end{bmatrix}\mathbf x = (1, 2)$ bez zamiany wychodzi $(0, 1)$ zamiast $(1, 1)$.
@@ -133,7 +216,7 @@ Vec x = gauss({{2, 1, -1}, {-3, -1, 2}, {-2, 1, 2}}, {8, -11, -3});   // (2, 3, 
 > - **Programowanie równoległe:** Jacobi to klasyczny przykład problemu „embarrassingly parallel” w obrębie iteracji (każdy wątek liczy swoje składowe), a Gauss–Seidel wymaga kolorowania (red-black), żeby go zrównoleglić.
 > - **Optymalizacja:** krok Newtona $H\Delta = -\nabla f$ to układ liniowy.
 > - **Egzamin:** „po co wybór elementu głównego”, „koszt Gaussa i Thomasa”, „warunek zbieżności Jacobiego”, „co mówi wskaźnik uwarunkowania”.
-> - **Ćwicz w C++:** `Kod/metody_numeryczne/zadania/m02.cpp` (Gauss z wyborem elementu głównego, LU, Thomas, Gauss–Seidel, residuum), specyfikacja w `m02.h`, sprawdzasz `./sprawdz.sh 02`. Wzorzec: `rozwiazania/m02.cpp`, dopiero po własnej próbie. Ten moduł jest potrzebny w m04, m07, m08 i m10, więc zrób go wcześnie.
+> - **Ćwicz w C++:** `Kod/metody_numeryczne/zadania/m02.cpp` (Gauss bez wyboru: postępowanie proste i odwrotne; Gauss z wyborem w wierszach; Gauss–Crout z wektorem kolumn; LU Doolittle'a z L, U, y; Jacobi z warunkiem dominacji; Gauss–Seidel; Thomas; residuum), specyfikacja w `m02.h`, sprawdzasz `./sprawdz.sh 02`. Wzorzec: `rozwiazania/m02.cpp`, dopiero po własnej próbie. Ten moduł jest potrzebny w m04, m07, m08 i m10, więc zrób go wcześnie.
 
 ## Zadania
 > [!zadanie] Zadanie 1
@@ -173,6 +256,16 @@ Czym rozwiązać duży rzadki układ w Pythonie?::scipy.sparse (CSR/CSC, np. sp.
 Trzy etapy eliminacji Gaussa w kodzie::Wybór elementu głównego (zamiana wierszy), zerowanie pod przekątną, podstawianie wstecz
 Złożoność eliminacji Gaussa i algorytmu Thomasa::Gauss O(n³), Thomas O(n) dla trójdiagonalnej
 
+Rozwiązanie przykładu z labu „Eliminacja Gaussa” (2 4 2 1 | 10 …)::x = (−1, 1, 6, −4)
+Dwa różne powody, dla których Gauss bez wyboru nie działa::Zero na przekątnej przy macierzy nieosobliwej (pomaga pivoting) albo macierz osobliwa (nic nie pomoże)
+Czym różni się wybór częściowy po wierszach od metody Gaussa–Crouta?::Wiersze: największy |a_ik| w kolumnie, zamiana wierszy. Crout: największy |a_kj| w wierszu, zamiana kolumn zapamiętana w wektorze numerów kolumn
+Dlaczego w Croucie trzeba pamiętać wektor kolumn?::Zamiana kolumn zmienia kolejność niewiadomych, więc przy podstawianiu wstecz x[kol[j]] wraca na właściwe miejsce
+Który krok LU psuje wynik dla A = [[1, 1], [1, 1,00000000000001]]?::u22 = a22 − l21·u12: odejmowanie prawie równych liczb, cond(A) ≈ 4·10¹⁴
+Czy pivoting naprawi układ [[1, 1], [1, 1 + 1e-14]]?::Nie, problemem jest złe uwarunkowanie; pomaga wyższa precyzja, dokładne dane, skalowanie potęgą 2
+Wzór iteracji Jacobiego::x⁽ⁱ⁺¹⁾ = −D⁻¹(L + U)x⁽ⁱ⁾ + D⁻¹b; każda składowa ze starego wektora
+Warunek zbieżności Jacobiego z instrukcji::Macierz nieredukowalna, diagonalnie słabo dominująca: |a_ii| ≥ Σ|a_ij| w każdym wierszu i > w co najmniej jednym
+Koszt iteracji Jacobiego a eliminacji Gaussa::Iteracja O(n²), Gauss O(n³)
+
 ## Moje notatki
 > [!ja] Tu piszesz ty — Albert tej sekcji nie rusza.
 
@@ -183,3 +276,4 @@ Złożoność eliminacji Gaussa i algorytmu Thomasa::Gauss O(n³), Thomas O(n) d
 - Dokumentacja NumPy: `numpy.linalg.solve`, `numpy.linalg.cond`.
 - Dokumentacja SciPy: `scipy.linalg.lu_factor`, `scipy.linalg.solve_banded`, `scipy.sparse.diags`, `scipy.sparse.linalg.spsolve`.
 - Kurs MN w C++: Kod/metody_numeryczne (moduły, testy, rozwiązania wzorcowe)
+- Instrukcje: Lab — eliminacja Gaussa; Lab — Gauss z wyborem elementu (pivoting, Crout); Lab — LU Doolittle'a i skalowanie; Lab — metoda Jacobiego

@@ -13,8 +13,14 @@ double trapezy(F1 f, double a, double b, int n) {
     TODO;
 }
 
-// „parabole”, n parzyste (inaczej invalid_argument)
+// klasyczny złożony Simpson, n parzyste (inaczej invalid_argument)
 double simpson(F1 f, double a, double b, int n) {
+    TODO;
+}
+
+// „Parabole” w wersji z instrukcji „Całkowanie — metody geometryczne”: wzór (6) na KAŻDYM z n podprzedziałów,
+// sum h/6 (f(x_i) + 4 f(x_i + h/2) + f(x_i + h)); działa dla dowolnego n (to Simpson na 2n podziałach).
+double parabole(F1 f, double a, double b, int n) {
     TODO;
 }
 
