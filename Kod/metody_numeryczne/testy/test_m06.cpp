@@ -66,4 +66,15 @@ TEST("całka po czworokącie: x po kwadracie [1,3]x[0,2] = 8") {
     BLISKO(calka_czworokat([](double X, double) { return X; }, x, y, 2), 8.0, 1e-13);
 }
 
+TEST("lab metody geometryczne: sin na [0.5, 2.5], n = 4 (1.6963, 1.6436, parabole)") {
+    BLISKO(prostokaty(sin_, 0.5, 2.5, 4), 1.6963, 1e-4);
+    BLISKO(trapezy(sin_, 0.5, 2.5, 4), 1.6436, 1e-4);
+    BLISKO(parabole(sin_, 0.5, 2.5, 4), 1.678763, 1e-6);
+    BLISKO(parabole(sin_, 0.5, 2.5, 4), simpson(sin_, 0.5, 2.5, 8), 1e-14);   // ta sama metoda
+}
+
+TEST("parabole dokładne dla wielomianów stopnia 3 przy n = 1") {
+    BLISKO(parabole([](double x) { return x * x * x - x + 2; }, 0, 2, 1), 4 - 2 + 4, 1e-13);
+}
+
 URUCHOM("m06 całkowanie")
