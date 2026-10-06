@@ -1,12 +1,24 @@
 {
   "recentFiles": [
     {
-      "basename": "Drawing 2026-10-06 20.39.21.excalidraw",
-      "path": "Załączniki/Excalidraw/Drawing 2026-10-06 20.39.21.excalidraw.md"
+      "basename": "WP — Anticheat w grach",
+      "path": "Projekty/WP — Anticheat w grach.md"
+    },
+    {
+      "basename": "AGH Wzorce projektowe",
+      "path": "Przedmioty/AGH sem5/AGH Wzorce projektowe.md"
+    },
+    {
+      "basename": "AGH Metoda elementów skończonych",
+      "path": "Przedmioty/AGH sem5/AGH Metoda elementów skończonych.md"
     },
     {
       "basename": "SNN_Agent — Start",
       "path": "SNN_Agent/SNN_Agent — Start.md"
+    },
+    {
+      "basename": "Drawing 2026-10-06 20.39.21.excalidraw",
+      "path": "Załączniki/Excalidraw/Drawing 2026-10-06 20.39.21.excalidraw.md"
     },
     {
       "basename": "Model SNN — od dźwięku do decyzji",
@@ -75,10 +87,6 @@
     {
       "basename": "Uwarunkowanie zadania i stabilność algorytmów",
       "path": "Pojęcia/Uwarunkowanie zadania i stabilność algorytmów.md"
-    },
-    {
-      "basename": "AGH Metoda elementów skończonych",
-      "path": "Przedmioty/AGH sem5/AGH Metoda elementów skończonych.md"
     },
     {
       "basename": "PK Komputerowe systemy operacyjne",
@@ -191,14 +199,6 @@
     {
       "basename": "Branche — przegląd",
       "path": "Solar/Branche — przegląd.md"
-    },
-    {
-      "basename": "Mapa topików i serwisów",
-      "path": "Solar/Mapa topików i serwisów.md"
-    },
-    {
-      "basename": "2026-10-04",
-      "path": "Dziennik/2026-10-04.md"
     }
   ],
   "omittedPaths": [],
