@@ -1,6 +1,10 @@
 {
   "recentFiles": [
     {
+      "basename": "Start",
+      "path": "Start.md"
+    },
+    {
       "basename": "Regulator od zera — 2. Matematyka",
       "path": "Solar/Regulator od zera — 2. Matematyka.md"
     },
@@ -87,10 +91,6 @@
     {
       "basename": "Aproksymacja jednostajna i Padégo",
       "path": "Pojęcia/Aproksymacja jednostajna i Padégo.md"
-    },
-    {
-      "basename": "Start",
-      "path": "Start.md"
     },
     {
       "basename": "Kurs — Metody numeryczne",
