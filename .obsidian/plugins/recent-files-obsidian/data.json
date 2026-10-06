@@ -1,6 +1,10 @@
 {
   "recentFiles": [
     {
+      "basename": "Model SNN — od dźwięku do decyzji",
+      "path": "SNN_Agent/Model SNN — od dźwięku do decyzji.md"
+    },
+    {
       "basename": "Regulator od zera — 2. Matematyka",
       "path": "Solar/Regulator od zera — 2. Matematyka.md"
     },
@@ -127,10 +131,6 @@
     {
       "basename": "MES — kurs dr. Kustry (mapa labów)",
       "path": "Pojęcia/MES — kurs dr. Kustry (mapa labów).md"
-    },
-    {
-      "basename": "Model SNN — od dźwięku do decyzji",
-      "path": "SNN_Agent/Model SNN — od dźwięku do decyzji.md"
     },
     {
       "basename": "PK Fizyka",
