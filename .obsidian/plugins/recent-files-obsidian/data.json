@@ -1,6 +1,10 @@
 {
   "recentFiles": [
     {
+      "basename": "Drawing 2026-10-06 20.39.21.excalidraw",
+      "path": "Załączniki/Excalidraw/Drawing 2026-10-06 20.39.21.excalidraw.md"
+    },
+    {
       "basename": "SNN_Agent — Start",
       "path": "SNN_Agent/SNN_Agent — Start.md"
     },
@@ -195,10 +199,6 @@
     {
       "basename": "2026-10-04",
       "path": "Dziennik/2026-10-04.md"
-    },
-    {
-      "basename": "Środowisko developerskie (Docker ROS2)",
-      "path": "Solar/Środowisko developerskie (Docker ROS2).md"
     }
   ],
   "omittedPaths": [],
