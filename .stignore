@@ -1,0 +1,6 @@
+// lokalne dla urządzenia (nie synchronizowane)
+.git
+.trash
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+(?d)desktop.ini

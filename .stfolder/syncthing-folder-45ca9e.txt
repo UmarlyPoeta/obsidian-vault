@@ -1,0 +1,5 @@
+# This directory is a Syncthing folder marker.
+# Do not delete.
+
+folderID: wiedza
+created: 2026-10-06T13:46:09+02:00
