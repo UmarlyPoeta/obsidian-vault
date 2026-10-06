@@ -1,6 +1,10 @@
 {
   "recentFiles": [
     {
+      "basename": "Angielski PK",
+      "path": "Angielski/Angielski PK.md"
+    },
+    {
       "basename": "WP — Anticheat w grach",
       "path": "Projekty/WP — Anticheat w grach.md"
     },
@@ -195,10 +199,6 @@
     {
       "basename": "l1od",
       "path": "Solar/Repozytoria/l1od.md"
-    },
-    {
-      "basename": "Branche — przegląd",
-      "path": "Solar/Branche — przegląd.md"
     }
   ],
   "omittedPaths": [],
