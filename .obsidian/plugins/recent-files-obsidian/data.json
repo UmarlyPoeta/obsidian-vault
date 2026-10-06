@@ -1,28 +1,32 @@
 {
   "recentFiles": [
     {
-      "basename": "Solar — Start",
-      "path": "Solar/Solar — Start.md"
-    },
-    {
-      "basename": "Start",
-      "path": "Start.md"
-    },
-    {
       "basename": "Regulator od zera — 2. Matematyka",
       "path": "Solar/Regulator od zera — 2. Matematyka.md"
-    },
-    {
-      "basename": "Regulator od zera — 1. Co to jest i Simulink",
-      "path": "Solar/Regulator od zera — 1. Co to jest i Simulink.md"
     },
     {
       "basename": "regulator",
       "path": "Solar/Pakiety/regulator.md"
     },
     {
+      "basename": "Regulator od zera — 1. Co to jest i Simulink",
+      "path": "Solar/Regulator od zera — 1. Co to jest i Simulink.md"
+    },
+    {
+      "basename": "Regulator — hierarchia i działanie",
+      "path": "Solar/Regulator — hierarchia i działanie.md"
+    },
+    {
       "basename": "l0hwd",
       "path": "Solar/Repozytoria/l0hwd.md"
+    },
+    {
+      "basename": "Solar — Start",
+      "path": "Solar/Solar — Start.md"
+    },
+    {
+      "basename": "Start",
+      "path": "Start.md"
     },
     {
       "basename": "Interpolacja",
