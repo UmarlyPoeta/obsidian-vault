@@ -1,6 +1,18 @@
 {
   "recentFiles": [
     {
+      "basename": "pose_graph",
+      "path": "Solar/Pakiety/pose_graph.md"
+    },
+    {
+      "basename": "l2dp",
+      "path": "Solar/Repozytoria/l2dp.md"
+    },
+    {
+      "basename": "Solar — Start",
+      "path": "Solar/Solar — Start.md"
+    },
+    {
       "basename": "Start",
       "path": "Start.md"
     },
@@ -39,10 +51,6 @@
     {
       "basename": "Model SNN — od dźwięku do decyzji",
       "path": "SNN_Agent/Model SNN — od dźwięku do decyzji.md"
-    },
-    {
-      "basename": "Solar — Start",
-      "path": "Solar/Solar — Start.md"
     },
     {
       "basename": "Regulator od zera — 2. Matematyka",
@@ -191,14 +199,6 @@
     {
       "basename": "Funkcja celu i warunki optymalności",
       "path": "Pojęcia/Funkcja celu i warunki optymalności.md"
-    },
-    {
-      "basename": "Drawing 2026-10-05 00.12.28.excalidraw",
-      "path": "Załączniki/Excalidraw/Drawing 2026-10-05 00.12.28.excalidraw.md"
-    },
-    {
-      "basename": "l3nav",
-      "path": "Solar/Repozytoria/l3nav.md"
     }
   ],
   "omittedPaths": [],
