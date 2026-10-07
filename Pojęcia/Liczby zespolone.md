@@ -1,10 +1,18 @@
 ---
 typ: pojęcie
-status: uczę się
-przedmioty: ["[[PK Matematyka 1]]", "[[PK Elektrotechnika i miernictwo]]"]
-wymaga: ["[[Funkcja wykładnicza]]", "[[Granica (lim)]]"]
-powiązane: ["[[Transformata Laplace'a]]", "[[Argument i faza (φ)]]"]
-tags: [pojęcie, matematyka]
+status: umiem
+przedmioty:
+  - "[[PK Matematyka 1]]"
+  - "[[PK Elektrotechnika i miernictwo]]"
+wymaga:
+  - "[[Funkcja wykładnicza]]"
+  - "[[Granica (lim)]]"
+powiązane:
+  - "[[Transformata Laplace'a]]"
+  - "[[Argument i faza (φ)]]"
+tags:
+  - pojęcie
+  - matematyka
 utworzono: 2026-09-27
 źródła: []
 ---

@@ -1,12 +1,32 @@
 {
   "recentFiles": [
     {
-      "basename": "pose_graph",
-      "path": "Solar/Pakiety/pose_graph.md"
+      "basename": "l0hwd",
+      "path": "Solar/Repozytoria/l0hwd.md"
+    },
+    {
+      "basename": "Mapa topików i serwisów",
+      "path": "Solar/Mapa topików i serwisów.md"
+    },
+    {
+      "basename": "fast_scan",
+      "path": "Solar/Pakiety/fast_scan.md"
+    },
+    {
+      "basename": "Liczby zespolone",
+      "path": "Pojęcia/Liczby zespolone.md"
+    },
+    {
+      "basename": "pointcloud_to_laserscan",
+      "path": "Solar/Pakiety/pointcloud_to_laserscan.md"
     },
     {
       "basename": "l2dp",
       "path": "Solar/Repozytoria/l2dp.md"
+    },
+    {
+      "basename": "pose_graph",
+      "path": "Solar/Pakiety/pose_graph.md"
     },
     {
       "basename": "Solar — Start",
@@ -67,10 +87,6 @@
     {
       "basename": "Regulator — hierarchia i działanie",
       "path": "Solar/Regulator — hierarchia i działanie.md"
-    },
-    {
-      "basename": "l0hwd",
-      "path": "Solar/Repozytoria/l0hwd.md"
     },
     {
       "basename": "Interpolacja",
@@ -183,22 +199,6 @@
     {
       "basename": "PK Matematyka 2",
       "path": "Przedmioty/PK sem2/PK Matematyka 2.md"
-    },
-    {
-      "basename": "2026-10-02 piątek",
-      "path": "Przygotowanie/2026-10-02 piątek.md"
-    },
-    {
-      "basename": "Diagram klas UML",
-      "path": "Pojęcia/Diagram klas UML.md"
-    },
-    {
-      "basename": "MES 1D — od różnic skończonych do macierzy sztywności",
-      "path": "Pojęcia/MES 1D — od różnic skończonych do macierzy sztywności.md"
-    },
-    {
-      "basename": "Funkcja celu i warunki optymalności",
-      "path": "Pojęcia/Funkcja celu i warunki optymalności.md"
     }
   ],
   "omittedPaths": [],
