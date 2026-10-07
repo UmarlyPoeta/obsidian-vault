@@ -1,8 +1,20 @@
 {
   "recentFiles": [
     {
+      "basename": "Start",
+      "path": "Start.md"
+    },
+    {
       "basename": "Angielski PK",
       "path": "Angielski/Angielski PK.md"
+    },
+    {
+      "basename": "Słówka",
+      "path": "Angielski/Słówka.md"
+    },
+    {
+      "basename": "Testy",
+      "path": "Angielski/Testy.md"
     },
     {
       "basename": "WP — Anticheat w grach",
@@ -51,10 +63,6 @@
     {
       "basename": "l0hwd",
       "path": "Solar/Repozytoria/l0hwd.md"
-    },
-    {
-      "basename": "Start",
-      "path": "Start.md"
     },
     {
       "basename": "Interpolacja",
@@ -169,10 +177,6 @@
       "path": "Przedmioty/PK sem2/PK Matematyka 2.md"
     },
     {
-      "basename": "Słówka",
-      "path": "Angielski/Słówka.md"
-    },
-    {
       "basename": "2026-10-02 piątek",
       "path": "Przygotowanie/2026-10-02 piątek.md"
     },
@@ -195,10 +199,6 @@
     {
       "basename": "l3nav",
       "path": "Solar/Repozytoria/l3nav.md"
-    },
-    {
-      "basename": "l1od",
-      "path": "Solar/Repozytoria/l1od.md"
     }
   ],
   "omittedPaths": [],
