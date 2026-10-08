@@ -82,6 +82,7 @@ Pełna lista połączeń (158 topików, 11 serwisów, z automatycznie wykrytymi 
 | Inna łódź | [[embedded-system]] | Firmware hydroskrzydłowca Delta/Celka (STM32F446, Zephyr), **nie barki** | — |
 
 ## Notatki zbiorcze
+- [[L2 SLAM — Start]]: **SLAM i L2 dla maintainera**: kod linia po linii, matematyka, parametry, projekt loop closure.
 - [[Nawigacja i autonomia — przepływ]]: od waypointu do ramki CAN, tryby, dokowanie, kolizje.
 - [[Regulator — hierarchia i działanie]] i [[Regulator — TODO, błędy i oscylacje]]: model Simulink od środka, przyczyny oscylacji, jak uprościć ścieżkę.
 - [[Regulator od zera — 1. Co to jest i Simulink]]: ta sama wiedza od podstaw, z wykresami (seria 4 notatek).
