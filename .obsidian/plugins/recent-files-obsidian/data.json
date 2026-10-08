@@ -1,20 +1,24 @@
 {
   "recentFiles": [
     {
-      "basename": "Start",
-      "path": "Start.md"
+      "basename": "Optymalizacja Lab 0 — Monte Carlo i wahadło",
+      "path": "Pojęcia/Optymalizacja Lab 0 — Monte Carlo i wahadło.md"
     },
     {
-      "basename": "pose_graph",
-      "path": "Solar/Pakiety/pose_graph.md"
+      "basename": "AGH Optymalizacja",
+      "path": "Przedmioty/AGH sem5/AGH Optymalizacja.md"
     },
     {
       "basename": "Optymalizacja W01 — wprowadzenie i klasyfikacja problemów",
       "path": "Pojęcia/Optymalizacja W01 — wprowadzenie i klasyfikacja problemów.md"
     },
     {
-      "basename": "AGH Optymalizacja",
-      "path": "Przedmioty/AGH sem5/AGH Optymalizacja.md"
+      "basename": "Start",
+      "path": "Start.md"
+    },
+    {
+      "basename": "pose_graph",
+      "path": "Solar/Pakiety/pose_graph.md"
     },
     {
       "basename": "Znane problemy i ryzyka",
@@ -195,10 +199,6 @@
     {
       "basename": "MES — kurs dr. Kustry (mapa labów)",
       "path": "Pojęcia/MES — kurs dr. Kustry (mapa labów).md"
-    },
-    {
-      "basename": "PK Fizyka",
-      "path": "Przedmioty/PK sem1/PK Fizyka.md"
     }
   ],
   "omittedPaths": [],
