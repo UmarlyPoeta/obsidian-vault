@@ -5,6 +5,34 @@
       "path": "Start.md"
     },
     {
+      "basename": "pose_graph",
+      "path": "Solar/Pakiety/pose_graph.md"
+    },
+    {
+      "basename": "Optymalizacja W01 — wprowadzenie i klasyfikacja problemów",
+      "path": "Pojęcia/Optymalizacja W01 — wprowadzenie i klasyfikacja problemów.md"
+    },
+    {
+      "basename": "AGH Optymalizacja",
+      "path": "Przedmioty/AGH sem5/AGH Optymalizacja.md"
+    },
+    {
+      "basename": "Znane problemy i ryzyka",
+      "path": "Solar/Znane problemy i ryzyka.md"
+    },
+    {
+      "basename": "Branche — przegląd",
+      "path": "Solar/Branche — przegląd.md"
+    },
+    {
+      "basename": "Regulator — hierarchia i działanie",
+      "path": "Solar/Regulator — hierarchia i działanie.md"
+    },
+    {
+      "basename": "Regulator — gotowe poprawki do wdrożenia",
+      "path": "Solar/Regulator — gotowe poprawki do wdrożenia.md"
+    },
+    {
       "basename": "l0hwd",
       "path": "Solar/Repozytoria/l0hwd.md"
     },
@@ -27,10 +55,6 @@
     {
       "basename": "l2dp",
       "path": "Solar/Repozytoria/l2dp.md"
-    },
-    {
-      "basename": "pose_graph",
-      "path": "Solar/Pakiety/pose_graph.md"
     },
     {
       "basename": "Solar — Start",
@@ -85,10 +109,6 @@
       "path": "Solar/Regulator od zera — 1. Co to jest i Simulink.md"
     },
     {
-      "basename": "Regulator — hierarchia i działanie",
-      "path": "Solar/Regulator — hierarchia i działanie.md"
-    },
-    {
       "basename": "Interpolacja",
       "path": "Pojęcia/Interpolacja.md"
     },
@@ -127,14 +147,6 @@
     {
       "basename": "PK Komputerowe systemy operacyjne",
       "path": "Przedmioty/PK sem1/PK Komputerowe systemy operacyjne.md"
-    },
-    {
-      "basename": "Optymalizacja W01 — wprowadzenie i klasyfikacja problemów",
-      "path": "Pojęcia/Optymalizacja W01 — wprowadzenie i klasyfikacja problemów.md"
-    },
-    {
-      "basename": "AGH Optymalizacja",
-      "path": "Przedmioty/AGH sem5/AGH Optymalizacja.md"
     },
     {
       "basename": "AGH Inżynieria internetu",
@@ -187,18 +199,6 @@
     {
       "basename": "PK Fizyka",
       "path": "Przedmioty/PK sem1/PK Fizyka.md"
-    },
-    {
-      "basename": "Zasada Huygensa",
-      "path": "Pojęcia/Zasada Huygensa.md"
-    },
-    {
-      "basename": "PK Matematyka 1",
-      "path": "Przedmioty/PK sem1/PK Matematyka 1.md"
-    },
-    {
-      "basename": "PK Matematyka 2",
-      "path": "Przedmioty/PK sem2/PK Matematyka 2.md"
     }
   ],
   "omittedPaths": [],
