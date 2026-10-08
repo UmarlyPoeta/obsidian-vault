@@ -1,6 +1,14 @@
 {
   "recentFiles": [
     {
+      "basename": "l2dp",
+      "path": "Solar/Repozytoria/l2dp.md"
+    },
+    {
+      "basename": "pose_graph",
+      "path": "Solar/Pakiety/pose_graph.md"
+    },
+    {
       "basename": "Optymalizacja Lab 0 — Monte Carlo i wahadło",
       "path": "Pojęcia/Optymalizacja Lab 0 — Monte Carlo i wahadło.md"
     },
@@ -15,10 +23,6 @@
     {
       "basename": "Start",
       "path": "Start.md"
-    },
-    {
-      "basename": "pose_graph",
-      "path": "Solar/Pakiety/pose_graph.md"
     },
     {
       "basename": "Znane problemy i ryzyka",
@@ -55,10 +59,6 @@
     {
       "basename": "pointcloud_to_laserscan",
       "path": "Solar/Pakiety/pointcloud_to_laserscan.md"
-    },
-    {
-      "basename": "l2dp",
-      "path": "Solar/Repozytoria/l2dp.md"
     },
     {
       "basename": "Solar — Start",
