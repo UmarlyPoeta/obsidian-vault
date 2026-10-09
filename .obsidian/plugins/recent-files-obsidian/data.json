@@ -1,204 +1,20 @@
 {
   "recentFiles": [
     {
-      "basename": "l2dp",
-      "path": "Solar/Repozytoria/l2dp.md"
-    },
-    {
-      "basename": "pose_graph",
-      "path": "Solar/Pakiety/pose_graph.md"
-    },
-    {
-      "basename": "Optymalizacja Lab 0 — Monte Carlo i wahadło",
-      "path": "Pojęcia/Optymalizacja Lab 0 — Monte Carlo i wahadło.md"
-    },
-    {
-      "basename": "AGH Optymalizacja",
-      "path": "Przedmioty/AGH sem5/AGH Optymalizacja.md"
-    },
-    {
-      "basename": "Optymalizacja W01 — wprowadzenie i klasyfikacja problemów",
-      "path": "Pojęcia/Optymalizacja W01 — wprowadzenie i klasyfikacja problemów.md"
-    },
-    {
       "basename": "Start",
       "path": "Start.md"
     },
     {
-      "basename": "Znane problemy i ryzyka",
-      "path": "Solar/Znane problemy i ryzyka.md"
-    },
-    {
-      "basename": "Branche — przegląd",
-      "path": "Solar/Branche — przegląd.md"
-    },
-    {
-      "basename": "Regulator — hierarchia i działanie",
-      "path": "Solar/Regulator — hierarchia i działanie.md"
+      "basename": "l2dp",
+      "path": "Solar/Repozytoria/l2dp.md"
     },
     {
       "basename": "Regulator — gotowe poprawki do wdrożenia",
       "path": "Solar/Regulator — gotowe poprawki do wdrożenia.md"
     },
     {
-      "basename": "l0hwd",
-      "path": "Solar/Repozytoria/l0hwd.md"
-    },
-    {
-      "basename": "Mapa topików i serwisów",
-      "path": "Solar/Mapa topików i serwisów.md"
-    },
-    {
-      "basename": "fast_scan",
-      "path": "Solar/Pakiety/fast_scan.md"
-    },
-    {
-      "basename": "Liczby zespolone",
-      "path": "Pojęcia/Liczby zespolone.md"
-    },
-    {
-      "basename": "pointcloud_to_laserscan",
-      "path": "Solar/Pakiety/pointcloud_to_laserscan.md"
-    },
-    {
-      "basename": "Solar — Start",
-      "path": "Solar/Solar — Start.md"
-    },
-    {
-      "basename": "Angielski PK",
-      "path": "Angielski/Angielski PK.md"
-    },
-    {
-      "basename": "Słówka",
-      "path": "Angielski/Słówka.md"
-    },
-    {
-      "basename": "Testy",
-      "path": "Angielski/Testy.md"
-    },
-    {
       "basename": "WP — Anticheat w grach",
       "path": "Projekty/WP — Anticheat w grach.md"
-    },
-    {
-      "basename": "AGH Wzorce projektowe",
-      "path": "Przedmioty/AGH sem5/AGH Wzorce projektowe.md"
-    },
-    {
-      "basename": "AGH Metoda elementów skończonych",
-      "path": "Przedmioty/AGH sem5/AGH Metoda elementów skończonych.md"
-    },
-    {
-      "basename": "SNN_Agent — Start",
-      "path": "SNN_Agent/SNN_Agent — Start.md"
-    },
-    {
-      "basename": "Drawing 2026-10-06 20.39.21.excalidraw",
-      "path": "Załączniki/Excalidraw/Drawing 2026-10-06 20.39.21.excalidraw.md"
-    },
-    {
-      "basename": "Model SNN — od dźwięku do decyzji",
-      "path": "SNN_Agent/Model SNN — od dźwięku do decyzji.md"
-    },
-    {
-      "basename": "Regulator od zera — 2. Matematyka",
-      "path": "Solar/Regulator od zera — 2. Matematyka.md"
-    },
-    {
-      "basename": "regulator",
-      "path": "Solar/Pakiety/regulator.md"
-    },
-    {
-      "basename": "Regulator od zera — 1. Co to jest i Simulink",
-      "path": "Solar/Regulator od zera — 1. Co to jest i Simulink.md"
-    },
-    {
-      "basename": "Interpolacja",
-      "path": "Pojęcia/Interpolacja.md"
-    },
-    {
-      "basename": "AGH Metody numeryczne",
-      "path": "Przedmioty/AGH sem4/AGH Metody numeryczne.md"
-    },
-    {
-      "basename": "Metody iteracyjne rozwiązywania układów liniowych",
-      "path": "Pojęcia/Metody iteracyjne rozwiązywania układów liniowych.md"
-    },
-    {
-      "basename": "W02 Układy równań liniowych",
-      "path": "Załączniki/MN/Wykłady (Szeliga)/W02 Układy równań liniowych.pdf"
-    },
-    {
-      "basename": "Układy równań liniowych",
-      "path": "Pojęcia/Układy równań liniowych.md"
-    },
-    {
-      "basename": "W01 Wstęp — reprezentacja liczb, uwarunkowanie, stabilność",
-      "path": "Załączniki/MN/Wykłady (Szeliga)/W01 Wstęp — reprezentacja liczb, uwarunkowanie, stabilność.pdf"
-    },
-    {
-      "basename": "Drawing 2026-10-05 23.00.09.excalidraw",
-      "path": "Załączniki/Excalidraw/Drawing 2026-10-05 23.00.09.excalidraw.md"
-    },
-    {
-      "basename": "AGH Programowanie równoległe",
-      "path": "Przedmioty/AGH sem5/AGH Programowanie równoległe.md"
-    },
-    {
-      "basename": "Uwarunkowanie zadania i stabilność algorytmów",
-      "path": "Pojęcia/Uwarunkowanie zadania i stabilność algorytmów.md"
-    },
-    {
-      "basename": "PK Komputerowe systemy operacyjne",
-      "path": "Przedmioty/PK sem1/PK Komputerowe systemy operacyjne.md"
-    },
-    {
-      "basename": "AGH Inżynieria internetu",
-      "path": "Przedmioty/AGH sem5/AGH Inżynieria internetu.md"
-    },
-    {
-      "basename": "Java dla programisty C++ (JDK, JRE, JVM, typy)",
-      "path": "Pojęcia/Java dla programisty C++ (JDK, JRE, JVM, typy).md"
-    },
-    {
-      "basename": "AGH Aplikacje okienkowe i mobilne",
-      "path": "Przedmioty/AGH sem5/AGH Aplikacje okienkowe i mobilne.md"
-    },
-    {
-      "basename": "Aproksymacja jednostajna i Padégo",
-      "path": "Pojęcia/Aproksymacja jednostajna i Padégo.md"
-    },
-    {
-      "basename": "Kurs — Metody numeryczne",
-      "path": "Pojęcia/Kurs — Metody numeryczne.md"
-    },
-    {
-      "basename": "Rozwiązywanie równań nieliniowych",
-      "path": "Pojęcia/Rozwiązywanie równań nieliniowych.md"
-    },
-    {
-      "basename": "Aproksymacja średniokwadratowa",
-      "path": "Pojęcia/Aproksymacja średniokwadratowa.md"
-    },
-    {
-      "basename": "Drawing 2026-10-05 03.17.15.excalidraw",
-      "path": "Załączniki/Excalidraw/Drawing 2026-10-05 03.17.15.excalidraw.md"
-    },
-    {
-      "basename": "Lab RN1 — metoda stycznych i siecznych",
-      "path": "Załączniki/MN/Instrukcje/Lab RN1 — metoda stycznych i siecznych.pdf"
-    },
-    {
-      "basename": "Arytmetyka zmiennoprzecinkowa i błędy numeryczne",
-      "path": "Pojęcia/Arytmetyka zmiennoprzecinkowa i błędy numeryczne.md"
-    },
-    {
-      "basename": "01 MES zajęcia 1 — funkcje kształtu, interpolacja, siatka",
-      "path": "Załączniki/MES/Kustra — instrukcje/01 MES zajęcia 1 — funkcje kształtu, interpolacja, siatka.pdf"
-    },
-    {
-      "basename": "MES — kurs dr. Kustry (mapa labów)",
-      "path": "Pojęcia/MES — kurs dr. Kustry (mapa labów).md"
     }
   ],
   "omittedPaths": [],
