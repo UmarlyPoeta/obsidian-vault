@@ -18,6 +18,9 @@ cssclasses: [start]
 >
 > **Terminal:** `wiedza status`, `wiedza luki pk`, `wiedza powtorka`, `wiedza przygotuj jutro`, `wiedza sprawdz --wszystko`, `plan jutro`, `angielski on`.
 
+> [!wazne] 🤖 Rozmowa: Grid Dynamics — Robotics Engineer Intern
+> [[00 Rozmowa GD — Start]] · [[24 Trenażer — symulacja rozmowy|🎯 Trenażer]] · [[Plan nauki — Kanban|📋 Plan]] · [[25 Ściąga — 30 minut przed rozmową|⚡ Ściąga]]
+
 ## Najbliższe zajęcia
 ```dataview
 TABLE WITHOUT ID file.link AS "Przygotowanie", data AS "Dzień"
