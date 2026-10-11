@@ -1,20 +1,44 @@
 {
   "recentFiles": [
     {
-      "basename": "02 Robot learning — imitation learning i VLA",
-      "path": "Rozmowa GD/02 Robot learning — imitation learning i VLA.md"
-    },
-    {
       "basename": "Start",
       "path": "Start.md"
     },
     {
-      "basename": "l2dp",
-      "path": "Solar/Repozytoria/l2dp.md"
+      "basename": "02 Robot learning — imitation learning i VLA",
+      "path": "Rozmowa GD/02 Robot learning — imitation learning i VLA.md"
+    },
+    {
+      "basename": "17 Docker dla robotyki",
+      "path": "Rozmowa GD/17 Docker dla robotyki.md"
+    },
+    {
+      "basename": "13 Elektronika, okablowanie i drobne naprawy",
+      "path": "Rozmowa GD/13 Elektronika, okablowanie i drobne naprawy.md"
+    },
+    {
+      "basename": "AGH Optymalizacja",
+      "path": "Przedmioty/AGH sem5/AGH Optymalizacja.md"
+    },
+    {
+      "basename": "04 Jakość danych, organizacja i upload",
+      "path": "Rozmowa GD/04 Jakość danych, organizacja i upload.md"
+    },
+    {
+      "basename": "03 Teleoperacja i zbieranie datasetów",
+      "path": "Rozmowa GD/03 Teleoperacja i zbieranie datasetów.md"
+    },
+    {
+      "basename": "01 Firma, rola i dzień pracy",
+      "path": "Rozmowa GD/01 Firma, rola i dzień pracy.md"
     },
     {
       "basename": "Regulator — gotowe poprawki do wdrożenia",
       "path": "Solar/Regulator — gotowe poprawki do wdrożenia.md"
+    },
+    {
+      "basename": "l2dp",
+      "path": "Solar/Repozytoria/l2dp.md"
     },
     {
       "basename": "WP — Anticheat w grach",
