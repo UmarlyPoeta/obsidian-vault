@@ -37,10 +37,34 @@ kanban-plugin: board
 - [ ] [[27 Zadania obliczeniowe — liczenie na głos]]
 
 
+## 🔬 Pogłębienie (ROS 2, VLA, LeRobot)
+
+- [ ] [[R1 Architektura ROS 2 i DDS — co dzieje się pod spodem]]
+- [ ] [[R2 Węzły, executory, callbacki i czas]]
+- [ ] [[R3 Topiki, wiadomości i QoS — dogłębnie]]
+- [ ] [[R4 Serwisy, akcje i parametry — dogłębnie]]
+- [ ] [[R5 Workspace, pakiety, colcon i launch]]
+- [ ] [[R6 Piszemy węzły — kod krok po kroku]]
+- [ ] [[R7 ROS 2 w labie zbierania danych]]
+- [ ] [[V1 Fundamenty — od sieci neuronowej do polityki]]
+- [ ] [[V2 Transformer i modele wizja-język]]
+- [ ] [[V3 Reprezentacja akcji — tokeny, chunking, dyfuzja, flow matching]]
+- [ ] [[V4 Architektury VLA i polityk krok po kroku]]
+- [ ] [[V5 Trening — pretraining, fine-tuning i dane]]
+- [ ] [[V6 Inferencja na robocie i ewaluacja]]
+- [ ] [[V7 VLA z perspektywy operatora — co z tego wynika]]
+- [ ] [[L1 Czym jest LeRobot — mapa biblioteki]]
+- [ ] [[L2 LeRobotDataset — format od środka]]
+- [ ] [[L3 Sprzęt — SO-101, silniki Feetech, kalibracja, kamery]]
+- [ ] [[L4 Nagrywanie datasetu krok po kroku]]
+- [ ] [[L5 Trening i ewaluacja polityk w LeRobot]]
+- [ ] [[L6 LeRobot a ROS 2 — integracja i jak o tym mówić]]
+
+
 ## 🛠️ Praktyka
 
 - [ ] MoveIt z udawanym UR5e (komendy w [[00 Rozmowa GD — Start]])
-- [ ] Przejrzeć LeRobot: README + dataset na Hugging Face
+- [ ] Praktyka LeRobot bez robota (1–2 h) wg [[L6 LeRobot a ROS 2 — integracja i jak o tym mówić]]
 - [ ] ros2 bag record / info na własnym laptopie
 - [ ] Grafik dostępności AGH + PK (konkretne dni i godziny)
 - [ ] Prawdziwa historia naprawy sprzętu do notatki 22
@@ -62,6 +86,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,false,false,false,false]}
+{"kanban-plugin":"board","list-collapse":[false,false,false,false,false,false,false]}
 ```
 %%

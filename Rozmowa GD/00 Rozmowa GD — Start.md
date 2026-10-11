@@ -57,6 +57,7 @@ flowchart TD
 | 🩺 | **Praca w labie** | [[19 Troubleshooting — jak diagnozować]] · [[20 Dokumentacja, inwentaryzacja i log konserwacji]] |
 | 🗣️ | **Ty i rozmowa** | [[22 Moje projekty — jak o nich opowiadać]] · [[23 Pytania HR, behawioralne i po angielsku]] |
 | 🧰 | **Sprzęt i liczenie** | [[26 Sprzęt w labach robot learning]] · [[27 Zadania obliczeniowe — liczenie na głos]] |
+| 🔬 | **Pogłębienie** | [[R0 ROS 2 — mapa działu\|🐢 ROS 2 — dokładnie]] (R1–R7) · [[V0 VLA — mapa działu\|🧠 VLA — dokładnie]] (V1–V7) · [[L0 LeRobot — mapa działu\|🤗 LeRobot — dokładnie]] (L1–L6) |
 | 🎯 | **Trening** | [[28 Próbna rozmowa — scenariusz i dopytki]] · [[24 Trenażer — symulacja rozmowy]] · [[25 Ściąga — 30 minut przed rozmową]] · [[Plan nauki — Kanban]] |
 
 ## Postęp
