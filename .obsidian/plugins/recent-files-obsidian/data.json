@@ -1,12 +1,24 @@
 {
   "recentFiles": [
     {
-      "basename": "Start",
-      "path": "Start.md"
+      "basename": "04 Całkowanie Gaussa — materiały do zajęć",
+      "path": "Załączniki/MES/Kustra — instrukcje/04 Całkowanie Gaussa — materiały do zajęć.pdf"
+    },
+    {
+      "basename": "MES — kurs dr. Kustry (mapa labów)",
+      "path": "Pojęcia/MES — kurs dr. Kustry (mapa labów).md"
+    },
+    {
+      "basename": "Całkowanie numeryczne i kwadratury Gaussa",
+      "path": "Pojęcia/Całkowanie numeryczne i kwadratury Gaussa.md"
     },
     {
       "basename": "AGH Metoda elementów skończonych",
       "path": "Przedmioty/AGH sem5/AGH Metoda elementów skończonych.md"
+    },
+    {
+      "basename": "Start",
+      "path": "Start.md"
     },
     {
       "basename": "02 Robot learning — imitation learning i VLA",
