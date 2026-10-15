@@ -1,6 +1,10 @@
 {
   "recentFiles": [
     {
+      "basename": "Start",
+      "path": "Start.md"
+    },
+    {
       "basename": "R7 ROS 2 w labie zbierania danych",
       "path": "Rozmowa GD/ROS 2 — dokładnie/R7 ROS 2 w labie zbierania danych.md"
     },
@@ -35,10 +39,6 @@
     {
       "basename": "L1 Czym jest LeRobot — mapa biblioteki",
       "path": "Rozmowa GD/LeRobot — dokładnie/L1 Czym jest LeRobot — mapa biblioteki.md"
-    },
-    {
-      "basename": "Start",
-      "path": "Start.md"
     },
     {
       "basename": "L3 Sprzęt — SO-101, silniki Feetech, kalibracja, kamery",
