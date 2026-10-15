@@ -1,6 +1,10 @@
 {
   "recentFiles": [
     {
+      "basename": "Start",
+      "path": "Start.md"
+    },
+    {
       "basename": "L2 LeRobotDataset — format od środka",
       "path": "Rozmowa GD/LeRobot — dokładnie/L2 LeRobotDataset — format od środka.md"
     },
@@ -11,10 +15,6 @@
     {
       "basename": "L0 LeRobot — mapa działu",
       "path": "Rozmowa GD/LeRobot — dokładnie/L0 LeRobot — mapa działu.md"
-    },
-    {
-      "basename": "Start",
-      "path": "Start.md"
     },
     {
       "basename": "04 Całkowanie Gaussa — materiały do zajęć",
