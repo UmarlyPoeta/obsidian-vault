@@ -1,16 +1,28 @@
 {
   "recentFiles": [
     {
+      "basename": "Start",
+      "path": "Start.md"
+    },
+    {
+      "basename": "Architektury sieci",
+      "path": "SNN_Agent/Moduły/Architektury sieci.md"
+    },
+    {
+      "basename": "Model SNN — od dźwięku do decyzji",
+      "path": "SNN_Agent/Model SNN — od dźwięku do decyzji.md"
+    },
+    {
       "basename": "Dane i zbiory",
       "path": "SNN_Agent/Dane i zbiory.md"
     },
     {
-      "basename": "SNN_Agent — Start",
-      "path": "SNN_Agent/SNN_Agent — Start.md"
+      "basename": "dataset",
+      "path": "SNN_Agent/Moduły/dataset.md"
     },
     {
-      "basename": "Start",
-      "path": "Start.md"
+      "basename": "SNN_Agent — Start",
+      "path": "SNN_Agent/SNN_Agent — Start.md"
     },
     {
       "basename": "29 Lab — YAM, RealSense i LeRobot (plan 2 h)",
